@@ -6,18 +6,22 @@
 class Cooldown {
     public:
         Cooldown(unsigned long clock);
-        
+
         void init();
         bool isOver();
         void pause();
         void resume();
-        void reset();
+
+        //resetta il timer e lo fa ripartire subito 
+        void reset(); 
+
         int percentageComplete();
-        void format(unsigned long newClock);
+
+        void format(unsigned long newClock); //cambia tempo massimo e fallo ripartire
 
     private:
         unsigned long amountTime;
-        Timer timer;
+        Timer t;
 };
 
 #endif

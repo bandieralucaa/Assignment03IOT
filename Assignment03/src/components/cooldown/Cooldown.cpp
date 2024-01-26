@@ -5,31 +5,31 @@ Cooldown::Cooldown(unsigned long amountTime) {
 }
 
 void Cooldown::init() {
-    this->timer.init();
+    this->t.start();
 }
 
-bool Cooldown::isOver() {
-    return this->timer.read() > amountTime;
+bool Cooldown::isOver(){
+    return this->t.read() > amountTime;
 }
 
-void Cooldown::pause() {
-    this->timer.pause();
+void Cooldown::pause(){
+    this->t.pause();
 }
 
-void Cooldown::resume() {
-    this->timer.stop();
-    this->timer.start();
+void Cooldown::resume(){
+    this->t.resume();
 }
 
-void Cooldown::reset() {
-    this->timer.reset();
+void Cooldown::reset(){
+    this->t.stop();
+    this->t.start();
+} //resetta il timer e lo fa ripartire subito
+
+int Cooldown::percentageComplete(){
+    return this->isOver() ? 100 : ((int) (((this->t.read()*1.0)/(this->amountTime*1.0))*100.0));
 }
 
-int Cooldown::percentageComplete() {
-    return this->isOver() ? 100 : ((int) (((this->timer.read() * 1.0) / (this->amountTime * 1.0)) * 100));
-}
-
-void Cooldown::format(unsigned long newClock) {
+void Cooldown::format(unsigned long newClock){
     this->amountTime = newClock;
     this->reset();
 }

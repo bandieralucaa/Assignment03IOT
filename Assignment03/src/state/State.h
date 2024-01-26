@@ -4,6 +4,7 @@
 #include "config.h"
 
 enum StateName {
+    NONE = -1,
     AUTOMATIC_STATE,
     MANUAL_STATE
 };

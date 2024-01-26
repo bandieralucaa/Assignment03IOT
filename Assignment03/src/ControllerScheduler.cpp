@@ -7,6 +7,7 @@ Cooldown* scheduleCooldown;
 int actAmountTask;
 
 ControllerScheduler::ControllerScheduler() {
+    
     StateButton* button = new StateButton(BUTT_PIN);
 
     CarPresenceDetector* myPir = new CarPresenceDetector(PIR_PIN);
