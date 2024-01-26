@@ -13,14 +13,15 @@
 #include "./components/cooldown/Cooldown.h"
 #include "./components/ioserial/SerialManager.h"
 #include "./components/valveOpener/ValveOpeningManagement.h"
-#include "./components/valveOpener/Potentiometer.h"
-#include "./components/lcd/Lcd.h"
+#include "./components/valveOpener/PotentiometerImpl.h"
+
 #include "./components/valvola/Valve.h"
+#include "./components/lcd/MyLcdMonitor.h"
 
 class ControllerScheduler {
 public:
     ControllerScheduler();
-    void init();
+    void init(unsigned long basePeriod);
     void execute();
     StateName getActState();
 

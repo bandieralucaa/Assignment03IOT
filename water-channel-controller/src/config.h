@@ -3,21 +3,11 @@
 
 /* ### WIRING CONFIGS ### */
 
-#define LED1_PIN 13
-#define LED2_PIN 12
-
-#define PIR_PIN 2
-
 #define BUTT_PIN 4
 
+#define POT_PIN 100
+
 #define SERVO_MOTOR_PIN 9
-
-#define SONAR_ECHO 8
-#define SONAR_TRIG 7
-
-#define BLINKING_LED 6
-
-#define TEMPERATURE_SENSOR_PIN A0
 
 /* ### ### ### ### ### ### ### ### */
 

@@ -31,8 +31,8 @@ public:
 
     void sendActValveOpen(int value);
 
-    void getParsedValveOpening();
-    void getHourModApertura();
+    int getParsedValveOpening();
+    String getHourModApertura();
 
 
 private:

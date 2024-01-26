@@ -10,6 +10,7 @@
 class MyLcdMonitor : public Lcd {
     public:
         MyLcdMonitor();
+        
         void updateState();
         void updateActValv();
         void printOnLcd();

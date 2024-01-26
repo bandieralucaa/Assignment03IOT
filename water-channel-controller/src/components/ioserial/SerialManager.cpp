@@ -26,7 +26,7 @@ void SerialManager::init(){
     MsgService.sendMsg(comm);
 }
 
-/*void SerialManager::tick(){
+void SerialManager::tick(){
     if (MsgService.isMsgAvailable()){           
         Msg* msg = MsgService.receiveMsg();    
         if (msg->getContent().length() > 0) {
@@ -40,13 +40,13 @@ void SerialManager::sendActValveOpen(int value){
 
 }
 
-void SerialManager::getParsedValveOpening(){
+int SerialManager::getParsedValveOpening(){
 
 }
 
-void SerialManager::getHourModApertura(){
+String SerialManager::getHourModApertura(){
 
-}*/
+}
 
 
 void SerialManager::executeCommandByGui(String command, String value){
@@ -96,7 +96,8 @@ void SerialManager::executeCommands(String comm){
             break;
         }
         i++;
-
     }
+    executeCommandByGui(command, argument); //TODO: forse era un bug
+
 }
 
