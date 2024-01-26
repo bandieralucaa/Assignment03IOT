@@ -31,13 +31,14 @@ void MsgServiceClass::init(){
   msgAvailable = false;  
 }
 
-void MsgServiceClass::sendMsg(const String& msg){
+void MsgServiceClass::sendMsg(const String& msg) {
   Serial.println(msg);  
 }
 
 #ifdef DEBUG_IOMAN_WITHOUT_CONSOLE
 bool isT = false; //debugging test without console
 #endif
+
 
 void serialEvent() {
 
@@ -48,9 +49,9 @@ void serialEvent() {
 
   /* reading the content */
   while (Serial.available()) {
-    #ifdef DEBUG_IOMAN_WITHOUT_CONSOLE
-    Serial.println("_t:" + (String)Serial.available());
-    #endif
+    // #ifdef DEBUG_IOMAN_WITHOUT_CONSOLE
+    // Serial.println("_t:" + (String)Serial.available());
+    // #endif
     char ch = (char) Serial.read();
     if (ch == '\n'){
       MsgService.currentMsg = new Msg(content);
@@ -60,6 +61,9 @@ void serialEvent() {
     }
   }
 }
+
+
+
 
 bool MsgServiceClass::isMsgAvailable(Pattern& pattern){
   return (msgAvailable && pattern.match(*currentMsg));

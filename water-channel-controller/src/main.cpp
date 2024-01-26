@@ -7,14 +7,18 @@
  * 
 ********************/
 
-
 #include <Arduino.h>
+#include "config.h"
+#include "ControllerScheduler.h"
 
+ControllerScheduler* myController;
 
 void setup() {
-  //TODO
+  myController = new ControllerScheduler();
+  myController->init(SCHEDULE_BASE_PERIOD);
 }
 
+
 void loop() {
-  //TODO
+  myController->execute();
 }

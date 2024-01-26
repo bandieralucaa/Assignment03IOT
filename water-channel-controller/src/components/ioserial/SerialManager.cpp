@@ -4,12 +4,16 @@
 
 #define COMMAND_CHAR '_'
 #define ARGUMENT_CHAR ':'
+#define JOINER 'e'
 
-SerialManager::SerialManager(){
-    this->oraSample = "";
-    this->parsedAperturaValvola = 0;
+SerialManager::SerialManager(ControllerSchedulerObserver* ob){
+    this->ob = ob;
+    this->oraSample = 0000;
+    this->parsedAperturaValvola = 50;
     MsgService.init();
-    Serial.setTimeout(100);
+    #ifndef DEBUG
+        Serial.setTimeout(100);
+    #endif
 }
 
 String trasdutter(char command, String value){
@@ -19,33 +23,57 @@ String trasdutter(char command, String value){
 
 
 void SerialManager::init(){
-    String comm = "";
-    comm += trasdutter('h', (String)this->oraSample);
-    comm += trasdutter('v', (String)this->parsedAperturaValvola);
-    comm += trasdutter('c', "0");
-    MsgService.sendMsg(comm);
+    // String comm = "";
+    // comm += trasdutter('h', (String)this->oraSample);
+    // comm += trasdutter('v', (String)this->parsedAperturaValvola);
+    // comm += trasdutter('c', "0");
+    // MsgService.sendMsg(comm);
+}
+
+String SerialManager::byStatusToString(){
+    String tmp = "";
+    switch (this->ob->getActState()) {
+        case AUTOMATIC_STATE:
+            tmp = "A";
+            break;
+        
+        case MANUAL_STATE:
+            tmp = "M";
+            break;
+        
+        default:
+            break;
+    }
+    return tmp;
 }
 
 void SerialManager::tick(){
     if (MsgService.isMsgAvailable()){           
         Msg* msg = MsgService.receiveMsg();    
         if (msg->getContent().length() > 0) {
-
+            this->executeCommands(msg->getContent());
         }
         delete msg;
     }   
+    String toSend = "";
+    toSend = trasdutter('v', this->actValvOpening + "");
+    MsgService.sendMsg(toSend);
+    delay(10);//TODO da controllare se ce n'è bisogno
+    toSend = trasdutter('s', byStatusToString());
+    MsgService.sendMsg(toSend);
 }
 
 void SerialManager::sendActValveOpen(int value){
-
+    this->actValvOpening = value;
+    // trasdutter('h', (String)this->oraSample)
 }
 
 int SerialManager::getParsedValveOpening(){
-
+    return this->parsedAperturaValvola;
 }
 
-String SerialManager::getHourModApertura(){
-
+int SerialManager::getHourModApertura(){
+    return this->oraSample;
 }
 
 
@@ -53,8 +81,11 @@ void SerialManager::executeCommandByGui(String command, String value){
     char c = command.charAt(0);
     switch (c)
     {
-        case 'o':
-            this->parsedAperturaValvola = value.toInt();
+        case 's':
+            int val = (value.substring(0, value.lastIndexOf(JOINER))).toInt();
+            int d = (value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI
+            this->parsedAperturaValvola = val;
+            this->oraSample = d;
             break;
         
         default:
@@ -67,7 +98,7 @@ void SerialManager::executeCommandByGui(String command, String value){
 
 void SerialManager::executeCommands(String comm){
     unsigned int a = comm.length();
-    unsigned int i=0;
+    unsigned int i = 0;
     String command = "";
     String argument = "";
     bool parsingCommand = true;

@@ -3,7 +3,7 @@
 
 class Servomotor {
     public:
-    virtual void setPos() = 0;
+    //virtual void setPos(int newPos) = 0;
     virtual int getActPos() = 0;
 };
 

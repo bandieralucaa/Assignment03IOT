@@ -1,6 +1,7 @@
 #ifndef __MY_LCD_MONITOR__
 #define __MY_LCD_MONITOR__
 
+#include "./state/State.h"
 #include "config.h"
 #include "Lcd.h"
 #include "./task/Task.h"
@@ -11,14 +12,16 @@ class MyLcdMonitor : public Lcd {
     public:
         MyLcdMonitor();
         
-        void updateState();
-        void updateActValv();
-        void printOnLcd();
+        void updateState(StateName newState);
+        void updateActValv(int newValvOp);
 
     private:
-        void myPrint();
-        String actString;
+        void initLCD();
+        void printOnLcd(int who);
         rgb_lcd lcd;
+        int actValvOp;
+        StateName actState;
+        
 };
 
 #endif

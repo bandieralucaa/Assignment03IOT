@@ -12,26 +12,26 @@ ControllerScheduler::ControllerScheduler() {
     
     Potentiometer* p = new PotentiometerImpl(POT_PIN);
 
+    MyLcdMonitor* lcd = new MyLcdMonitor();
+
+
 
     StateButton* button = new StateButton(BUTT_PIN);
 
-    SerialManager* IOMan = new SerialManager();
+    SerialManager* IOMan = new SerialManager(((ControllerSchedulerObserver*)(this)));
 
     ValveOpeningManagement* VOM = new ValveOpeningManagement(p, IOMan);
 
-    Valve* valv = new Valve(SERVO_MOTOR_PIN, false);
+    Valve* valv = new Valve(SERVO_MOTOR_PIN, false, IOMan, lcd, VOM);
     
-    //MyLcdMonitor* lcd = new MyLcdMonitor();
-
-
 
     int amountTask = 4;
     tasks = new Task*[amountTask]{button, valv, VOM, IOMan };
     actAmountTask = amountTask;
 
 
-    State* s1 = new AutomaticState(button);
-    State* s2 = new ManualState(button);
+    State* s1 = new AutomaticState(button, lcd);
+    State* s2 = new ManualState(button, lcd);
     
     states = new State*[2]{s1, s2};
     
@@ -71,7 +71,7 @@ bool interuptAppened() {
     StateName newState = states[actStat]->changeState();
     if (newState != NONE) {
         actStat = newState;
-        for(i=0; i < actAmountTask; i++) {
+        for (i = 0; i < actAmountTask; i++) {
             tasks[i]->stop();
         }
         states[actStat]->init();
@@ -87,5 +87,7 @@ void ControllerScheduler::execute() {
     }
 }
 
-
+StateName ControllerScheduler::getActState(){
+    return actStat;
+}
 

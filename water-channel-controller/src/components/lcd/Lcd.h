@@ -7,9 +7,8 @@
 
 class Lcd {
     public:
-        virtual void updateState() = 0;
-        virtual void updateACtValv() = 0;
-        virtual void printOnLcd() = 0;
+        virtual void updateState(StateName newState) = 0;
+        virtual void updateActValv(int newValvOp) = 0;
 };
 
 #endif

@@ -1,8 +1,9 @@
 #include "AutomaticState.h"
 
 
-AutomaticState::AutomaticState(Button* button) {
+AutomaticState::AutomaticState(Button* button, Lcd* myLcd) {
     this->button = button;
+    this->myLcd = myLcd;
 }
 
 void AutomaticState::init() {
@@ -20,6 +21,7 @@ void AutomaticState::init() {
 
 StateName AutomaticState::changeState() {
     if (this->button->isPressed()) {
+        myLcd->updateState(MANUAL_STATE);
         return MANUAL_STATE;
     } else {
         return NONE;

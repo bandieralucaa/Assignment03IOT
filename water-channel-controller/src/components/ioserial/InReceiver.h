@@ -4,7 +4,7 @@
 class InReceiver {
     public:
         virtual int getParsedValveOpening() = 0;
-        virtual String getHourModApertura() = 0;
+        virtual int getHourModApertura() = 0;
 };
 
 #endif

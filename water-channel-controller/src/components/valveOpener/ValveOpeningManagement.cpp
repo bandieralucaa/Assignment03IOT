@@ -8,23 +8,22 @@ ValveOpeningManagement::ValveOpeningManagement(Potentiometer* p, InReceiver* rec
 }
 
 int ValveOpeningManagement::getOpeningToSet() {
-   //TODO
     if (this->controller->getActState() == AUTOMATIC_STATE) {
         return this->receiver->getParsedValveOpening();
     } else {
-        if (strcmp(this->datePotMod, this->receiver->getHourModApertura()) > 1) { //TODO: RISOLVERE PROBLEMA CASTING
-            return this->lastPotMod;
-        } else {
+        // if (strcmp(this->datePotMod, this->receiver->getHourModApertura()) > 1) { //TODO: RISOLVERE PROBLEMA CASTING
+        //     return this->lastPotMod;
+        // } else {
             return this->receiver->getParsedValveOpening();
-        }
+        // }
     }
+    // unsigned long a = millis();
 }
 
 void ValveOpeningManagement::init() {
 }
 
 void ValveOpeningManagement::tick() {
-    //TODO
     if (this->controller->getActState() == MANUAL_STATE) {
         int tmp = this->pot->getPercentageValue();
         if (tmp != this->lastPotMod) {

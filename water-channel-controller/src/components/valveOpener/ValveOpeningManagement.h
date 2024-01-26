@@ -1,6 +1,7 @@
 #ifndef __VALVE_OPENING_MANAGEMENT__
 #define __VALVE_OPENING_MANAGEMENT__
 
+#include "Arduino.h"
 #include "./task/Task.h"
 #include "./components/valveOpener/OpeningDetection.h"
 #include "./components/valveOpener/Potentiometer.h"
