@@ -4,6 +4,7 @@ ValveOpeningManagement::ValveOpeningManagement(Potentiometer* p, InReceiver* rec
     this->pot = p;
     this->receiver = receiver;
     this->lastPotMod = 0;
+    this->period = VALVE_OPENER_PERIOD;
 
 }
 
@@ -28,7 +29,7 @@ void ValveOpeningManagement::tick() {
         int tmp = this->pot->getPercentageValue();
         if (tmp != this->lastPotMod) {
             this->lastPotMod = tmp;
-            this->datePotMod = "0"; //TODO: prendere data con c++
+            //this->datePotMod = "0"; //TODO: prendere data con c++
         }
     }
 }

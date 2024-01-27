@@ -1,0 +1,22 @@
+form{
+    margin: 100px auto 0;
+    vertical-align: middle;
+    text-align: center;
+}
+
+form button{
+    margin: 10px auto 0;
+    vertical-align: middle;
+    width: 200px;
+    height: 100px;
+}
+
+form input{
+    /* pointer-events: none; */
+}
+
+form *{
+    margin: 0 auto;
+    /* vertical-align: middle; */
+    display: block;
+}

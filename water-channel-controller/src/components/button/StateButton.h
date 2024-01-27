@@ -14,7 +14,7 @@ class StateButton : public Button, public Task {
         void tick();
 
     private:
-        int pin = 0;
+        int pin;
         bool pushed = false;
 };
 

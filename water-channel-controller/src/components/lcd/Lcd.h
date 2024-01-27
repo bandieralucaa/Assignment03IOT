@@ -2,6 +2,7 @@
 #define __LCD__
 
 #include "Arduino.h"
+#include "./state/State.h"
 
 #define MAX_VALUE_PERCENTAGE_BAR 100
 

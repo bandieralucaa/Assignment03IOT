@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motore</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+
+    <link rel="icon" href="favicon.ico">
+
+</head>
+<body>
+    
+    <form action="" method="post">
+        <label for="freq">Nuova frequenza</label>
+        <input type="text" name="newFreq" id="freq">
+        <button type="button" id="but">
+           Send new Freq
+        </button>
+    </form>
+    <textarea 
+        id="displayActSamples" 
+        name="displayActSamples"
+        rows="10" 
+        cols="100"
+        placeholder="...Samples..."></textarea>
+        <label for="riflessioneCurrentUser"> Ultimi samples </label>
+
+    <div id="messageArea">
+
+    </div>
+
+    <!-- <svg id='map' ><div class="tooltip"></div></svg> -->
+    <!-- <div id='wrapper'>
+        
+        <svg id='linechart'></svg>
+      </div> -->
+
+    <!-- <div id='wrapper'>
+        <svg id='map'></svg>
+        <svg id='linechart'></svg>
+    </div> -->
+    <!-- <div id="plot2">
+
+    </div> -->
+
+    <div id="my_dataviz"></div>
+
+    <!-- <script src="installed/mqtt.ts"></script> -->
+    
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src='https://d3js.org/d3.v5.min.js'></script>
+    <script src="finiteQueue2.js"></script>
+    <script src="animation.js"></script>
+    <script src="otherSuppFunct.js"></script>
+    
+</body>
+</html>

@@ -26,13 +26,13 @@ class Task {
         this->millis += millis;
         if (this->millis >= this->period){
             res = true;
-            this->millis = 0;
+            this->millis -= this->period;
         }
         return res;
     };
 
 protected:
-    bool isRunning = false;
+    bool isRunning = true;
     unsigned long millis = 0;
     unsigned long period = 0; 
 };

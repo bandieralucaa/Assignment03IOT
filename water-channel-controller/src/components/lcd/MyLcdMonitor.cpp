@@ -12,9 +12,9 @@
 #define DEFAULT_VALV "VALVE OP.: "
 #define AMOUNT_INFO 2
 
-char* infos[AMOUNT_INFO] = {DEFAULT_STAT, DEFAULT_VALV};
+// char* infos[AMOUNT_INFO] = {DEFAULT_STAT, DEFAULT_VALV};
 int indexMapper[AMOUNT_ROWS] = {0, (AMOUNT_ROWS/2)}; //la i-esima informazione alla i-esima riga dello schermo LCD
-int sizeMapper[AMOUNT_INFO] = {8, 12}; //inizio a stampare dalla j-esima colonna della i-esima riga della i-esima informazione
+int sizeMapper[AMOUNT_INFO] = {7, 11}; //inizio a stampare dalla j-esima colonna della i-esima riga della i-esima informazione
 
 MyLcdMonitor::MyLcdMonitor(){
     this->lcd.begin(AMOUNT_COLS, AMOUNT_ROWS);
@@ -26,9 +26,9 @@ MyLcdMonitor::MyLcdMonitor(){
 
 void MyLcdMonitor::initLCD(){
     for (int i = 0; i < AMOUNT_INFO; i++) {
-        this->lcd.setCursor(indexMapper[i], 0);
-        this->lcd.print(infos[i]);
-    }
+        this->lcd.setCursor(0, indexMapper[i]);
+        this->lcd.print((i == 0) ? DEFAULT_STAT : DEFAULT_VALV);
+    }   
 }
 
 void MyLcdMonitor::updateState(StateName newState){
@@ -42,7 +42,7 @@ void MyLcdMonitor::updateActValv(int newValvOp){
 }
 
 void MyLcdMonitor::printOnLcd(int who) {
-    this->lcd.setCursor(indexMapper[who], sizeMapper[who]);
+    this->lcd.setCursor(1,3);//sizeMapper[who],indexMapper[who]);
     switch (who)
     {
         case 0:

@@ -16,8 +16,9 @@ ControllerScheduler::ControllerScheduler() {
 
 
 
-    StateButton* button = new StateButton(BUTT_PIN);
+    StateButton* button = new StateButton(BUTT_PIN); 
 
+    //Serial.begin(9600);
     SerialManager* IOMan = new SerialManager(((ControllerSchedulerObserver*)(this)));
 
     ValveOpeningManagement* VOM = new ValveOpeningManagement(p, IOMan);
@@ -26,7 +27,9 @@ ControllerScheduler::ControllerScheduler() {
     
 
     int amountTask = 4;
-    tasks = new Task*[amountTask]{button, valv, VOM, IOMan };
+    tasks = new Task*[amountTask]{ button, IOMan, VOM, valv
+    //, , 
+    };
     actAmountTask = amountTask;
 
 
@@ -63,6 +66,8 @@ bool interuptAppened() {
 
     int i;
     for(i=0; i < actAmountTask; i++) {
+        // Serial.println(i);
+        // Serial.println(actAmountTask);
         if (tasks[i]->updateAndCheckTime(bPeriod)){
             tasks[i]->tick();
         }
@@ -71,9 +76,9 @@ bool interuptAppened() {
     StateName newState = states[actStat]->changeState();
     if (newState != NONE) {
         actStat = newState;
-        for (i = 0; i < actAmountTask; i++) {
-            tasks[i]->stop();
-        }
+        // for (i = 0; i < actAmountTask; i++) {
+        //     tasks[i]->stop();
+        // }
         states[actStat]->init();
     }
     

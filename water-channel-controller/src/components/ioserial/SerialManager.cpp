@@ -10,6 +10,7 @@ SerialManager::SerialManager(ControllerSchedulerObserver* ob){
     this->ob = ob;
     this->oraSample = 0000;
     this->parsedAperturaValvola = 50;
+    this->period = IOMAN_PERIOD;
     MsgService.init();
     #ifndef DEBUG
         Serial.setTimeout(100);
@@ -54,18 +55,27 @@ void SerialManager::tick(){
             this->executeCommands(msg->getContent());
         }
         delete msg;
-    }   
-    String toSend = "";
-    toSend = trasdutter('v', this->actValvOpening + "");
-    MsgService.sendMsg(toSend);
-    delay(10);//TODO da controllare se ce n'è bisogno
-    toSend = trasdutter('s', byStatusToString());
-    MsgService.sendMsg(toSend);
+    }
+    // Serial.println("pippo");
+    
+    // String toSend2 = "";
+    // toSend2 = trasdutter('s', byStatusToString());
+    // Serial.println(toSend2);
+    // MsgService.sendMsg(toSend);
 }
 
 void SerialManager::sendActValveOpen(int value){
     this->actValvOpening = value;
     // trasdutter('h', (String)this->oraSample)
+    String toSend = "";
+    toSend = trasdutter('v', (value + "")); //this->actValvOpening
+    Serial.println(toSend);
+    // MsgService.sendMsg(toSend);
+    //delay(10);//TODO da controllare se ce n'è bisogno
+    String toSend2 = "";
+    toSend2 = trasdutter('s', byStatusToString());
+    Serial.println(toSend2);
+    MsgService.sendMsg(toSend);
 }
 
 int SerialManager::getParsedValveOpening(){
@@ -82,13 +92,10 @@ void SerialManager::executeCommandByGui(String command, String value){
     switch (c)
     {
         case 's':
-            int val = (value.substring(0, value.lastIndexOf(JOINER))).toInt();
-            int d = (value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI
+            int val = 145;// (value.substring(0, value.lastIndexOf(JOINER))).toInt();
+            int d = 999;//(value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI
             this->parsedAperturaValvola = val;
             this->oraSample = d;
-            break;
-        
-        default:
             break;
     }
 }

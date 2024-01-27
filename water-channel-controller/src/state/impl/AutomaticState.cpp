@@ -8,8 +8,9 @@ AutomaticState::AutomaticState(Button* button, Lcd* myLcd) {
 
 void AutomaticState::init() {
     #ifdef STATE_CHANGE_DEBUG
-    Serial.println("AutomaticState");
+    Serial.println("DEBUG: AutomaticState");
     #endif
+     digitalWrite(5, HIGH);
 
     // this->blink->start();
     // this->myGate->start();
@@ -20,6 +21,7 @@ void AutomaticState::init() {
 }
 
 StateName AutomaticState::changeState() {
+    // Serial.print(this->button->isPressed());
     if (this->button->isPressed()) {
         myLcd->updateState(MANUAL_STATE);
         return MANUAL_STATE;
