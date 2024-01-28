@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Gui",
+      "request": "launch",
+      "mainClass": "backend2.serial.main.Gui",
+      "projectName": "app"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/lucab/OneDrive/Desktop/IngegneriaEScienzeInformatiche/TerzoAnno/IoT/Assignment/assignment02/Assignment02IOT/src/components/distanceSensor",
+      "program": "c:/Users/lucab/OneDrive/Desktop/IngegneriaEScienzeInformatiche/TerzoAnno/IoT/Assignment/assignment02/Assignment02IOT/src/components/distanceSensor/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

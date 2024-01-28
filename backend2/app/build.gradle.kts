@@ -54,6 +54,9 @@ dependencies {
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:32.1.1-jre")
+
+    implementation(files("lib/jssc-2.9.5.jar"))
+
 }
 
 application {

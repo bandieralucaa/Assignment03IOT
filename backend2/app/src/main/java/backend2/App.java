@@ -3,12 +3,15 @@
  */
 package backend2;
 
+import backend2.serial.main.Gui;
+
 public class App {
     public String getGreeting() {
-        return "Hello World!";
+        return "Hello Worldaaa!";
     }
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+        new Gui();
     }
 }
