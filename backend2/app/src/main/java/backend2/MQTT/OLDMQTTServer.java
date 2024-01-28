@@ -8,7 +8,7 @@ import io.vertx.mqtt.MqttServer;
  * Installing a local MQTT Broker.
  * 
  */
-public class MQTTServer {
+public class OLDMQTTServer {
 
 	public static void main(String[] args) {
 
@@ -34,7 +34,8 @@ public class MQTTServer {
 	
 		})
 		  .listen(ar -> {
-	
+
+			
 		    if (ar.succeeded()) {
 	
 		      System.out.println("MQTT server is listening on port " + ar.result().actualPort());
