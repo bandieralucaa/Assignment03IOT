@@ -21,12 +21,12 @@ import java.util.Map;
 /*
  * MQTT Agent
  */
-public class MQTTAgent extends AbstractVerticle {
+public class OLDMQTTAgent extends AbstractVerticle {
 	
 	private static final String BROKER_ADDRESS = "192.168.43.132";
 	private static final String TOPIC_NAME = "esiot-2023";
 	
-	public MQTTAgent() {
+	public OLDMQTTAgent() {
 	}
 
 	@Override

@@ -61,7 +61,13 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("backend2.App")
+    //mainClass.set("backend2.App")
+    //mainClass.set("backend2.MQTT.TestMQTTClient")
+    
+    //mainClass.set("backend2.HTTP.VertxHTTPServerExample")
+    //mainClass.set("backend2.HTTP.TestClient")
+    mainClass.set("backend2.HTTP.RunService")
+    
 }
 
 tasks.named<Test>("test") {
