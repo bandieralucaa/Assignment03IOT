@@ -27,7 +27,8 @@ ControllerScheduler::ControllerScheduler() {
     
 
     int amountTask = 4;
-    tasks = new Task*[amountTask]{ button, IOMan, VOM, valv
+    tasks = new Task*[amountTask]{ button
+    //, IOMan, VOM, valv
     //, , 
     };
     actAmountTask = amountTask;

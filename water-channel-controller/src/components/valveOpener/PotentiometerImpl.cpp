@@ -2,6 +2,7 @@
 #include "PotentiometerImpl.h"
 
 PotentiometerImpl::PotentiometerImpl(int pin){
+    pinMode(pin, INPUT);
     this->myPin = pin;
 }
 

@@ -22,6 +22,7 @@ int ValveOpeningManagement::getOpeningToSet() {
 }
 
 void ValveOpeningManagement::init() {
+    
 }
 
 void ValveOpeningManagement::tick() {
