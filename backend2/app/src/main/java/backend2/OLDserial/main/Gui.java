@@ -1,9 +1,10 @@
-package backend2.serial.main;
-
-import backend2.serial.comm.CommChannel;
-import backend2.serial.comm.SerialCommChannel;
+package backend2.OLDserial.main;
 
 import javax.swing.*;
+
+import backend2.OLDserial.comm.CommChannel;
+import backend2.OLDserial.comm.SerialCommChannel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

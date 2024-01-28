@@ -5,6 +5,7 @@ import java.util.List;
 
 import backend2.MQTT.MQTTComponent;
 import backend2.MQTT.MQTTComponentImpl;
+import backend2.serial.main.ServoController;
 import io.vertx.core.Vertx;
 import io.vertx.mqtt.MqttServer;
 
@@ -17,6 +18,8 @@ public class Controller implements ControllerObs {
 
     private DamState actDamState;
     private ValveType valveConfig;
+
+    private ServoController servoController;
 
     private Vertx vertx = Vertx.vertx();
     private MQTTComponent mqtt;
@@ -40,6 +43,11 @@ public class Controller implements ControllerObs {
     public Controller() {
         mqtt = new MQTTComponentImpl(vertx, this);
         mqtt.startComponent();
+        try {
+            servoController = new ServoController("COM3", 9600);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void go(){
@@ -158,14 +166,12 @@ public class Controller implements ControllerObs {
 
     @Override
     public void setActValveOp(int actPerc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setActValveOp'");
+        this.servoController.moveServo(actPerc);
     }
 
     @Override
     public void setNewValveType(ValveType newType) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setNewValveType'");
+        this.valveConfig = newType;
     }
 
 

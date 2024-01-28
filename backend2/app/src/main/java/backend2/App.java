@@ -3,12 +3,12 @@
  */
 package backend2;
 
-import backend2.serial.main.Gui;
+import backend2.OLDserial.main.Gui;
 import backend2.controller.Controller;
 
 public class App {
     public String getGreeting() {
-        return "Hello Worldaaa!";
+        return "Hello World!";
     }
 
     public static void main(String[] args) {

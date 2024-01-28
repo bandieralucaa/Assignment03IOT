@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "ServoTest",
+      "request": "launch",
+      "mainClass": "backend2.ServoTest",
+      "projectName": "app"
+    },
+    {
+      "type": "java",
       "name": "Gui",
       "request": "launch",
       "mainClass": "backend2.serial.main.Gui",
