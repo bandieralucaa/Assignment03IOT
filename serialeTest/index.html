@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="5">
+    <title>Aggiornamento Automatico</title>
+</head>
+<body>
+
+<div id="dati-seriale">Dati dalla porta seriale: Caricamento...</div>
+
+<script>
+function aggiornaDatiSeriale() {
+    // Effettua una richiesta AJAX per ottenere i dati dalla porta seriale
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+        console.log("Stato della richiesta AJAX: " + xhr.status);
+        if (xhr.status == 200) {
+            if (xhr.responseText.trim() !== "") {
+                document.getElementById("dati-seriale").innerHTML = "Dati dalla porta seriale: " + xhr.responseText;
+            } else {
+                console.log("La risposta è vuota o non contiene dati validi.");
+            }
+        } else {
+            console.error("Errore nella richiesta AJAX. Codice stato: " + xhr.status);
+        }
+    }
+};
+
+
+    xhr.open("GET", "communication.php", true);
+    xhr.send();
+}
+
+// Aggiorna i dati ogni 5 secondi
+setInterval(aggiornaDatiSeriale, 5000);
+</script>
+
+</body>
+</html>
