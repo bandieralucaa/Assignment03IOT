@@ -7,8 +7,8 @@ const POL_D = true;
 const URLQ = "myController.php";
 
 
-const FNormal = 300; // 5000;
-const FDanger = 100; //1000;
+const FNormal = 5000;
+const FDanger = 1000;
 
 const D1 = 0.15;
 const D2 = 0.25;
@@ -20,9 +20,10 @@ const stateString = ["ALARM-TOO-LOW", "NORMAL STATE", "PRE-ALARM-TOO-HIGH", "ALA
 ///////////////
 
 
-const amountSamples = 400;
+const amountSamples = 100;
 //let act = 0;
-createFiniteQueue(amountSamples, 0, 0);
+// createFiniteQueue(amountSamples, 0, 0);
+createFiniteQueueDEBUG(amountSamples);
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -148,7 +149,9 @@ client.on('message', function (topic, message) {
         damPolicy(sampledMeasure);
 
         uploadCSV2(message);
-        pushInfo(parseActTime(), sampledMeasure);
+        //pushInfo(parseActTime(), sampledMeasure);
+        pushInfo(new Date(), sampledMeasure);
+        
         // fq.pushInfo(counter, parseFloat(message));
         // counter = counter + 1;
         displayActSamples.innerHTML = "";
@@ -404,7 +407,7 @@ function plotFunc3(){
 
     for (var i = 0; i < x1.length; i++) {
         dataPoints.push({
-            x: byIntTimeToDate(x1[i]),
+            x: x1[i],//byIntTimeToDate(x1[i]),
             y: y1[i]
         });
     }
