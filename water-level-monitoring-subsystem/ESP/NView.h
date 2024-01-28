@@ -20,6 +20,7 @@ class NView {
       void sendSample(double sample);
 
     private:
+      bool isPrevConn = false;
       //void modifyFreq(String newVal);
 };
 

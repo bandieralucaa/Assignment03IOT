@@ -48,6 +48,7 @@ void Controller::setFreq(double newFreq){
   #endif
   ///MODIFICA EVENTUALMENTE LA FREQUENZA DEL TASK
   taskmes->setNewFreq((unsigned long) newFreq);
+  taskmes->start();
 }
 
 

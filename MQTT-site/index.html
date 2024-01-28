@@ -5,57 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Motore</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"/> -->
 
     <link rel="icon" href="favicon.ico">
 
 </head>
 <body>
-    <p> ActState = </p><p id="stateDam"></p>
-
-    <form action="" method="post">
-        <fieldset id="f1">
-            <label for="freq">Nuova frequenza</label>
-            <input type="text" name="newFreq" id="freq">
-            <button type="button" id="but">
-               Send new Freq
-            </button>
-            <label for="canPlot">MustRefresh</label>
-            <input type="checkbox" id="canPlot" name="canPlot">
-        </fieldset>
-        <fieldset id="f1">
-            <label for="riflessioneCurrentUser"> Ultimi samples </label>
-            <textarea 
-            id="displayActSamples" 
-            name="displayActSamples"
-            rows="10" 
-            cols="100"
-            placeholder="...Samples..."></textarea>
-        </fieldset>
-
-    </form>
-    
-    <div id="messageArea">
-
-    </div>
-
-    <!-- <svg id='map' ><div class="tooltip"></div></svg> -->
-    <!-- <div id='wrapper'>
-        
-        <svg id='linechart'></svg>
-      </div> -->
-
-    <!-- <div id='wrapper'>
-        <svg id='map'></svg>
-        <svg id='linechart'></svg>
-    </div> -->
-    <!-- <div id="plot2">
-
-    </div> -->
-
-    <div id="my_dataviz"></div>
-
-    <!-- <script src="installed/mqtt.ts"></script> -->
+    <ul>
+        <li><p> ActState = </p><p id="stateDamState"></p></li>
+        <li><p> ActValveOp = </p><p id="valveActOp"></p></li>
+        <li><p> ValveTypeMode = </p><p id="valveType"></p> </li>
+        <li><label for="sliderNewValveOp">Valve Setter (between 0 and 100):</label>
+            <input type="range" id="sliderNewValveOp" name="sliderNewValveOp" min="0" max="100">
+            <button type="button" id="sendNewValveOp"> </button></li>
+    </ul>
     
     <!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
     <div id="chartContainer" style="height: 360px; width: 100%;"></div>
@@ -65,7 +28,7 @@
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script src='https://d3js.org/d3.v5.min.js'></script>
     <script src="finiteQueue2.js"></script>
-    <script src="animation.js"></script>
+    <script src="animation2.js"></script>
     <script src="otherSuppFunct.js"></script>
     
 </body>
