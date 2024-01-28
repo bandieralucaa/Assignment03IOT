@@ -1,25 +1,28 @@
-const DEBUG = true;
+////////////////////constanst
+const MQTT_D = false;
+const PLOT_D = false;
+const AJAX_D = false;
+const POL_D = true;
 
 const URLQ = "myController.php";
 
-const amountSamples = 9;
-let act = 0;
-createFiniteQueue(amountSamples + 1, 0, 0);
+
+const FNormal = 300; // 5000;
+const FDanger = 100; //1000;
+
+const D1 = 0.15;
+const D2 = 0.25;
+const D3 = 0.35;
+const D4 = 0.45;
+const AMOUNTD = 4;
+const DD = [D1, D2, D3, D4];
+const stateString = ["ALARM-TOO-LOW", "NORMAL STATE", "PRE-ALARM-TOO-HIGH", "ALARM-TOO-HIGH", "ALARM-TOO-HIGT-CRITIC"];
+///////////////
 
 
-/////////////////////////////////////////////////////////////////////////
-
-
-
-function damPolicy(sampledMeasure){
-
-}
-
-
-
-
-
-
+const amountSamples = 400;
+//let act = 0;
+createFiniteQueue(amountSamples, 0, 0);
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -70,24 +73,59 @@ const displayActSamples = document.getElementById("displayActSamples");
 
 const freqInput = document.getElementById("freq");
 
+const stateLabel = document.getElementById("stateDam");
+
+const canPlot = document.getElementById("canPlot");
+
+
+
+document.getElementById("but").addEventListener("click", () => {
+    let t = freqInput.value;
+    if (MQTT_D) {
+        console.log(t);
+    }
+    let newF = parseInt(t);
+    
+    if(Number.isInteger(newF)){
+        if (MQTT_D) {
+            console.log("SENDING " + newF);
+        }
+        client.publish(publish_topic, freqInput.value);
+    }
+    
+    // console.log("ciao");
+})
+
+
+
+
+
+
+
+
+
+
 ///////////// quando si connette, devo poter controllare la frequenza: mi iscrivo
 client.on('connect', function () {
-  console.log('Connected');
+    if (MQTT_D) {
+        console.log('Connected');
+    }
 
-  // Subscribe to a topic
-  client.subscribe(subscribe_topic, function (err) {
-      if (!err) {
-          console.log("mi sono iscritto a: " + subscribe_topic); //debug print
+    // Subscribe to a topic
+    client.subscribe(subscribe_topic, function (err) {
+        if (!err) {
+            if (MQTT_D) {
+                console.log("mi sono iscritto a: " + subscribe_topic); //debug print
+            }
+                // Publish a message to a topic
+                //   client.publish(publish_topic, 'Hello mqtt');
+                //   console.log()
 
-          // Publish a message to a topic
-          //   client.publish(publish_topic, 'Hello mqtt');
-          //   console.log()
 
 
-
-          // TODO: valutare se sbloccare i controlli
-      }
-  });
+                // TODO: valutare se sbloccare i controlli
+        }
+    });
 });
 
 
@@ -105,8 +143,12 @@ client.on('message', function (topic, message) {
         // displayActSamples.innerHTML += topic + " / " + message + "\n";
         // act++;
 
+        let sampledMeasure = parseFloat(message);
+
+        damPolicy(sampledMeasure);
+
         uploadCSV2(message);
-        pushInfo(parseActTime(),parseFloat(message));
+        pushInfo(parseActTime(), sampledMeasure);
         // fq.pushInfo(counter, parseFloat(message));
         // counter = counter + 1;
         displayActSamples.innerHTML = "";
@@ -117,7 +159,10 @@ client.on('message', function (topic, message) {
         document.querySelector("#my_dataviz").innerHTML = "";
         
         // d3.select("#wrapper").selectAll("svg").remove();
-        plotFunc2();
+        if(canPlot.checked){
+            plotFunc3();
+        }
+        
         // if (act == amountSamples){
         //     displayActSamples.innerHTML = "";
         //     act = 0;
@@ -135,17 +180,87 @@ client.on('message', function (topic, message) {
 
 
 
-document.getElementById("but").addEventListener("click", () => {
-    let t = freqInput.value;
-    console.log(t);
-    let newF = parseInt(t);
-    if(Number.isInteger(newF)){
-      console.log("SENDING " + newF);
-      client.publish(publish_topic, freqInput.value);
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getActFreqToConsider(actState){
+    if (actState < 2) {
+        return FNormal;
+    } else {
+        return FDanger;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////
+
+
+
+let actLev = 0; //1 -> to
+
+function damPolicy(sampledMeasure) {
+    let newLev = 0;
+    let mustExit = false;
+    while(newLev < AMOUNTD && !(mustExit)) {
+        if (newLev != 0) {
+            mustExit = (sampledMeasure <= DD[newLev]);
+        } else {
+            mustExit = (sampledMeasure < DD[newLev]);
+        }
+        if (!mustExit){
+            newLev = newLev + 1;
+        }
+    }
+    if (POL_D){
+        console.log("LEVEL: " + actLev);
+    }    
+    switchState(newLev);
+
+}
+
+function switchState(newLev) {
+    if (actLev != newLev) {
+        freqToSet = getActFreqToConsider(newLev);
+        stateLabel.innerHTML = stateString[newLev];
+        if(POL_D){
+            console.log("POLICY CHANGE: new state -> " + stateString[newLev]);
+        }
+        switch (newLev) {
+            case 0:
+                //freqCampionamento = nomale
+                //aperturaValvola = 0
+                break;
+            
+            case 1:
+                //freqCampionamento = nomale
+                //aperturaValvola = 25
+                break;
+            
+            case 2:
+                //freqCampionamento = danger
+                //aperturaValvola = 25
+                break;
+            
+            case 3:
+                //freqCampionamento = danger
+                //aperturaValvola = 50
+                break;
+
+            case 4:
+                //freqCampionamento = danger
+                //aperturaValvola = 100
+                break;
+        }
+        client.publish(publish_topic, freqToSet + "");
+        if(POL_D){
+            console.log("POLICY CHANGE: setted " + freqToSet + " now");
+        }
+        actLev = newLev;    
     }
     
-    // console.log("ciao");
-})
+}
+
+
 
 
 
@@ -230,7 +345,10 @@ function plotFunc2(){
         xy.push({x: xdata[i], y: ydata[i]});
     };
 
-    console.log("xy is:", xy); // shows the data structure
+    if (PLOT_D) {
+        console.log("xy is:", xy); // shows the data structure
+    }
+    
 
     var xscl = d3.scaleLinear()
         .domain(d3.extent(xy, function(d) {return d.x;})) //use just the x part
@@ -244,7 +362,9 @@ function plotFunc2(){
         .x(function(d) { return xscl(d.x);}) // apply the x scale to the x data
         .y(function(d) { return yscl(d.y);}); // apply the y scale to the y data
 
-    console.log("slice(xy) is:", slice(xy)); // shows the exact pen moves
+    if (PLOT_D) {
+        console.log("slice(xy) is:", slice(xy)); // shows the exact pen moves
+    }
 
     var svg = d3.select('#my_dataviz')
         .append("svg");
@@ -263,4 +383,55 @@ function plotFunc2(){
         .style("fill", "none")
         .style("stroke", "red")
         .style("stroke-width", 2);
+}
+
+
+
+
+
+
+
+
+
+function plotFunc3(){
+    let x1 = obtainStoricPushX();
+    let y1 = obtainStoricPushY();
+    let minVX = x1[0];
+    var dataPoints = [];
+    if (PLOT_D){
+        console.log("DELTA: " + (x[x1.length] - minVX));
+    }
+
+    for (var i = 0; i < x1.length; i++) {
+        dataPoints.push({
+            x: byIntTimeToDate(x1[i]),
+            y: y1[i]
+        });
+    }
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        title:{
+            text: "Last samples"
+        },
+        axisX:{
+            second: '%H:%M:%S',
+            minute: '%H:%M:%S',
+            hour: '%H:%M:%S',
+            day: '%H:%M:%S',
+            week: '%H:%M:%S',
+            month: '%H:%M:%S',
+            year: '%H:%M:%S',
+            title: "timeline",
+            //gridThickness: 2
+        },
+        axisY: {
+            title: "Water level"
+        },
+    data: [{
+        type: "line",
+        dataPoints: dataPoints
+    }]
+    });
+
+    chart.render();
 }

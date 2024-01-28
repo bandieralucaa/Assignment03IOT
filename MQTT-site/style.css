@@ -1,5 +1,10 @@
+p{
+    display: inline-block;
+    margin: 5px;
+}
+
 form{
-    margin: 100px auto 0;
+    margin: 5px auto 0;
     vertical-align: middle;
     text-align: center;
 }
@@ -15,8 +20,22 @@ form input{
     /* pointer-events: none; */
 }
 
+form fieldset{
+    /* margin: 0 auto; */
+    /* vertical-align: middle; */
+    display: inline-block;
+}
+
 form *{
     margin: 0 auto;
     /* vertical-align: middle; */
     display: block;
+}
+
+
+
+#my_dataviz{
+    width: 50%;
+    margin: auto 0;
+    align-items: center;
 }

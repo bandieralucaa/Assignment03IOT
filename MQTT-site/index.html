@@ -11,22 +11,30 @@
 
 </head>
 <body>
-    
-    <form action="" method="post">
-        <label for="freq">Nuova frequenza</label>
-        <input type="text" name="newFreq" id="freq">
-        <button type="button" id="but">
-           Send new Freq
-        </button>
-    </form>
-    <textarea 
-        id="displayActSamples" 
-        name="displayActSamples"
-        rows="10" 
-        cols="100"
-        placeholder="...Samples..."></textarea>
-        <label for="riflessioneCurrentUser"> Ultimi samples </label>
+    <p> ActState = </p><p id="stateDam"></p>
 
+    <form action="" method="post">
+        <fieldset id="f1">
+            <label for="freq">Nuova frequenza</label>
+            <input type="text" name="newFreq" id="freq">
+            <button type="button" id="but">
+               Send new Freq
+            </button>
+            <label for="canPlot">MustRefresh</label>
+            <input type="checkbox" id="canPlot" name="canPlot">
+        </fieldset>
+        <fieldset id="f1">
+            <label for="riflessioneCurrentUser"> Ultimi samples </label>
+            <textarea 
+            id="displayActSamples" 
+            name="displayActSamples"
+            rows="10" 
+            cols="100"
+            placeholder="...Samples..."></textarea>
+        </fieldset>
+
+    </form>
+    
     <div id="messageArea">
 
     </div>
@@ -49,7 +57,11 @@
 
     <!-- <script src="installed/mqtt.ts"></script> -->
     
+    <!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
+    <div id="chartContainer" style="height: 360px; width: 100%;"></div>
 
+
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script src='https://d3js.org/d3.v5.min.js'></script>
     <script src="finiteQueue2.js"></script>

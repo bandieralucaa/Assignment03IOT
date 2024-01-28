@@ -17,7 +17,7 @@ function createFiniteQueue(newSize, firstx, firsty){
 }
 
 function pushInfo(x, y) {
-    console.log(xx + " " + x + " " + actIndForFQ);
+    //console.log(xx + " " + x + " " + actIndForFQ);
     xx[actIndForFQ] = x;
     yy[actIndForFQ] = y;
     actIndForFQ = actIndForFQ + 1;

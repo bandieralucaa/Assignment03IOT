@@ -1,18 +1,39 @@
-const COEFF_D = 86400;
-const COEFF_H = 3600;
-const COEFF_M = 60;
-const COEFF_S = 1;
-const COEFFSS = [COEFF_D, COEFF_H, COEFF_M, COEFF_S];
+const COEFF_D = 86400*100;
+const COEFF_H = 3600*100;
+const COEFF_M = 60*100;
+const COEFF_S = 1*100;
+const COEFF_CS = 1
+const COEFFSS = [COEFF_D, COEFF_H, COEFF_M, COEFF_S, COEFF_CS];
 
 function parseActTime(){
     const date = new Date();
-    let myVals = [date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()];
+    let myVals = [date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), (Math.floor(date.getMilliseconds()/100))];
+    
     let res = 0;
-    for (let index = 0; index < myVals.length; index++) {
+    for (let index = 0; index < COEFFSS.length; index++) {
         res += (COEFFSS[index] * myVals[index]);
     }
     return res;
 }
+
+function byIntTimeToDate(toConvert) {
+    const date = new Date();
+    let remains = toConvert;
+    const times = [];
+    for (let index = 0; index < COEFFSS.length; index++) {
+        let tmp = Math.floor(remains / COEFFSS[index]);
+        times.push(tmp);
+        remains -= tmp * COEFFSS[index];
+    }
+    let res = "";
+    for (let index = 0; index < COEFFSS.length; index++) {
+        res += times[index] + ":";
+    }
+    console.log(res.substring(0, (res.length-1)));
+    return new Date(date.getFullYear(), date.getMonth(), times[0], times[1], times[2], times[3], times[4]);
+}
+
+
 
 function prepareURLwithOkGet(arrKV){
     let res = "";
@@ -55,7 +76,9 @@ function uploadCSV2(info) {
         
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("SAVED: " + info);
+            if (AJAX_D) {
+                console.log("SAVED: " + info);
+            }
         }
     };
 
@@ -63,8 +86,11 @@ function uploadCSV2(info) {
         "codeQ" : 1,
         "info" : info
     }
+
     let ok = URLQ + "?" + prepareURLwithOkGet(args);
-    console.log("EEE " +  ok);
+    if (AJAX_D) {
+        console.log("EEE " +  ok);
+    }
 
     xhr.open('GET', ok, true);
 
