@@ -6,15 +6,16 @@ Cooldown* scheduleCooldown;
 int actAmountTask;
 
 unsigned long bPeriod;
+MyLcdMonitor* lcd;
 
 ControllerScheduler::ControllerScheduler() {
 
     Potentiometer* p = new PotentiometerImpl(POT_PIN);
 
-    MyLcdMonitor* lcd = new MyLcdMonitor();
+    lcd = new MyLcdMonitor();
 
     StateButtonInterupt* button = new StateButtonInterupt(BUTT_PIN, this); 
-
+    
     //Serial.begin(9600);
 
     ValveOpeningManagement* VOM = new ValveOpeningManagement(p);
@@ -40,9 +41,9 @@ ControllerScheduler::ControllerScheduler() {
     // states = new State*[2]{s1, s2};
     
     actStat = START_STATE;
-    // lcd->updateState(actStat);
-    // lcd->updateActValv(-1);
-    // delay(100);
+    lcd->updateState(actStat);
+    lcd->updateActValv(-1);
+    delay(100);
     Serial.print("done creation of Controller");
 
 }
@@ -93,16 +94,18 @@ StateName ControllerScheduler::getActState(){
 
 
 
-void setNewState(StateName newState){
+void ControllerScheduler::setNewState(StateName newState){
     actStat = newState;
     switch (actStat)
     {
         case AUTOMATIC_STATE:
             Serial.print("NEW STATE: AUTO");
+            lcd->updateState(AUTOMATIC_STATE);
             break;
         
         case MANUAL_STATE:
             Serial.print("NEW STATE: MANUAL");
+            lcd->updateState(MANUAL_STATE);
             break;
     }
 }

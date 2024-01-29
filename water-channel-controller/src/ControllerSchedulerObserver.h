@@ -1,6 +1,7 @@
 #ifndef __CONTROLLER_SCHEDULER_OBSERVER__
 #define __CONTROLLER_SCHEDULER_OBSERVER__
 
+#include "config.h"
 
 class ControllerSchedulerObserver {
     public:
