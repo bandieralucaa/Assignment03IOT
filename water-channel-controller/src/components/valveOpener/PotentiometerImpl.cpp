@@ -10,5 +10,5 @@ PotentiometerImpl::PotentiometerImpl(int pin){
 int PotentiometerImpl::getPercentageValue(){
     int tmp = (((analogRead(this->myPin) * 1.0) / (MAX_VALUE * 1.0)) * 100);
     tmp = (tmp > 100) ? 100 : tmp;
-    return tmp;//;
+    return tmp;
 }
