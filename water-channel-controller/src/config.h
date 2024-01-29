@@ -5,7 +5,7 @@
 
 #define BUTT_PIN 4
 
-#define POT_PIN 100
+#define POT_PIN A0
 
 #define SERVO_MOTOR_PIN 9
 
@@ -16,12 +16,12 @@
 
 #define IDEALLY_TIME (150)
 
-#define SCHEDULE_BASE_PERIOD (500)
+#define SCHEDULE_BASE_PERIOD (200)
 
-#define VALVE_OPENER_PERIOD 1000
-#define IOMAN_PERIOD 3000
-#define SERVO_MOTOR_PERIOD 1500
-#define BUTTON_PERIOD 500
+#define VALVE_OPENER_PERIOD 300
+#define IOMAN_PERIOD 1000
+#define SERVO_MOTOR_PERIOD 200
+#define BUTTON_PERIOD 200
 
 // #define LED_BLINKING_PERIOD 150
 // #define SERVO_MOTOR_PERIOD 300
@@ -83,8 +83,9 @@
 // #define DEBUG_IOMAN_WITHOUT_CONSOLE
 
 // #define SONAR_DEBUG_LEFTING
+#define POT_DEBUG
 
-//#define STATE_CHANGE_DEBUG //TODO, quasi
+// #define STATE_CHANGE_DEBUG //TODO, quasi
 
 // #define S_DEGUB
 

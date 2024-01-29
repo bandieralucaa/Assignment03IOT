@@ -2,11 +2,11 @@
 #include "PotentiometerImpl.h"
 
 PotentiometerImpl::PotentiometerImpl(int pin){
-    pinMode(pin, INPUT);
+    // pinMode(pin, INPUT);
     this->myPin = pin;
 }
 
 
 int PotentiometerImpl::getPercentageValue(){
-    return (int) ((analogRead(this->myPin) * 1.0) / (MAX_VALUE * 1.0));
+    return (int) (((analogRead(this->myPin) * 1.0) / (MAX_VALUE * 1.0)) * 100);
 }

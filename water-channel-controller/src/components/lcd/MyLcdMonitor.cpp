@@ -42,7 +42,7 @@ void MyLcdMonitor::updateActValv(int newValvOp){
 }
 
 void MyLcdMonitor::printOnLcd(int who) {
-    this->lcd.setCursor(1,3);//sizeMapper[who],indexMapper[who]);
+    this->lcd.setCursor(sizeMapper[who],indexMapper[who]);
     switch (who)
     {
         case 0:
