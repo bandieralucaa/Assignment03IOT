@@ -21,7 +21,7 @@ public class ServoController {
 
     public void moveServo(int degrees) {
         //System.out.println("OOOOOKKKKKKKK");
-        String command = "_v:25";// + degrees;
+        String command = "_v:" + degrees;
         if (SERIAL_D) {
             log("MANDO nuova apertura valvola : " + degrees);
         }

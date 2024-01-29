@@ -28,11 +28,11 @@ enum StateName {
 
 //#define IDEALLY_TIME (150)
 
-#define SCHEDULE_BASE_PERIOD (150)
+#define SCHEDULE_BASE_PERIOD (200)
 
-#define VALVE_OPENER_PERIOD 1050 //1000
-#define IOMAN_PERIOD 1050 //2000
-#define SERVO_MOTOR_PERIOD 300
+#define VALVE_OPENER_PERIOD 600 //1000
+#define IOMAN_PERIOD 600 //2000
+#define SERVO_MOTOR_PERIOD 400
 //#define BUTTON_PERIOD 300
 
 /* ### ### ### ### ### ### ### ### */

@@ -41,7 +41,7 @@ private:
     int actValvOpening;
     
     void executeCommands(String comm);
-    void executeCommandByGui(String comm, String value);
+    void executeCommandByGui(char c, String value);
 
     StateName lastStateSend = NONE;
     int lastValveSend = -1;

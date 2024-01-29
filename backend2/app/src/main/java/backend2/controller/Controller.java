@@ -127,54 +127,29 @@ public class Controller implements ControllerObs {
 
     private void switchState(int newLev) {
         if (actLev != newLev) {
-            int freqToSet = getActFreqToConsider(newLev);
-            actDamState = DamState.values()[newLev];
-            http.sendDamState(actDamState.byDSToString(), freqToSet);
+            actLev = newLev;  
+            applyPolicy();
+        }
+        
+    }
 
-            if (MQTT_D){
-                log("POLICY CHANGE: new state -> " + actDamState.byDSToString());
-            }
-            
-            // switch (newLev) {
-            //     case 0:
-            //         //freqCampionamento = nomale
-            //         serial.moveServo(0);
-            //         //aperturaValvola = 0
-            //         break;
-                
-            //     case 1:
-            //         //freqCampionamento = nomale
-            //         serial.moveServo(25);
-            //         //aperturaValvola = 25
-            //         break;
-                
-            //     case 2:
-            //         //freqCampionamento = danger
-            //         serial.moveServo(25);
-            //         //aperturaValvola = 25
-            //         break;
-                
-            //     case 3:
-            //         //freqCampionamento = danger
-            //         serial.moveServo(50);
-            //         //aperturaValvola = 50
-            //         break;
+    private void applyPolicy(){
+        int freqToSet = getActFreqToConsider(actLev);
+        actDamState = DamState.values()[actLev];
+        http.sendDamState(actDamState.byDSToString(), freqToSet);
 
-            //     case 4:
-            //         //freqCampionamento = danger
-            //         serial.moveServo(100);
-            //         //aperturaValvola = 100
-            //         break;
-            // }
-            mqtt.sendNewFreq(freqToSet);
-            
-            //serial.moveServo(VALVES_OP_STATE.get(newLev));
-            
-            //client.publish(publish_topic, freqToSet + "");
-            if(MQTT_D){
-                log("POLICY CHANGE: setted " + freqToSet + " now");
-            }
-            actLev = newLev;    
+        if (MQTT_D){
+            log("POLICY CHANGE: new state -> " + actDamState.byDSToString());
+        }
+        
+        mqtt.sendNewFreq(freqToSet);
+        
+        if ()
+        serial.moveServo(VALVES_OP_STATE.get(actLev));
+        
+        //client.publish(publish_topic, freqToSet + "");
+        if(MQTT_D){
+            log("POLICY CHANGE: setted " + freqToSet + " now");
         }
         
     }
@@ -189,7 +164,7 @@ public class Controller implements ControllerObs {
             
             System.out.println("Setto la valvola a: " + newPerc.getPercentage());
 
-            //this.servoController.moveServo(newPerc.getPercentage());
+            this.servoController.moveServo(newPerc.getPercentage());
             lastSendedValveOp = tmp;
         }
         
@@ -208,6 +183,7 @@ public class Controller implements ControllerObs {
     public void setNewValveType(ValveType newType) {
         this.valveConfig = newType;
         http.pushNewState(newType.getStringRapp());
+        applyPolicy();
         //da aggiornare HTTP (?)
     }
 
