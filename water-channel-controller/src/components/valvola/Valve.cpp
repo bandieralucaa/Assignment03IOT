@@ -46,6 +46,6 @@ void Valve::tick() {
     }
     
     this->motor.write(this->currentPos); //applica modifica al servo
-    //this->toSerial->sendActValveOpen(this->currentPos);
+    this->toSerial->sendActValveOpen(this->currentPos);
     this->myLcd->updateActValv(this->currentPos);
 }

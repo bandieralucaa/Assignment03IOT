@@ -17,9 +17,9 @@ ControllerScheduler::ControllerScheduler() {
 
     //Serial.begin(9600);
 
-    SerialManager* IOMan = new SerialManager();
+    ValveOpeningManagement* VOM = new ValveOpeningManagement(p);
 
-    ValveOpeningManagement* VOM = new ValveOpeningManagement(p, IOMan);
+    SerialManager* IOMan = new SerialManager(VOM);
 
     Valve* valv = new Valve(SERVO_MOTOR_PIN, false, IOMan, lcd, VOM);
     

@@ -2,37 +2,41 @@
 
 ValveOpeningManagement::ValveOpeningManagement(Potentiometer* p) {
     this->pot = p;
-    this->lastPotMod = 50;
+    this->lastParsedValue = 50;
     this->period = VALVE_OPENER_PERIOD;
 
 }
 
 int ValveOpeningManagement::getOpeningToSet() {
-    if (this->controller->getActState() == AUTOMATIC_STATE) {
-        //return this->receiver->getParsedValveOpening();
-    } else {
-        // if (strcmp(this->datePotMod, this->receiver->getHourModApertura()) > 1) { //TODO: RISOLVERE PROBLEMA CASTING
-        //     return this->lastPotMod;
-        // } else {
-           //return this->receiver->getParsedValveOpening();
-        // }
-    }
-    // unsigned long a = millis();
+    return this->lastParsedValue;
+
+    // if (this->obs->getActState() == AUTOMATIC_STATE) {
+    //     //return this->receiver->getParsedValveOpening();
+    // } else {
+    //     // if (strcmp(this->datePotMod, this->receiver->getHourModApertura()) > 1) { //TODO: RISOLVERE PROBLEMA CASTING
+    //     //     return this->lastPotMod;
+    //     // } else {
+    //        //return this->receiver->getParsedValveOpening();
+    //     // }
+    // }
+    // // unsigned long a = millis();
 }
 
 void ValveOpeningManagement::init() {
     
 }
 
-void ValveOpeningManagement::tick() {
-    //this->pot->getPercentageValue();
 
-    // //Serial.print("TICK_VOM");
-    if (this->controller->getActState() == MANUAL_STATE) {
+void ValveOpeningManagement::setValveOpBySerial(int newVal) {
+    this->lastParsedValue = newVal;
+}
+
+void ValveOpeningManagement::tick() {
+    
+    if (this->obs->getActState() == MANUAL_STATE) {
         int tmp = this->pot->getPercentageValue();
-        if (tmp != this->lastPotMod) {
-            this->lastPotMod = tmp;
-            //this->datePotMod = "0"; //TODO: prendere data con c++
+        if (tmp != this->lastPotVal) {
+            this->lastParsedValue = tmp;
         }
     }
 }

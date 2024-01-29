@@ -5,7 +5,7 @@
 
 class ExternalSources {
     public:
-        virtual void setValveOpBySerial() = 0;
+        virtual void setValveOpBySerial(int newVal) = 0;
 };
 
 #endif
