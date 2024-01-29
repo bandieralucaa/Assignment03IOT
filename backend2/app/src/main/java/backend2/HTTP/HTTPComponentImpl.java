@@ -4,9 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
-import backend2.MQTT.MQTTComponent;
 import backend2.controller.ControllerObs;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
@@ -34,7 +32,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
     private int suggestedActFreq;
     
     private int actValveOp;
-    private String actValveTypeConfig;
+    private String actValveTypeConfig = "UNKNOW";
 	
 	public HTTPComponentImpl(int port, ControllerObs obs, Vertx vertx) {
 		values = new LinkedList<>();	
@@ -120,7 +118,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 
     private void getValveTypeConfig(RoutingContext routingContext) {
         JsonObject data = new JsonObject();
-        data.put("valveState", this.actValveTypeConfig);
+        data.put("valveState", actValveTypeConfig);
         // data.put("freq", suggestedActFreq);
 			// data.put("x", p.getMyTime());
 			// data.put("y", p.getSample());
@@ -144,9 +142,8 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 			//sendError(400, response);
 		} else {
 			int newValveOp = res.getInteger("percentage");
-            long time = res.getInteger("percentage");
+            long time = res.getLong("time");
 			
-
 			if(HTTP_D) {
                 log("New value: " + newValveOp + " on " + new Date(time));
             }

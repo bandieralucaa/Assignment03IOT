@@ -54,11 +54,11 @@ public class Controller implements ControllerObs {
         mqtt.startComponent();
 
         
-        try {
-            servoController = new ServoController("COM3", 9600);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     servoController = new ServoController("COM3", 9600);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
     }
 
     public void go(){

@@ -13,7 +13,7 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
-        new Gui();
+        // new Gui();
         //System.out.println(new App().getGreeting());
         Controller c = new Controller();
         c.go();
