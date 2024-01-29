@@ -46,6 +46,8 @@ enum StateName {
 
 // #define SCHEDULER_PERIOD_DEBUG 
 
+// #define SCHEDULER_PRINT_DEBUG
+
 // #define PIR_DEBUG //valuta se eliminarmi
 // #define SERVO_MOTOR_DEBUG
 // #define SONAR_DEBUG

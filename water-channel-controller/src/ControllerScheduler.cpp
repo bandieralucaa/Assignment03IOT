@@ -47,7 +47,10 @@ ControllerScheduler::ControllerScheduler() {
     lcd->updateState(lastState);
     lcd->updateActValv(-1);
     delay(100);
+
+    #ifdef SCHEDULER_PRINT_DEBUG
     Serial.print("done creation of Controller");
+    #endif
 
 }
 
@@ -107,12 +110,16 @@ void ControllerScheduler::setNewState(StateName newState) {
     switch (lastState)
     {
         case AUTOMATIC_STATE:
+            #ifdef SCHEDULER_PRINT_DEBUG
             Serial.print("NEW STATE: AUTO");
+            #endif
             lcd->updateState(AUTOMATIC_STATE);
             break;
         
         case MANUAL_STATE:
+            #ifdef SCHEDULER_PRINT_DEBUG
             Serial.print("NEW STATE: MANUAL");
+            #endif
             lcd->updateState(MANUAL_STATE);
             break;
     }
