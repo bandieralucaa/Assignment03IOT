@@ -8,6 +8,7 @@ enum StateName {
 };
 
 #define START_STATE AUTOMATIC_STATE
+#define START_VALVE_OP 50
 
 
 /* ### WIRING CONFIGS ### */

@@ -7,7 +7,7 @@
 //#define JOINER 'e'
 
 SerialManager::SerialManager(ExternalSources* vom){
-    this->parsedAperturaValvola = 50;
+    this->parsedAperturaValvola = START_VALVE_OP;
     this->period = IOMAN_PERIOD;
     this->vom = vom;
     MsgService.init();
@@ -21,11 +21,11 @@ String trasdutter(char command, String value){
 
 
 void SerialManager::init(){
-    String comm = "";
-   // comm += trasdutter('h', (String)this->oraSample);
-    comm += trasdutter('v', (String)this->parsedAperturaValvola);
-    comm += trasdutter('c', "0");
-    MsgService.sendMsg(comm);
+    // String comm = "";
+    // // comm += trasdutter('h', (String)this->oraSample);
+    // comm += trasdutter('v', (String)this->parsedAperturaValvola);
+    // comm += trasdutter('c', "0");
+    // MsgService.sendMsg(comm);
 }
 
 String SerialManager::byStatusToString(){
@@ -96,6 +96,7 @@ void SerialManager::executeCommandByGui(String command, String value){
 
 
 void SerialManager::executeCommands(String comm){
+    Serial.println("DIR_RECEVEID: " + comm);
     unsigned int a = comm.length();
     unsigned int i = 0;
     String command = "";

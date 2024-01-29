@@ -221,7 +221,7 @@ function plotSamples(doubleArr){
         axisY: {
             title: "Water level",
             minimum: 0,
-            maximum: 1.5,
+            maximum: 0.8,
         },
     data: [{
         type: "line",

@@ -24,7 +24,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
     private final static boolean HTTP_D = true;
 
 	private int port;
-	private static final int MAX_SIZE = 100;
+	private static final int MAX_SIZE = 400;
 	private LinkedList<Sample> values;
     private final ControllerObs obs;
     private final Vertx vertx;

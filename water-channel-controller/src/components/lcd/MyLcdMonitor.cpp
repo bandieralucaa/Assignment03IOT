@@ -2,7 +2,7 @@
 
 
 #include <Arduino.h>
-
+#include "math.h"
 
 #define AMOUNT_COLS 16
 #define AMOUNT_ROWS 2
@@ -62,6 +62,10 @@ void MyLcdMonitor::printOnLcd(int who) {
         case 1:
             this->lcd.print(this->actValvOp);
             this->lcd.print("%");
+            for(int i = ((int)(floor(log10(this->actValvOp * 1.0)))); i < 2 ; i++) {
+                this->lcd.print("  ");
+            }
+            
     
         default:
             break;

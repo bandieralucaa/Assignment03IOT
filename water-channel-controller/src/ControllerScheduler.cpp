@@ -45,7 +45,7 @@ ControllerScheduler::ControllerScheduler() {
     // states = new State*[2]{s1, s2};
     
     lcd->updateState(lastState);
-    lcd->updateActValv(-1);
+    lcd->updateActValv(START_VALVE_OP);
     delay(100);
 
     #ifdef SCHEDULER_PRINT_DEBUG

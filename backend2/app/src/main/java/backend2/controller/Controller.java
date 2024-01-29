@@ -167,7 +167,9 @@ public class Controller implements ControllerObs {
             //         break;
             // }
             mqtt.sendNewFreq(freqToSet);
-            serial.moveServo(VALVES_OP_STATE.get(newLev));
+            
+            //serial.moveServo(VALVES_OP_STATE.get(newLev));
+            
             //client.publish(publish_topic, freqToSet + "");
             if(MQTT_D){
                 log("POLICY CHANGE: setted " + freqToSet + " now");
@@ -186,8 +188,8 @@ public class Controller implements ControllerObs {
         if (tmp != lastSendedValveOp){
             
             System.out.println("Setto la valvola a: " + newPerc.getPercentage());
-            
-            this.servoController.moveServo(newPerc.getPercentage());
+
+            //this.servoController.moveServo(newPerc.getPercentage());
             lastSendedValveOp = tmp;
         }
         
