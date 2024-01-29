@@ -32,6 +32,10 @@ class Task {
             return res;
         };
 
+        void setObs(ControllerSchedulerObserver* obs){
+            this->obs = obs;
+        }
+
     protected:
         bool isRunning = true;
         unsigned long millis = 0;
@@ -40,9 +44,7 @@ class Task {
 
         ControllerSchedulerObserver* obs;
         
-        void setObs(ControllerSchedulerObserver* obs){
-            this->obs = obs;
-        }
+        
 
 };
 

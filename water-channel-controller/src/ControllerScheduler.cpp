@@ -25,11 +25,14 @@ ControllerScheduler::ControllerScheduler() {
     
 
     int amountTask = 0;
-    tasks = new Task*[amountTask]{ //button
-    //, IOMan, valve, VOM, button, VOM, 
-    //, , 
-    };
+    tasks = new Task*[amountTask]{
+        // VOM, IOMan, valv
+        };
     actAmountTask = amountTask;
+
+    for(int i=0; i < actAmountTask; i++) {
+        tasks[i]->setObs(this);
+    }
 
     // State* s1 = new AutomaticState(button, lcd);
     // State* s2 = new ManualState(button, lcd);
@@ -68,8 +71,6 @@ bool interuptAppened() {
 
     int i;
     for(i=0; i < actAmountTask; i++) {
-        // Serial.println(i);
-        // Serial.println(actAmountTask);
         if (tasks[i]->updateAndCheckTime(bPeriod)){
             tasks[i]->tick();
         }
@@ -94,7 +95,6 @@ StateName ControllerScheduler::getActState(){
 
 void setNewState(StateName newState){
     actStat = newState;
-    //states[actStat]->init();
     switch (actStat)
     {
         case AUTOMATIC_STATE:
