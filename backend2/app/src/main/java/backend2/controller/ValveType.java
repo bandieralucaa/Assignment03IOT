@@ -1,8 +1,10 @@
 package backend2.controller;
 
 public enum ValveType {
+    
     AUTOMATIC("Automatic"),
-    MANUAL("Manual");
+    MANUAL("Manual"),
+    UNKNOW("Unknow");
 
     private String byVTtoString;
 

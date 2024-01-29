@@ -30,6 +30,7 @@ public class Controller implements ControllerObs {
     private Vertx vertx = Vertx.vertx();
     private MQTTComponent mqtt;
     private HTTPComponent http;
+    private ServoController serial;
 
 
     private final static int FNormal = 2500;//5000;
@@ -41,6 +42,7 @@ public class Controller implements ControllerObs {
     private final static double D4 = 0.45;
     //private final static int AMOUNTD = 4;
     private final static List<Double> DD = List.of(D1, D2, D3, D4);
+    private final static List<Integer> VALVES_OP_STATE = List.of(0, 25, 25, 50, 100);
     //private final static List<Double> stateString = ["ALARM-TOO-LOW", "NORMAL STATE", "PRE-ALARM-TOO-HIGH", "ALARM-TOO-HIGH", "ALARM-TOO-HIGT-CRITIC"];
 
 
@@ -48,32 +50,32 @@ public class Controller implements ControllerObs {
 
 
     public Controller() {
-        http = new HTTPComponentImpl(8080, this, vertx);
-        http.startComponent();
-        mqtt = new MQTTComponentImpl(vertx, this);
-        mqtt.startComponent();
+        // http = new HTTPComponentImpl(8080, this, vertx);
+        // http.startComponent();
+        // mqtt = new MQTTComponentImpl(vertx, this);
+        // mqtt.startComponent();
 
         
         try {
-            servoController = new ServoController("COM3", 9600);
+            serial = new ServoController("COM4", 9600, this);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void go(){
-        //this.keepMeAlive();
+        this.keepMeAlive();
     }
 
     private void keepMeAlive(){
-        System.out.println("PROV");
+        // System.out.println("PROV");
         while (true) {
-            System.out.println("PROV2");
-            mqtt.sendNewFreq((int)Math.floor(Math.random()*100));
-            System.out.println("HELO");
-            
+            // System.out.println("PROV2");
+            // mqtt.sendNewFreq((int)Math.floor(Math.random()*100));
+            // System.out.println("HELO");
+            serial.exec();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -133,33 +135,39 @@ public class Controller implements ControllerObs {
                 log("POLICY CHANGE: new state -> " + actDamState.byDSToString());
             }
             
-            switch (newLev) {
-                case 0:
-                    //freqCampionamento = nomale
-                    //aperturaValvola = 0
-                    break;
+            // switch (newLev) {
+            //     case 0:
+            //         //freqCampionamento = nomale
+            //         serial.moveServo(0);
+            //         //aperturaValvola = 0
+            //         break;
                 
-                case 1:
-                    //freqCampionamento = nomale
-                    //aperturaValvola = 25
-                    break;
+            //     case 1:
+            //         //freqCampionamento = nomale
+            //         serial.moveServo(25);
+            //         //aperturaValvola = 25
+            //         break;
                 
-                case 2:
-                    //freqCampionamento = danger
-                    //aperturaValvola = 25
-                    break;
+            //     case 2:
+            //         //freqCampionamento = danger
+            //         serial.moveServo(25);
+            //         //aperturaValvola = 25
+            //         break;
                 
-                case 3:
-                    //freqCampionamento = danger
-                    //aperturaValvola = 50
-                    break;
+            //     case 3:
+            //         //freqCampionamento = danger
+            //         serial.moveServo(50);
+            //         //aperturaValvola = 50
+            //         break;
 
-                case 4:
-                    //freqCampionamento = danger
-                    //aperturaValvola = 100
-                    break;
-            }
+            //     case 4:
+            //         //freqCampionamento = danger
+            //         serial.moveServo(100);
+            //         //aperturaValvola = 100
+            //         break;
+            // }
             mqtt.sendNewFreq(freqToSet);
+            serial.moveServo(VALVES_OP_STATE.get(newLev));
             //client.publish(publish_topic, freqToSet + "");
             if(MQTT_D){
                 log("POLICY CHANGE: setted " + freqToSet + " now");

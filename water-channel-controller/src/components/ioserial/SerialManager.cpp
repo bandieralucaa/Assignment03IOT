@@ -45,7 +45,7 @@ String SerialManager::byStatusToString(){
     return tmp;
 }
 
-void SerialManager::tick(){
+void SerialManager::tick() {
     if (MsgService.isMsgAvailable()){           
         Msg* msg = MsgService.receiveMsg();    
         if (msg->getContent().length() > 0) {
@@ -53,14 +53,6 @@ void SerialManager::tick(){
         }
         delete msg;
     }
-    
-    
-
-    // String toSend2 = "";
-    // toSend2 = trasdutter('s', byStatusToString());
-    // Serial.println(toSend2);
-    // MsgService.sendMsg(toSend);
-    // trasdutter('h', (String)this->oraSample)
 
     String toSend = "";
     toSend = trasdutter('v', ((String) this->actValvOpening)); //this->actValvOpening
@@ -71,8 +63,6 @@ void SerialManager::tick(){
     toSend2 = trasdutter('s', byStatusToString());
     MsgService.sendMsg(toSend2);
 
-    //
-    // Serial.println(toSend2);
     // MsgService.sendMsg(toSend);
 }
 
