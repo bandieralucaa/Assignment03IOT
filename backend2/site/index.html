@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="http://localhost:8080/api/data" method="post">
+    <form id="myForm" action="http://localhost:8080/api/data" method="post">
         <label for="value"> Value: </label>
         <input type="text" id="value" name="value"/>
         
@@ -16,8 +16,8 @@
         <label for="place"> Place: </label>
         <input type="text" id="place" name="place"/>
         
-        <button type="submit">Submit me!</button>
+        <button type="button" id="sub">Submit me!</button>
     </form>
-    
+    <script src="frontend.js"></script>
 </body>
 </html>

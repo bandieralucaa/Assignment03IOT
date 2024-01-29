@@ -1,8 +1,13 @@
 package backend2.controller;
 
 
+import java.io.Serial;
 import java.util.List;
 
+import backend2.HTTP.HTTPComponent;
+import backend2.HTTP.HTTPComponentImpl;
+import backend2.HTTP.RemoteValveSetting;
+import backend2.HTTP.Sample;
 import backend2.MQTT.MQTTComponent;
 import backend2.MQTT.MQTTComponentImpl;
 import backend2.serial.main.ServoController;
@@ -14,7 +19,8 @@ import io.vertx.mqtt.MqttServer;
 
 public class Controller implements ControllerObs {
 
-    private final static boolean MQTT_D = true;
+
+    private final static boolean MQTT_D = false;
 
     private DamState actDamState;
     private ValveType valveConfig;
@@ -23,6 +29,7 @@ public class Controller implements ControllerObs {
 
     private Vertx vertx = Vertx.vertx();
     private MQTTComponent mqtt;
+    private HTTPComponent http;
 
 
     private final static int FNormal = 2500;//5000;
@@ -41,8 +48,12 @@ public class Controller implements ControllerObs {
 
 
     public Controller() {
+        http = new HTTPComponentImpl(8080, this, vertx);
+        http.startComponent();
         mqtt = new MQTTComponentImpl(vertx, this);
         mqtt.startComponent();
+
+        
         try {
             servoController = new ServoController("COM3", 9600);
         } catch (Exception e) {
@@ -51,7 +62,6 @@ public class Controller implements ControllerObs {
     }
 
     public void go(){
-        
         //this.keepMeAlive();
     }
 
@@ -79,6 +89,8 @@ public class Controller implements ControllerObs {
             System.out.println("Receiver new sample: " + newSample);
         }
         startDamPolicy(newSample);
+        http.pushNewSample(new Sample(newSample, System.currentTimeMillis()));
+        
     }
 
     private int actLev = -1; //1 -> to
@@ -115,12 +127,12 @@ public class Controller implements ControllerObs {
         if (actLev != newLev) {
             int freqToSet = getActFreqToConsider(newLev);
             actDamState = DamState.values()[newLev];
-            //TODO: HTTP MANDA INFO A CLIENT            
-            //stateLabel.innerHTML = stateString[newLev];
+            http.sendDamState(actDamState.byDSToString(), freqToSet);
 
             if (MQTT_D){
                 log("POLICY CHANGE: new state -> " + actDamState.byDSToString());
             }
+            
             switch (newLev) {
                 case 0:
                     //freqCampionamento = nomale
@@ -153,37 +165,43 @@ public class Controller implements ControllerObs {
                 log("POLICY CHANGE: setted " + freqToSet + " now");
             }
             actLev = newLev;    
+        }
+        
     }
-    
-}
+
 
 
     @Override
-    public void setNewValveOpMan(int newPerc) {
+    public void setNewValveOpMan(RemoteValveSetting newPerc) {
+        System.out.println("Setto la valvola a: " + newPerc.getPercentage());
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setNewValveOpMan'");
+        //throw new UnsupportedOperationException("Unimplemented method 'setNewValveOpMan'");
+        this.servoController.moveServo(newPerc.getPercentage());
     }
+
+
+
 
     @Override
     public void setActValveOp(int actPerc) {
-        this.servoController.moveServo(actPerc);
+        http.pushActValveOp(actPerc);
     }
+
 
     @Override
     public void setNewValveType(ValveType newType) {
         this.valveConfig = newType;
+        http.pushNewState(newType.getStringRapp());
+        //da aggiornare HTTP (?)
     }
 
 
 
-   
+
+
     private void log(String toLog){
         System.out.println(toLog);
     }
 
-    @Override
-    public void setSpeedUploadingInfo(int newSpeed) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setSpeedUploadingInfo'");
-    }
+    
 }

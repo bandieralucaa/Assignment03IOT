@@ -15,6 +15,7 @@ void NetworkTask::work(void *pvParameters) {
   this->setController( ( (ControllerObserver*) (pvParameters) ) );
 
   bool isPrevConn = false;
+  
   while (true) {
 
     if (this->byTaskToController->isBoardConnected()) {

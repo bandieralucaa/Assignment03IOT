@@ -22,7 +22,7 @@ import backend2.controller.ControllerObs;
 
 public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent   {
 
-    private Vertx vertx;
+    //private Vertx vertx;
     private ControllerObs obs;
     private MqttClient myClient;
     private static final String BROKER_ADDRESS = "192.168.43.132";

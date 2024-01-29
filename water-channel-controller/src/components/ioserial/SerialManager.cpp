@@ -4,7 +4,7 @@
 
 #define COMMAND_CHAR '_'
 #define ARGUMENT_CHAR ':'
-#define JOINER 'e'
+//#define JOINER 'e'
 
 SerialManager::SerialManager(ControllerSchedulerObserver* ob){
     this->ob = ob;
@@ -78,6 +78,7 @@ void SerialManager::sendActValveOpen(int value){
     MsgService.sendMsg(toSend);
 }
 
+
 int SerialManager::getParsedValveOpening(){
     return this->parsedAperturaValvola;
 }
@@ -91,11 +92,11 @@ void SerialManager::executeCommandByGui(String command, String value){
     char c = command.charAt(0);
     switch (c)
     {
-        case 's':
-            int val = 145;// (value.substring(0, value.lastIndexOf(JOINER))).toInt();
-            int d = 999;//(value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI
+        case 'v':
+            int val = 145; //TODO da String a Int // 145;// (value.substring(0, value.lastIndexOf(JOINER))).toInt();
+            //int d = 999;//(value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI
             this->parsedAperturaValvola = val;
-            this->oraSample = d;
+            //this->oraSample = d;
             break;
     }
 }

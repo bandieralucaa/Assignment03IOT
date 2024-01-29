@@ -3,7 +3,7 @@
 ValveOpeningManagement::ValveOpeningManagement(Potentiometer* p, InReceiver* receiver) {
     this->pot = p;
     this->receiver = receiver;
-    this->lastPotMod = 0;
+    this->lastPotMod = 50;
     this->period = VALVE_OPENER_PERIOD;
 
 }
@@ -22,9 +22,13 @@ int ValveOpeningManagement::getOpeningToSet() {
 }
 
 void ValveOpeningManagement::init() {
+    
 }
 
 void ValveOpeningManagement::tick() {
+    //this->pot->getPercentageValue();
+
+    // //Serial.print("TICK_VOM");
     if (this->controller->getActState() == MANUAL_STATE) {
         int tmp = this->pot->getPercentageValue();
         if (tmp != this->lastPotMod) {

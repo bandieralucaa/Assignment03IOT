@@ -9,11 +9,13 @@ int actAmountTask;
 unsigned long bPeriod;
 
 ControllerScheduler::ControllerScheduler() {
+
     
     Potentiometer* p = new PotentiometerImpl(POT_PIN);
 
     MyLcdMonitor* lcd = new MyLcdMonitor();
 
+    
 
 
     StateButton* button = new StateButton(BUTT_PIN); 
@@ -26,8 +28,9 @@ ControllerScheduler::ControllerScheduler() {
     Valve* valv = new Valve(SERVO_MOTOR_PIN, false, IOMan, lcd, VOM);
     
 
-    int amountTask = 4;
-    tasks = new Task*[amountTask]{ button, IOMan, VOM, valv
+    int amountTask = 2;
+    tasks = new Task*[amountTask]{ VOM, button
+    //, IOMan, valve, VOM, button
     //, , 
     };
     actAmountTask = amountTask;
@@ -38,7 +41,12 @@ ControllerScheduler::ControllerScheduler() {
     
     states = new State*[2]{s1, s2};
     
-    actStat = AUTOMATIC_STATE;
+    actStat = MANUAL_STATE;
+    lcd->updateState(actStat);
+    lcd->updateActValv(-1);
+    delay(100);
+    Serial.print("done creation of Controller");
+
     states[actStat]->init();
 }
 
@@ -52,6 +60,9 @@ void ControllerScheduler::init(unsigned long basePeriod) {
 #ifdef SCHEDULER_PERIOD_DEBUG
 unsigned long t1 = 0;
 #endif
+
+int amount = 10;
+int counter = 0;
 
 bool interuptAppened() {
 
@@ -82,6 +93,13 @@ bool interuptAppened() {
         states[actStat]->init();
     }
     
+    counter++;
+    if(amount == counter){
+        Serial.print("STATE: ");
+        Serial.println((actStat == MANUAL_STATE) ? "M" : "A");
+        counter = 0;
+    }
+
     return true;
 }
 
