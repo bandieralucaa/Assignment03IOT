@@ -51,6 +51,7 @@ enum StateName {
 // #define SONAR_DEBUG
 // #define TEMP_DEBUG
 // #define LCD_DEBUG
+//#define BUTTON_DEBUG
 
 // #define DEBUG_IOMAN_WITHOUT_CONSOLE
 

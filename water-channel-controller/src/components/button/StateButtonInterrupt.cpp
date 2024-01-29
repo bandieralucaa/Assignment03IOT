@@ -7,11 +7,15 @@ unsigned long debouncingTime = 200;
 
 void pressedButton() {
     unsigned long tmp = millis();
+    
+    #ifdef BUTTON_DEBUG
     delay(100);
     Serial.println(tmp);
     delay(100);
     Serial.print("CIAO");
     delay(100);
+    #endif
+    
     if ((tmp - lastPressed) > debouncingTime ) {
         StateName newState = (actState == AUTOMATIC_STATE) ? MANUAL_STATE : AUTOMATIC_STATE;
         actState = newState;

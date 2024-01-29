@@ -53,7 +53,7 @@ void SerialManager::tick(){
         }
         delete msg;
     }
-    Serial.println("pippo");
+    
     
 
     // String toSend2 = "";
@@ -61,16 +61,17 @@ void SerialManager::tick(){
     // Serial.println(toSend2);
     // MsgService.sendMsg(toSend);
     // trasdutter('h', (String)this->oraSample)
+
     String toSend = "";
     toSend = trasdutter('v', ((String) this->actValvOpening)); //this->actValvOpening
-    Serial.println(toSend);
-    //Serial.println(toSend);
-    //MsgService.sendMsg(toSend);
+    MsgService.sendMsg(toSend);
+    
     delay(10);//TODO da controllare se ce n'è bisogno
     String toSend2 = "";
     toSend2 = trasdutter('s', byStatusToString());
-    Serial.println(toSend2);
-    //MsgService.sendMsg(toSend2);
+    MsgService.sendMsg(toSend2);
+
+    //
     // Serial.println(toSend2);
     // MsgService.sendMsg(toSend);
 }
@@ -86,10 +87,13 @@ void SerialManager::executeCommandByGui(String command, String value){
     switch (c)
     {
         case 'v':
-            int val = 145; //TODO da String a Int // 145;// (value.substring(0, value.lastIndexOf(JOINER))).toInt();
-            //int d = 999;//(value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI
-            this->parsedAperturaValvola = val;
-            //this->oraSample = d;
+            Serial.println(command + " / " + value);
+            //this->vom->setValveOpBySerial(40);
+            
+            // int val = 145; //TODO da String a Int // 145;// (value.substring(0, value.lastIndexOf(JOINER))).toInt();
+            // //int d = 999;//(value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI
+            // this->parsedAperturaValvola = val;
+            // //this->oraSample = d;
             break;
     }
 }
