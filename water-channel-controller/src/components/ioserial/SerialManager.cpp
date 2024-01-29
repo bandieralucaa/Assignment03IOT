@@ -54,16 +54,20 @@ void SerialManager::tick() {
         delete msg;
     }
 
-    String toSend = "";
-    toSend = trasdutter('v', ((String) this->actValvOpening)); //this->actValvOpening
-    MsgService.sendMsg(toSend);
-    
-    delay(10);//TODO da controllare se ce n'è bisogno
-    String toSend2 = "";
-    toSend2 = trasdutter('s', byStatusToString());
-    MsgService.sendMsg(toSend2);
+    if (this->lastValveSend != this->actValvOpening) {
+        String toSend = "";
+        toSend = trasdutter('v', ((String) this->actValvOpening)); //this->actValvOpening
+        MsgService.sendMsg(toSend);
+        delay(10);//TODO da controllare se ce n'è bisogno
+        this->lastValveSend = this->actValvOpening;
+    }
+    if (this->lastStateSend != this->obs->getActState()){
+        String toSend2 = "";
+        toSend2 = trasdutter('s', byStatusToString());
+        MsgService.sendMsg(toSend2);
+        this->lastStateSend = this->obs->getActState();
+    }
 
-    // MsgService.sendMsg(toSend);
 }
 
 void SerialManager::sendActValveOpen(int value){
@@ -78,7 +82,7 @@ void SerialManager::executeCommandByGui(String command, String value){
     {
         case 'v':
             Serial.println(command + " / " + value);
-            //this->vom->setValveOpBySerial(40);
+            //this->vom->setValveOpBySerial(0);
             
             // int val = 145; //TODO da String a Int // 145;// (value.substring(0, value.lastIndexOf(JOINER))).toInt();
             // //int d = 999;//(value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI

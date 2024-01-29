@@ -42,6 +42,10 @@ private:
     
     void executeCommands(String comm);
     void executeCommandByGui(String comm, String value);
+
+    StateName lastStateSend = NONE;
+    int lastValveSend = -1;
+
 };
 
 

@@ -50,10 +50,10 @@ public class Controller implements ControllerObs {
 
 
     public Controller() {
-        // http = new HTTPComponentImpl(8080, this, vertx);
-        // http.startComponent();
-        // mqtt = new MQTTComponentImpl(vertx, this);
-        // mqtt.startComponent();
+        http = new HTTPComponentImpl(8080, this, vertx);
+        http.startComponent();
+        mqtt = new MQTTComponentImpl(vertx, this);
+        mqtt.startComponent();
 
         
         try {
@@ -179,12 +179,18 @@ public class Controller implements ControllerObs {
 
 
 
+    private int lastSendedValveOp = -1;
     @Override
     public void setNewValveOpMan(RemoteValveSetting newPerc) {
-        System.out.println("Setto la valvola a: " + newPerc.getPercentage());
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'setNewValveOpMan'");
-        this.servoController.moveServo(newPerc.getPercentage());
+        int tmp = newPerc.getPercentage();
+        if (tmp != lastSendedValveOp){
+            
+            System.out.println("Setto la valvola a: " + newPerc.getPercentage());
+            
+            this.servoController.moveServo(newPerc.getPercentage());
+            lastSendedValveOp = tmp;
+        }
+        
     }
 
 

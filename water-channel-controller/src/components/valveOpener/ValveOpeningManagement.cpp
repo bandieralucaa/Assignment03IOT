@@ -32,7 +32,6 @@ void ValveOpeningManagement::setValveOpBySerial(int newVal) {
 }
 
 void ValveOpeningManagement::tick() {
-    
     if (this->obs->getActState() == MANUAL_STATE) {
         int tmp = this->pot->getPercentageValue();
         if (tmp != this->lastPotVal) {

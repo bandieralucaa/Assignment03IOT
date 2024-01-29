@@ -4,6 +4,8 @@ import backend2.controller.ControllerObs;
 import backend2.controller.ValveType;
 import backend2.serial.comm.CommChannel;
 import backend2.serial.comm.SerialCommChannel;
+import java.util.Arrays;
+
 
 public class ServoController {
 
@@ -18,7 +20,8 @@ public class ServoController {
     }
 
     public void moveServo(int degrees) {
-        String command = "_v:" + degrees;
+        //System.out.println("OOOOOKKKKKKKK");
+        String command = "_v:25";// + degrees;
         if (SERIAL_D) {
             log("MANDO nuova apertura valvola : " + degrees);
         }
@@ -34,20 +37,37 @@ public class ServoController {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            execCommand(tmp.charAt(1), tmp.split(":")[1]);
-            System.out.println(tmp);
+            Arrays.stream(tmp.split("_"))
+                .parallel()
+                .peek(s -> System.out.println("-> " + s))
+                .filter(s -> !s.isEmpty())
+                .forEach(s -> {
+                    String[] pairKV = s.split(":");
+
+                    if(SERIAL_D){
+                        log("RICEVUTO Comando: " + pairKV[0].charAt(0) + " valore : " + pairKV[1]);
+                    }
+                    execCommand(pairKV[0].charAt(0), pairKV[1]);
+                });
+            //execCommand(tmp.charAt(1), tmp.split(":")[1]);
+           // System.out.println(tmp);
         }
     }
 
     private void execCommand(char command, String value) {
 
-        if(SERIAL_D){
-            log("RICEVUTO Comando: " + command + " valore : " + value);
-        }
+        // if(SERIAL_D){
+        //     log("RICEVUTO Comando: " + command + " valore : " + value);
+        // }
 
         switch (command) {
             case 'v':
-                this.obs.setActValveOp(Integer.parseInt(value));
+                try {
+                    int a = Integer.parseInt(value);
+                    this.obs.setActValveOp(a);
+                } catch (Exception e) {
+                }
+                
                 break;
 
             case 's':
