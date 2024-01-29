@@ -15,6 +15,8 @@ ControllerScheduler::ControllerScheduler() {
 
     MyLcdMonitor* lcd = new MyLcdMonitor();
 
+    
+
 
     StateButton* button = new StateButton(BUTT_PIN); 
 
@@ -26,8 +28,8 @@ ControllerScheduler::ControllerScheduler() {
     Valve* valv = new Valve(SERVO_MOTOR_PIN, false, IOMan, lcd, VOM);
     
 
-    int amountTask = 1;
-    tasks = new Task*[amountTask]{ VOM
+    int amountTask = 2;
+    tasks = new Task*[amountTask]{ VOM, button
     //, IOMan, valve, VOM, button
     //, , 
     };
@@ -40,6 +42,11 @@ ControllerScheduler::ControllerScheduler() {
     states = new State*[2]{s1, s2};
     
     actStat = MANUAL_STATE;
+    lcd->updateState(actStat);
+    lcd->updateActValv(-1);
+    delay(100);
+    Serial.print("done creation of Controller");
+
     states[actStat]->init();
 }
 
@@ -89,7 +96,7 @@ bool interuptAppened() {
     counter++;
     if(amount == counter){
         Serial.print("STATE: ");
-        Serial.print((actStat == MANUAL_STATE) ? "M" : "A");
+        Serial.println((actStat == MANUAL_STATE) ? "M" : "A");
         counter = 0;
     }
 

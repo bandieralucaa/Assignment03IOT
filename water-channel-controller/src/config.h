@@ -16,12 +16,12 @@
 
 #define IDEALLY_TIME (150)
 
-#define SCHEDULE_BASE_PERIOD (200)
+#define SCHEDULE_BASE_PERIOD (150)
 
-#define VALVE_OPENER_PERIOD 300
-#define IOMAN_PERIOD 1000
-#define SERVO_MOTOR_PERIOD 200
-#define BUTTON_PERIOD 200
+#define VALVE_OPENER_PERIOD 1050 //1000
+#define IOMAN_PERIOD 1050 //2000
+#define SERVO_MOTOR_PERIOD 300
+#define BUTTON_PERIOD 300
 
 // #define LED_BLINKING_PERIOD 150
 // #define SERVO_MOTOR_PERIOD 300
@@ -51,17 +51,6 @@
 // #define WAITING_STRING "Ready to Wash"
 // #define PRE_WASHING_DONE_STRING "Washing complete, you can leave the area"
 // #define ERROR_STRING "Detected a Problem - Please Wait"
-
-/* ### ### ### ### ### ### ### ### */
-
-/* ### STRING TO GUI ### */
-
-#define STATE1 "1"
-#define STATE2 "2"
-#define STATE3 "3"
-#define STATE4 "4"
-#define STATE5 "5"
-#define STATE6 "6"
 
 /* ### ### ### ### ### ### ### ### */
 

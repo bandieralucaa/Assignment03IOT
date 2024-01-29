@@ -12,12 +12,13 @@
 </head>
 <body>
     <ul>
-        <li><p> ActState = </p><p id="stateDamState"></p></li>
-        <li><p> ActValveOp = </p><p id="valveActOp"></p></li>
-        <li><p> ValveTypeMode = </p><p id="valveType"></p> </li>
+        <li><p> ActState = <span id="stateDamState"></span></li>
+        <li><p> ActValveOp = <span id="actValveOp"></span></li>
+        <li><p> ValveTypeMode = <span id="valveType"></span> </li>
         <li><label for="sliderNewValveOp">Valve Setter (between 0 and 100):</label>
             <input type="range" id="sliderNewValveOp" name="sliderNewValveOp" min="0" max="100">
-            <button type="button" id="sendNewValveOp"> </button></li>
+            <span id="valueWillSet"></span>
+            <button type="button" id="sendNewValveOp"> Send </button></li>
     </ul>
     
     <!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
@@ -25,11 +26,8 @@
 
 
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-    <script src='https://d3js.org/d3.v5.min.js'></script>
-    <script src="finiteQueue2.js"></script>
     <script src="animation2.js"></script>
-    <script src="otherSuppFunct.js"></script>
+    
     
 </body>
 </html>

@@ -26,18 +26,14 @@ void ValveOpeningManagement::init() {
 }
 
 void ValveOpeningManagement::tick() {
-    Serial.print("TICK_VOM");
+    //this->pot->getPercentageValue();
+
+    // //Serial.print("TICK_VOM");
     if (this->controller->getActState() == MANUAL_STATE) {
         int tmp = this->pot->getPercentageValue();
         if (tmp != this->lastPotMod) {
             this->lastPotMod = tmp;
             //this->datePotMod = "0"; //TODO: prendere data con c++
         }
-
-        Serial.print("Pot rev: ");
-        Serial.println(tmp);
-        #ifdef POT_DEBUG
-        
-        #endif
     }
 }

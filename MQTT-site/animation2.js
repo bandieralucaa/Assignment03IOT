@@ -21,10 +21,35 @@ const sliderNewValveOp = document.getElementById("sliderNewValveOp");
 
 const sendNewValveOp = document.getElementById("sendNewValveOp");
 
-const suggestedFreq = 1000;
+const valueWillSet = document.getElementById("valueWillSet");
+
+let suggestedFreq = 1000;
 
 sendNewValveOp.addEventListener("click", () => {
-    //managePostQuery
+    let array = {"percentage" : parseInt(sliderNewValveOp.value), "time" : (new Date()).getTime()};
+    console.log(array);
+    console.log(JSON.stringify(array));
+    formData = JSON.stringify(array);
+
+    let xhr = new XMLHttpRequest();
+    
+    let ok = URLQ + "api/data/valveop";
+    xhr.open('POST', ok);
+
+    // xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // linea aggiunta per settare l' "X-Requested-With header" che indica che questa è una richiesta AJAX.
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    //xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
+    xhr.setRequestHeader('Access-Control-Allow-Origin', 'GET POST');
+    //console.log("A " + xhr.getAllResponseHeaders());
+    xhr.send(formData);
+})
+
+sliderNewValveOp.addEventListener("input", () => {
+    valueWillSet.innerHTML = sliderNewValveOp.value;
+})
+
+sliderNewValveOp.addEventListener("change", () => {
+    valueWillSet.innerHTML = sliderNewValveOp.value;
 })
 
 // document.getElementById("but").addEventListener("click", () => {
@@ -49,9 +74,81 @@ sendNewValveOp.addEventListener("click", () => {
 
 setInterval(() => {
 
+    getState();
+    getAmountValveOp();
+    getValveTypeConfig();
+
     initPlot();
 
 }, suggestedFreq);
+
+
+function getState(){
+    let xhr = new XMLHttpRequest();
+    
+    let ok = URLQ + "api/data/damstate";
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            let res = JSON.parse(xhr.responseText);
+            // console.log(res);
+            stateDamState.innerHTML = res.state;
+            suggestedFreq = res.freq;
+        }
+    };
+
+    xhr.open('GET', ok, false);
+
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader('Access-Control-Allow-Origin', 'GET POST');
+    xhr.send();
+}
+
+
+function getAmountValveOp(){
+    let xhr = new XMLHttpRequest();
+    
+    let ok = URLQ + "api/data/valveop";
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            let res = JSON.parse(xhr.responseText);
+            // console.log(res);
+            actValveOp.innerHTML = res.percentage;
+        }
+    };
+
+    xhr.open('GET', ok, false);
+
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader('Access-Control-Allow-Origin', 'GET POST');
+    xhr.send();
+}
+
+
+function getValveTypeConfig(){
+    let xhr = new XMLHttpRequest();
+    
+    let ok = URLQ + "api/data/valvetype";
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            let res = JSON.parse(xhr.responseText);
+            // console.log(res);
+            valveType.innerHTML = res.valveState;
+        }
+    };
+
+    xhr.open('GET', ok, false);
+
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader('Access-Control-Allow-Origin', 'GET POST');
+    xhr.send();
+}
+
+
+
+
 
 
 function initPlot(){
@@ -104,7 +201,7 @@ function plotSamples(doubleArr){
             y: doubleArr[i].y
         });
     }
-    console.log(dataPoints);
+    // console.log(dataPoints);
 
     var chart = new CanvasJS.Chart("chartContainer", {
         title:{
@@ -122,7 +219,9 @@ function plotSamples(doubleArr){
             //gridThickness: 2
         },
         axisY: {
-            title: "Water level"
+            title: "Water level",
+            minimum: 0,
+            maximum: 1.5,
         },
     data: [{
         type: "line",
@@ -130,5 +229,6 @@ function plotSamples(doubleArr){
     }]
     });
 
+    //chart.SetYAxisRange(0,1.5);
     chart.render();
 }
