@@ -21,11 +21,11 @@ String trasdutter(char command, String value){
 
 
 void SerialManager::init(){
-    // String comm = "";
-    // comm += trasdutter('h', (String)this->oraSample);
-    // comm += trasdutter('v', (String)this->parsedAperturaValvola);
-    // comm += trasdutter('c', "0");
-    // MsgService.sendMsg(comm);
+    String comm = "";
+   // comm += trasdutter('h', (String)this->oraSample);
+    comm += trasdutter('v', (String)this->parsedAperturaValvola);
+    comm += trasdutter('c', "0");
+    MsgService.sendMsg(comm);
 }
 
 String SerialManager::byStatusToString(){
@@ -53,22 +53,22 @@ void SerialManager::tick(){
         }
         delete msg;
     }
-    // Serial.println("pippo");
+    Serial.println("pippo");
     
-    // String toSend2 = "";
-    // toSend2 = trasdutter('s', byStatusToString());
-    // Serial.println(toSend2);
-    // MsgService.sendMsg(toSend);
+    String toSend2 = "";
+    toSend2 = trasdutter('s', byStatusToString());
+    Serial.println(toSend2);
+    MsgService.sendMsg(toSend2);
 }
 
 void SerialManager::sendActValveOpen(int value){
     this->actValvOpening = value;
-    // trasdutter('h', (String)this->oraSample)
+    //trasdutter('h', (String)this->oraSample)
     String toSend = "";
     toSend = trasdutter('v', (value + "")); //this->actValvOpening
     Serial.println(toSend);
-    // MsgService.sendMsg(toSend);
-    //delay(10);//TODO da controllare se ce n'è bisogno
+    MsgService.sendMsg(toSend);
+    delay(10);//TODO da controllare se ce n'è bisogno
     String toSend2 = "";
     toSend2 = trasdutter('s', byStatusToString());
     Serial.println(toSend2);
@@ -100,7 +100,7 @@ void SerialManager::executeCommands(String comm){
     String argument = "";
     bool parsingCommand = true;
     #ifdef DEBUG_IOMAN_WITHOUT_CONSOLE
-    Serial.print(comm);
+    Serial.print(comm); 
     #endif
     while(i<a || comm.charAt(i) != '\n') {
         char c = comm.charAt(i);
