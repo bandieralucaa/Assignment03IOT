@@ -4,7 +4,6 @@ ControllerSchedulerObserver::ControllerSchedulerObserver(StateName initState){
     this->myState = initState;
 }
 
-
 StateName ControllerSchedulerObserver::getActState(){
     return this->myState;
 }

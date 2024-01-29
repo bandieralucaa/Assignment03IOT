@@ -29,9 +29,9 @@ ControllerScheduler::ControllerScheduler() {
     Valve* valv = new Valve(SERVO_MOTOR_PIN, false, IOMan, lcd, VOM);
     
 
-    int amountTask = 0;
-    tasks = new Task*[amountTask]{
-        // VOM, IOMan, valv
+    int amountTask = 3;
+    tasks = new Task*[amountTask]{ VOM,  valv, IOMan
+            //
         };
     actAmountTask = amountTask;
 
@@ -103,6 +103,7 @@ void ControllerScheduler::setNewState(StateName newState) {
     } 
 
     lastState = newState;
+    this->myObs->setNewState(newState);
     switch (lastState)
     {
         case AUTOMATIC_STATE:

@@ -59,20 +59,23 @@ void SerialManager::tick(){
     // toSend2 = trasdutter('s', byStatusToString());
     // Serial.println(toSend2);
     // MsgService.sendMsg(toSend);
+    // trasdutter('h', (String)this->oraSample)
+    String toSend = "";
+    toSend = trasdutter('v', ((String) this->actValvOpening)); //this->actValvOpening
+    Serial.println(toSend);
+    //Serial.println(toSend);
+    //MsgService.sendMsg(toSend);
+    delay(10);//TODO da controllare se ce n'è bisogno
+    String toSend2 = "";
+    toSend2 = trasdutter('s', byStatusToString());
+    Serial.println(toSend2);
+    //MsgService.sendMsg(toSend2);
+    // Serial.println(toSend2);
+    // MsgService.sendMsg(toSend);
 }
 
 void SerialManager::sendActValveOpen(int value){
     this->actValvOpening = value;
-    // trasdutter('h', (String)this->oraSample)
-    String toSend = "";
-    toSend = trasdutter('v', (value + "")); //this->actValvOpening
-    Serial.println(toSend);
-    // MsgService.sendMsg(toSend);
-    //delay(10);//TODO da controllare se ce n'è bisogno
-    String toSend2 = "";
-    toSend2 = trasdutter('s', byStatusToString());
-    Serial.println(toSend2);
-    MsgService.sendMsg(toSend);
 }
 
 

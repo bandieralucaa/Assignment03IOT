@@ -31,7 +31,14 @@ void Valve::init() {
 
 void Valve::tick() {
     int toSetPos = od->getOpeningToSet();
-    int tmpDir = this->currentPos - (((toSetPos*1.0) /  (100 * 1.0)) * (1.0 * MAX_ANGLE) );
+    this->settedPos = MIN_ANGLE + ((int)(((toSetPos) / 100.0) * ((MAX_ANGLE - MIN_ANGLE)*1.0)));
+    int tmpDir = this->currentPos - this->settedPos;
+
+    #ifdef SERVO_MOTOR_DEBUG
+    Serial.print("READ " + ((String)this->settedPos) + "\n");
+    Serial.print("NOW " + ((String)this->currentPos) + "\n");
+    Serial.print("ELAPSED "  + ((String)tmpDir) + "\n");
+    #endif
 
     if ((tmpDir < (-1 * (AMOUNT_MOVE))) || (tmpDir > (1 * (AMOUNT_MOVE)))){
     
@@ -46,6 +53,14 @@ void Valve::tick() {
     }
     
     this->motor.write(this->currentPos); //applica modifica al servo
-    this->toSerial->sendActValveOpen(this->currentPos);
-    this->myLcd->updateActValv(this->currentPos);
+
+    int advise = ((int) ( ( ((this->currentPos - MIN_ANGLE)*1.0) / ((MAX_ANGLE - MIN_ANGLE)*1.0) ) * 100 ));
+
+    #ifdef SERVO_MOTOR_DEBUG
+    Serial.print("AFTER " + ((String)this->currentPos) + "\n");
+    #endif
+
+    this->toSerial->sendActValveOpen(advise);
+    this->myLcd->updateActValv(advise);
+
 }

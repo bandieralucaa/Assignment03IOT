@@ -32,7 +32,7 @@ void MsgServiceClass::init(){
 }
 
 void MsgServiceClass::sendMsg(const String& msg) {
-  Serial.println(msg);  
+  Serial.println(msg);
 }
 
 #ifdef DEBUG_IOMAN_WITHOUT_CONSOLE
