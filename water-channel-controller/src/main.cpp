@@ -1,17 +1,17 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include "ControllerScheduler.h"
+#include "config.h"
+
+ControllerScheduler* c;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
-  Serial.begin(9600);
+  c = new ControllerScheduler();
+  c->init(SCHEDULE_BASE_PERIOD);
 }
 
 void loop() {
-  Serial.println("CIAO");
-  delay(1000);
+  c->execute();
 }
 
 // put function definitions here:

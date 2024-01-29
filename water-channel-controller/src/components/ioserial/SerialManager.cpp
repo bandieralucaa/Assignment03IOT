@@ -6,15 +6,11 @@
 #define ARGUMENT_CHAR ':'
 //#define JOINER 'e'
 
-SerialManager::SerialManager(ControllerSchedulerObserver* ob){
-    this->ob = ob;
-    this->oraSample = 0000;
+SerialManager::SerialManager(){
     this->parsedAperturaValvola = 50;
     this->period = IOMAN_PERIOD;
     MsgService.init();
-    #ifndef DEBUG
-        Serial.setTimeout(100);
-    #endif
+    Serial.setTimeout(100);
 }
 
 String trasdutter(char command, String value){
@@ -33,7 +29,7 @@ void SerialManager::init(){
 
 String SerialManager::byStatusToString(){
     String tmp = "";
-    switch (this->ob->getActState()) {
+    switch (this->obs->getActState()) {
         case AUTOMATIC_STATE:
             tmp = "A";
             break;

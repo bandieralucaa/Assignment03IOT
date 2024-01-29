@@ -9,49 +9,44 @@ unsigned long bPeriod;
 
 ControllerScheduler::ControllerScheduler() {
 
-    
-    //Potentiometer* p = new PotentiometerImpl(POT_PIN);
+    Potentiometer* p = new PotentiometerImpl(POT_PIN);
 
     MyLcdMonitor* lcd = new MyLcdMonitor();
 
+    StateButtonInterupt* button = new StateButtonInterupt(BUTT_PIN, this); 
+
+    //Serial.begin(9600);
+
+    SerialManager* IOMan = new SerialManager();
+
+    ValveOpeningManagement* VOM = new ValveOpeningManagement(p, IOMan);
+
+    Valve* valv = new Valve(SERVO_MOTOR_PIN, false, IOMan, lcd, VOM);
     
 
-
-    StateButton* button = new StateButton(BUTT_PIN); 
-
-    Serial.begin(9600);
-    // SerialManager* IOMan = new SerialManager(((ControllerSchedulerObserver*)(this)));
-
-    // ValveOpeningManagement* VOM = new ValveOpeningManagement(p, IOMan);
-
-    // Valve* valv = new Valve(SERVO_MOTOR_PIN, false, IOMan, lcd, VOM);
-    
-
-    int amountTask = 1;
-    tasks = new Task*[amountTask]{ button
+    int amountTask = 0;
+    tasks = new Task*[amountTask]{ //button
     //, IOMan, valve, VOM, button, VOM, 
     //, , 
     };
     actAmountTask = amountTask;
 
-
-    State* s1 = new AutomaticState(button, lcd);
-    State* s2 = new ManualState(button, lcd);
+    // State* s1 = new AutomaticState(button, lcd);
+    // State* s2 = new ManualState(button, lcd);
     
-    states = new State*[2]{s1, s2};
+    // states = new State*[2]{s1, s2};
     
-    actStat = MANUAL_STATE;
-    lcd->updateState(actStat);
-    lcd->updateActValv(-1);
-    delay(100);
+    actStat = START_STATE;
+    // lcd->updateState(actStat);
+    // lcd->updateActValv(-1);
+    // delay(100);
     Serial.print("done creation of Controller");
 
-    states[2]->init();
 }
 
 void ControllerScheduler::init(unsigned long basePeriod) {
     bPeriod = basePeriod;
-    scheduleCooldown = new Cooldown(SCHEDULE_BASE_PERIOD);
+    scheduleCooldown = new Cooldown(basePeriod);
     scheduleCooldown->init();
 }
 
@@ -59,9 +54,6 @@ void ControllerScheduler::init(unsigned long basePeriod) {
 #ifdef SCHEDULER_PERIOD_DEBUG
 unsigned long t1 = 0;
 #endif
-
-int amount = 10;
-int counter = 0;
 
 bool interuptAppened() {
 
@@ -83,21 +75,6 @@ bool interuptAppened() {
         }
     }
 
-    StateName newState = states[actStat]->changeState();
-    if (newState != NONE) {
-        actStat = newState;
-        // for (i = 0; i < actAmountTask; i++) {
-        //     tasks[i]->stop();
-        // }
-        states[actStat]->init();
-    }
-    
-    counter++;
-    if(amount == counter){
-        Serial.print("STATE: ");
-        Serial.println((actStat == MANUAL_STATE) ? "M" : "A");
-        counter = 0;
-    }
 
     return true;
 }
@@ -113,3 +90,19 @@ StateName ControllerScheduler::getActState(){
     return actStat;
 }
 
+
+
+void setNewState(StateName newState){
+    actStat = newState;
+    //states[actStat]->init();
+    switch (actStat)
+    {
+        case AUTOMATIC_STATE:
+            Serial.print("NEW STATE: AUTO");
+            break;
+        
+        case MANUAL_STATE:
+            Serial.print("NEW STATE: MANUAL");
+            break;
+    }
+}

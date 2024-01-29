@@ -2,15 +2,10 @@
 #define __CONTROLLER_SCHEDULER_OBSERVER__
 
 
-enum StateName {
-    NONE = -1,
-    AUTOMATIC_STATE,
-    MANUAL_STATE
-};
-
 class ControllerSchedulerObserver {
     public:
         virtual StateName getActState() = 0;
+        virtual void setNewState(StateName newState) = 0;
 
 };
 

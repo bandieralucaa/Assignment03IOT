@@ -3,7 +3,7 @@
 
 #include "config.h"
 
-#include "./task/Task.h"
+#include "./Task.h"
 #include "OutSender.h"
 #include "MsgService.h"
 
@@ -12,7 +12,7 @@
 
 class SerialManager: public Task, public OutSender{
 public:
-    SerialManager(ControllerSchedulerObserver* ob);
+    SerialManager();
 
     void init();
     void tick();
@@ -34,8 +34,6 @@ public:
 private:
     String byStatusToString();
     int parsedAperturaValvola;
-    int oraSample;    
-    ControllerSchedulerObserver* ob;
 
     int actValvOpening;
     

@@ -18,9 +18,7 @@ class ValveOpeningManagement : public Task, public OpeningDetection {
 
     private:
         int lastPotMod;
-        String datePotMod;
         Potentiometer* pot;
-        ControllerSchedulerObserver* controller;
 };
 
 #endif

@@ -1,20 +1,31 @@
 #ifndef __CONFS__
 #define __CONFS__
 
+enum StateName {
+    NONE = -1,
+    AUTOMATIC_STATE,
+    MANUAL_STATE
+};
+
+#define START_STATE AUTOMATIC_STATE
+
+
 /* ### WIRING CONFIGS ### */
 
-#define BUTT_PIN 4
+#define BUTT_PIN 2
+
+#define SERVO_MOTOR_PIN 9
 
 #define POT_PIN A0
 
-#define SERVO_MOTOR_PIN 9
+
 
 /* ### ### ### ### ### ### ### ### */
 
 
 /* ### TASK VARIABLE ### */
 
-#define IDEALLY_TIME (150)
+//#define IDEALLY_TIME (150)
 
 #define SCHEDULE_BASE_PERIOD (150)
 
@@ -31,7 +42,8 @@
 #define DEBUG
 #ifdef DEBUG
 
-#define SCHEDULER_INIT_PHASE
+//#define SCHEDULER_INIT_PHASE
+
 #define SCHEDULER_PERIOD_DEBUG 
 
 // #define PIR_DEBUG //valuta se eliminarmi

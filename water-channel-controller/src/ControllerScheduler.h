@@ -1,31 +1,32 @@
 #ifndef __CONTROLLERSCHEDULER__
 #define __CONTROLLERSCHEDULER__
 
-#include "ControllerSchedulerObserver.h"
+#include "./ControllerSchedulerObserver.h"
+#include "config.h"
+#include "./Task.h"
 
-// #include "config.h"
 
-// #include "./task/Task.h"
+#include "./components/button/StateButtonInterupt.h"
+#include "./components/lcd/MyLcdMonitor.h"
 
-// #include "./state/State.h"
-// #include "./state/impl/AutomaticState.h"
-// #include "./state/impl/ManualState.h"
 
-// #include "./components/button/StateButton.h"
-// #include "./components/cooldown/Cooldown.h"
-// #include "./components/ioserial/SerialManager.h"
-// #include "./components/valveOpener/ValveOpeningManagement.h"
-// #include "./components/valveOpener/PotentiometerImpl.h"
 
-// #include "./components/valvola/Valve.h"
-// #include "./components/lcd/MyLcdMonitor.h"
+#include "./components/cooldown/Cooldown.h"
+#include "./components/ioserial/SerialManager.h"
+#include "./components/valveOpener/ValveOpeningManagement.h"
+#include "./components/valveOpener/PotentiometerImpl.h"
+#include "./components/valvola/Valve.h"
 
-class ControllerScheduler {
-public:
-    ControllerScheduler();
-    void init(unsigned long basePeriod);
-    void execute();
-    StateName getActState();
+
+class ControllerScheduler : public ControllerSchedulerObserver{
+    public:
+        ControllerScheduler();
+        void init(unsigned long basePeriod);
+        void execute();
+        StateName getActState();
+        void setNewState(StateName newState);
+    private:
+        StateName actName;
 
 };
 
