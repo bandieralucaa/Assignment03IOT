@@ -6,13 +6,14 @@
 #include "./Task.h"
 #include "OutSender.h"
 #include "MsgService.h"
+#include "../valveOpener/ExternalSources.h"
 
 #include <Arduino.h>
 
 
 class SerialManager: public Task, public OutSender{
 public:
-    SerialManager();
+    SerialManager(ExternalSources* obs);
 
     void init();
     void tick();
@@ -34,6 +35,8 @@ public:
 private:
     String byStatusToString();
     int parsedAperturaValvola;
+
+    ExternalSources* vom;
 
     int actValvOpening;
     

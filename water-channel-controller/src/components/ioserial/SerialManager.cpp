@@ -6,9 +6,10 @@
 #define ARGUMENT_CHAR ':'
 //#define JOINER 'e'
 
-SerialManager::SerialManager(){
+SerialManager::SerialManager(ExternalSources* vom){
     this->parsedAperturaValvola = 50;
     this->period = IOMAN_PERIOD;
+    this->vom = vom;
     MsgService.init();
     Serial.setTimeout(100);
 }
