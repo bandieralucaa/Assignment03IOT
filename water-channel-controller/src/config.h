@@ -32,7 +32,7 @@ enum StateName {
 #define VALVE_OPENER_PERIOD 1050 //1000
 #define IOMAN_PERIOD 1050 //2000
 #define SERVO_MOTOR_PERIOD 300
-#define BUTTON_PERIOD 300
+//#define BUTTON_PERIOD 300
 
 /* ### ### ### ### ### ### ### ### */
 

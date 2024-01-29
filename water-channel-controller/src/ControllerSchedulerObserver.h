@@ -5,8 +5,11 @@
 
 class ControllerSchedulerObserver {
     public:
-        virtual StateName getActState() = 0;
-        virtual void setNewState(StateName newState) = 0;
+        ControllerSchedulerObserver(StateName initState);
+        StateName getActState();
+        void setNewState(StateName newState);
+    private:
+        StateName myState;
 
 };
 

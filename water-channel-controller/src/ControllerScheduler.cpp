@@ -1,20 +1,24 @@
 #include "ControllerScheduler.h"
 
-StateName actStat;
+
 Task** tasks;
 Cooldown* scheduleCooldown;
 int actAmountTask;
 
 unsigned long bPeriod;
 MyLcdMonitor* lcd;
+StateName lastState = START_STATE;
 
 ControllerScheduler::ControllerScheduler() {
+
+    ControllerSchedulerObserver* myObs = new ControllerSchedulerObserver(START_STATE);
+    this->myObs = myObs;
 
     Potentiometer* p = new PotentiometerImpl(POT_PIN);
 
     lcd = new MyLcdMonitor();
 
-    StateButtonInterupt* button = new StateButtonInterupt(BUTT_PIN, this); 
+    StateButtonInterupt* button = new StateButtonInterupt(BUTT_PIN, this->myObs); 
     
     //Serial.begin(9600);
 
@@ -32,7 +36,7 @@ ControllerScheduler::ControllerScheduler() {
     actAmountTask = amountTask;
 
     for(int i=0; i < actAmountTask; i++) {
-        tasks[i]->setObs(this);
+        tasks[i]->setObs(this->myObs);
     }
 
     // State* s1 = new AutomaticState(button, lcd);
@@ -40,8 +44,7 @@ ControllerScheduler::ControllerScheduler() {
     
     // states = new State*[2]{s1, s2};
     
-    actStat = START_STATE;
-    lcd->updateState(actStat);
+    lcd->updateState(lastState);
     lcd->updateActValv(-1);
     delay(100);
     Serial.print("done creation of Controller");
@@ -77,7 +80,6 @@ bool interuptAppened() {
         }
     }
 
-
     return true;
 }
 
@@ -85,18 +87,23 @@ void ControllerScheduler::execute() {
     if (scheduleCooldown->isOver()) {
         interuptAppened();
         scheduleCooldown->reset();
+        this->setNewState(this->myObs->getActState());
     }
 }
 
 StateName ControllerScheduler::getActState(){
-    return actStat;
+    return lastState;
 }
 
 
 
-void ControllerScheduler::setNewState(StateName newState){
-    actStat = newState;
-    switch (actStat)
+void ControllerScheduler::setNewState(StateName newState) {
+    if(lastState == newState) {
+        return;
+    } 
+
+    lastState = newState;
+    switch (lastState)
     {
         case AUTOMATIC_STATE:
             Serial.print("NEW STATE: AUTO");

@@ -18,15 +18,18 @@
 #include "./components/valvola/Valve.h"
 
 
-class ControllerScheduler : public ControllerSchedulerObserver{
+class ControllerScheduler {
     public:
         ControllerScheduler();
         void init(unsigned long basePeriod);
         void execute();
+
         StateName getActState();
         void setNewState(StateName newState);
+        
     private:
         StateName actName;
+        ControllerSchedulerObserver* myObs;
 
 };
 
