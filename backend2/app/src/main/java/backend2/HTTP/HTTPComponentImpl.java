@@ -98,9 +98,6 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
         JsonObject data = new JsonObject();
         data.put("state", stateStringToSend);
         data.put("freq", suggestedActFreq);
-			// data.put("x", p.getMyTime());
-			// data.put("y", p.getSample());
-			// arr.add(data);
         routingContext.response()
 			.putHeader("content-type", "application/json")
 			.end(data.encodePrettily());
@@ -109,10 +106,6 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
     private void getActValveOp(RoutingContext routingContext) {
         JsonObject data = new JsonObject();
         data.put("percentage", this.actValveOp);
-        // data.put("freq", suggestedActFreq);
-			// data.put("x", p.getMyTime());
-			// data.put("y", p.getSample());
-			// arr.add(data);
         routingContext.response()
 			.putHeader("content-type", "application/json")
 			.end(data.encodePrettily());
@@ -121,10 +114,6 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
     private void getValveTypeConfig(RoutingContext routingContext) {
         JsonObject data = new JsonObject();
         data.put("valveState", this.actValveTypeConfig);
-        // data.put("freq", suggestedActFreq);
-			// data.put("x", p.getMyTime());
-			// data.put("y", p.getSample());
-			// arr.add(data);
         routingContext.response()
 			.putHeader("content-type", "application/json")
 			.end(data.encodePrettily());
@@ -141,13 +130,14 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
         RemoteValveSetting tmp;
 
 		if (res == null) {
+            response.setStatusCode(400).end();
 			//sendError(400, response);
 		} else {
 			int newValveOp = res.getInteger("percentage");
-            long time = res.getInteger("percentage");
+            long time = res.getLong("time");
 			
 
-			if(HTTP_D) {
+			if (HTTP_D) {
                 log("New value: " + newValveOp + " on " + new Date(time));
             }
 

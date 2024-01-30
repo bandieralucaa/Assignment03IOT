@@ -32,19 +32,19 @@ public:
     void sendActValveOpen(int value);
 
 
-private:
-    String byStatusToString();
-    int parsedAperturaValvola;
+    private:
+        String byStatusToString();
+        int parsedAperturaValvola;
 
-    ExternalSources* vom;
+        ExternalSources* vom;
 
-    int actValvOpening;
-    
-    void executeCommands(String comm);
-    void executeCommandByGui(char c, String value);
+        int actValvOpening;
+        
+        void executeCommands(String comm);
+        void executeCommandByGui(char c, String value);
 
-    StateName lastStateSend = NONE;
-    int lastValveSend = -1;
+        StateName lastStateSend = NONE;
+        int lastValveSend = -1;
 
 };
 

@@ -22,9 +22,11 @@ class ValveOpeningManagement : public Task, public OpeningDetection, public Exte
         void tick();
 
     private:
-        int lastParsedValue;
-        int lastPotVal;
         Potentiometer* pot;
+        int lastPotVal;
+        int lastParsedValue;
+
+        bool isSerialLastInfo;
 };
 
 #endif

@@ -22,6 +22,8 @@ import backend2.controller.ControllerObs;
 
 public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent   {
 
+	public final boolean MQTT_D = false;
+
     //private Vertx vertx;
     private ControllerObs obs;
     private MqttClient myClient;
@@ -41,7 +43,9 @@ public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent
     @Override
     public void sendNewFreq(int newFreqMillis) {
 		if(this.myClient.isConnected()){
-			this.log("publishing a msg");
+			if(MQTT_D){
+				this.log("publishing a msg");
+			}
         	this.myClient.publish(TOPIC_PUB,
 				  Buffer.buffer(Integer.toString(newFreqMillis)), //manda il messaggio hello
 				  MqttQoS.AT_LEAST_ONCE,
@@ -90,8 +94,7 @@ public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent
 	@Override
 	public void reconnectIfNot() {
 		if (!this.myClient.isConnected()){
-			// TODO Auto-generated method stub
-			throw new UnsupportedOperationException("Unimplemented method 'reconnectIfNot'");
+			this.start();
 		}
 	}
 

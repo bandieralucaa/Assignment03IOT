@@ -34,9 +34,9 @@ public class ServoController {
             try {
                 tmp = commChannel.receiveMsg();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            log("--> " + tmp + "<---");
             Arrays.stream(tmp.split("_"))
                 .parallel()
                 .peek(s -> System.out.println("-> " + s))
@@ -44,9 +44,9 @@ public class ServoController {
                 .forEach(s -> {
                     String[] pairKV = s.split(":");
 
-                    if(SERIAL_D){
-                        log("RICEVUTO Comando: " + pairKV[0].charAt(0) + " valore : " + pairKV[1]);
-                    }
+                    // if(SERIAL_D){
+                    //     log("RICEVUTO Comando: " + pairKV[0].charAt(0) + " valore : " + pairKV[1]);
+                    // }
                     execCommand(pairKV[0].charAt(0), pairKV[1]);
                 });
             //execCommand(tmp.charAt(1), tmp.split(":")[1]);
@@ -56,9 +56,9 @@ public class ServoController {
 
     private void execCommand(char command, String value) {
 
-        // if(SERIAL_D){
-        //     log("RICEVUTO Comando: " + command + " valore : " + value);
-        // }
+        if(SERIAL_D){
+            log("RICEVUTO Comando: " + command + " valore : " + value);
+        }
 
         switch (command) {
             case 'v':
