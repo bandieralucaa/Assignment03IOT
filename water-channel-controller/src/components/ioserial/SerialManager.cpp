@@ -73,7 +73,8 @@ void SerialManager::tick() {
 }
 
 void SerialManager::sendActValveOpen(int value){
-    this->actValvOpening = value;
+    //this->actValvOpening = value;
+    this->actValvOpening = map(value, 0, 1024, 0, 180);
 }
 
 int myPot(int b, int e){

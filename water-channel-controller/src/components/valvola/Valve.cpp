@@ -18,7 +18,8 @@ Valve::Valve(int pin, bool isActOpen, OutSender* toSerial, Lcd* myLcd, OpeningDe
 }
 
 void Valve::setPos(int newPos) {
-    this->settedPos = newPos;
+    //this->settedPos = newPos;
+    this->settedPos = map(newPos, 0, 1024, 0, 180);
 }
 
 int Valve::getActPos() {

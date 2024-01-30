@@ -24,7 +24,8 @@ void ValveOpeningManagement::init() {
 
 
 void ValveOpeningManagement::setValveOpBySerial(int newVal) {
-    this->lastParsedValue = newVal;
+    //this->lastParsedValue = newVal;
+    this->lastParsedValue = map(newVal, 0, 1024, 0, 180);
     this->isSerialLastInfo = true;
 }
 

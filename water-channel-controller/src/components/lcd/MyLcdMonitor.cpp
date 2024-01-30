@@ -38,7 +38,8 @@ void MyLcdMonitor::updateState(StateName newState){
 
 void MyLcdMonitor::updateActValv(int newValvOp){
     this->actValvOp = newValvOp;
-    this->printOnLcd(1);
+    //this->printOnLcd(1);
+    this->printOnLcd(map(newValvOp, 0, 1024, 0, 100));
 }
 
 void MyLcdMonitor::printOnLcd(int who) {
