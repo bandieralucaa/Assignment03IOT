@@ -29,7 +29,7 @@ public class Controller implements ControllerObs {
     private final static double D4 = 0.45;
     private final static List<Double> DD = List.of(D1, D2, D3, D4);
     private final static List<Integer> VALVES_OP_STATE = List.of(0, 25, 25, 50, 100);
-    private final static int FNormal = 2500;//5000;
+    private final static int FNormal = 3000;//5000;
     private final static int FDanger = 1000;//1000;
 
     /**
@@ -69,6 +69,10 @@ public class Controller implements ControllerObs {
         while (true) {
             this.servoController.exec();
 
+            if(!this.mqtt.isMQTTConnected()){
+                this.mqtt.reconnectIfNot();
+            }
+
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -81,7 +85,7 @@ public class Controller implements ControllerObs {
 
     @Override
     public void setSample(double newSample) {
-        if(CONTROLLER_D){
+        if (CONTROLLER_D) {
             System.out.println("Receiver new sample: " + newSample);
         }
         http.pushNewSample(new Sample(newSample, System.currentTimeMillis()));
@@ -93,7 +97,7 @@ public class Controller implements ControllerObs {
         int newLev = 0;
         boolean mustExit = false;
         while(newLev < DD.size() && !(mustExit)) {
-            if (newLev != 0) {
+            if (newLev != 0) { //solo per rispettare strettamente le richieste
                 mustExit = (sampledMeasure <= DD.get(newLev));
             } else {
                 mustExit = (sampledMeasure < DD.get(newLev));
@@ -121,7 +125,7 @@ public class Controller implements ControllerObs {
         }
     }
 
-    private void applyPolicy(){
+    private void applyPolicy() {
         int freqToSet = getActFreqToConsider(actLev);
         actDamState = DamState.values()[actLev];
         http.sendDamState(actDamState.byDSToString(), freqToSet);

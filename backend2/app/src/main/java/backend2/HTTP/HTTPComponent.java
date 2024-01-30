@@ -1,7 +1,5 @@
 package backend2.HTTP;
 
-import java.util.List;
-
 public interface HTTPComponent {
     
     void sendDamState(String newDamState, int newSuggestFreq);
@@ -11,7 +9,5 @@ public interface HTTPComponent {
 
     void pushActValveOp(int actOp);
     void pushNewState(String newValveTypeConfig);
-
-    // void sendSamples();
 
 }

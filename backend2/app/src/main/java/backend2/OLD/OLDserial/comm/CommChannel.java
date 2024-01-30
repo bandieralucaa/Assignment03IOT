@@ -1,4 +1,4 @@
-package backend2.OLDserial.comm;
+package backend2.OLD.OLDserial.comm;
 
 /**
  * Questa interfaccia è stata presa dal codice visto a lezione e fornita dal prof. Ricci.

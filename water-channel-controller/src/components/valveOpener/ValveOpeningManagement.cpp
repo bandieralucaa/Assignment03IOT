@@ -24,13 +24,13 @@ void ValveOpeningManagement::init() {
 
 
 void ValveOpeningManagement::setValveOpBySerial(int newVal) {
-    this->lastParsedValue = newVal;
+    this->lastParsedValue = map(newVal, 0, 100, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO);
     this->isSerialLastInfo = true;
 }
 
 void ValveOpeningManagement::tick() {
     if (this->obs->getActState() == MANUAL_STATE) {
-        int tmp = this->pot->getPercentageValue();
+        int tmp = this->pot->getAngleToSet();
         if (tmp != this->lastPotVal) {
             this->lastPotVal = tmp;
             this->isSerialLastInfo = false;

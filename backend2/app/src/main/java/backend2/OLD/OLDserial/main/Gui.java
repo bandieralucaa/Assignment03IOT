@@ -1,9 +1,9 @@
-package backend2.OLDserial.main;
+package backend2.OLD.OLDserial.main;
 
 import javax.swing.*;
 
-import backend2.OLDserial.comm.CommChannel;
-import backend2.OLDserial.comm.SerialCommChannel;
+import backend2.OLD.OLDserial.comm.CommChannel;
+import backend2.OLD.OLDserial.comm.SerialCommChannel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

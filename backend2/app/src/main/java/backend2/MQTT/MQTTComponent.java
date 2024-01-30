@@ -6,4 +6,6 @@ public interface MQTTComponent  {
     void reconnectIfNot();
 
     void sendNewFreq(int newFreqMillis);
+
+    boolean isMQTTConnected();
 }

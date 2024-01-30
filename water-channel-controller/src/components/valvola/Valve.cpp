@@ -31,7 +31,7 @@ void Valve::init() {
 
 void Valve::tick() {
     int toSetPos = od->getOpeningToSet();
-    this->settedPos = MIN_ANGLE + ((int)(((toSetPos) / 100.0) * ((MAX_ANGLE - MIN_ANGLE)*1.0)));
+    this->settedPos = toSetPos;//MIN_ANGLE + ((int)(((toSetPos) / 100.0) * ((MAX_ANGLE - MIN_ANGLE)*1.0)));
     int tmpDir = this->currentPos - this->settedPos;
 
     #ifdef SERVO_MOTOR_DEBUG

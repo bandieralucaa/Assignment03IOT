@@ -96,6 +96,7 @@ void handlerRecCon(void* vv) {
 void Controller::resumeConnection(){
   int tmpSize = 4096; //(configMINIMAL_STACK_SIZE * 3)
   xTaskCreate(&handlerRecCon, "Resume Connection", tmpSize, ((void*)(this->view)), tskIDLE_PRIORITY + 1, NULL);
+  vTaskDelete(NULL);
 }
 
 

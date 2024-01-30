@@ -45,6 +45,7 @@ void setup_wifi() {
   #endif
 }
 
+bool isFirstTime = true;
 // Reconnect to client MQTT
 void reconnectToMQTT() {
   while (!client.connected()) { // Loop until we're reconnected
@@ -55,7 +56,11 @@ void reconnectToMQTT() {
 
     // Attempt to connect
     if(client.connect(ID)) {
-      client.subscribe(FREQ_TOPIC); //con questo ricevo i messaggi dalla console
+      if(isFirstTime){
+        client.subscribe(FREQ_TOPIC); //con questo ricevo i messaggi dalla console
+        isFirstTime = false;
+      }
+      
 
       #ifdef NET_DEB
       Serial.println("connected");

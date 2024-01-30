@@ -13,6 +13,9 @@ enum StateName {
 #define MAX_ANGLE_SERVO 180
 #define MIN_ANGLE_SERVO 0
 
+#define LCD_AUTO_STRING "AUTO"
+#define LCD_MANUAL_STRING "MAN"
+
 
 /* ### WIRING CONFIGS ### */
 
@@ -52,8 +55,6 @@ enum StateName {
 
 
 
-// #define LCD_DEBUG
-
 //#define BUTTON_DEBUG
 
 // #define DEBUG_IOMAN_WITHOUT_CONSOLE
@@ -69,6 +70,7 @@ enum StateName {
 
 
 /* ### ### ### ### ### ### ### */
+
 
 
 #endif

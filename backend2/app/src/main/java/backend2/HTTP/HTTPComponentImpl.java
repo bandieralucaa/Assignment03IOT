@@ -1,12 +1,9 @@
 package backend2.HTTP;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
-import backend2.MQTT.MQTTComponent;
 import backend2.controller.ControllerObs;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
@@ -18,16 +15,17 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
+import netscape.javascript.JSObject;
 
 public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent  {
 
-    private final static boolean HTTP_D = true;
+    private final static boolean HTTP_D = false;
 
 	private int port;
 	private static final int MAX_SIZE = 400;
 	private LinkedList<Sample> values;
     private final ControllerObs obs;
-    private final Vertx vertx;
+    //private final Vertx vertx;
 
 
     private String stateStringToSend;
@@ -82,7 +80,12 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 	}
 
     private void getSamples(RoutingContext routingContext) {
-        JsonArray arr = new JsonArray();
+        final JsonArray arr = new JsonArray();
+        // values.stream().map(s -> {
+        //     JsonObject data = new JsonObject();
+		// 	data.put("x", s.getMyTime());
+		// 	data.put("y", s.getSample());
+        // }).forEach(j -> arr.add(data));
 		for (Sample p: values) {
 			JsonObject data = new JsonObject();
 			data.put("x", p.getMyTime());

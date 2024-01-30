@@ -58,7 +58,8 @@ void SerialManager::tick() {
 
     // if (this->lastValveSend != this->actValvOpening) {
         String toSend = "";
-        toSend = trasdutter('v', ((String) this->actValvOpening)); //this->actValvOpening
+        int tmp = map(this->actValvOpening,MIN_ANGLE_SERVO, MAX_ANGLE_SERVO, 0, 100);
+        toSend = trasdutter('v', ((String) tmp)); //this->actValvOpening
         MsgService.sendMsg(toSend);
         this->lastValveSend = this->actValvOpening;
     // }
