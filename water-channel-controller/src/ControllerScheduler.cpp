@@ -25,6 +25,7 @@ ControllerScheduler::ControllerScheduler() {
     ValveOpeningManagement* VOM = new ValveOpeningManagement(p);
 
     SerialManager* IOMan = new SerialManager(VOM);
+    IOMan->init();
 
     Valve* valv = new Valve(SERVO_MOTOR_PIN, false, IOMan, lcd, VOM);
     

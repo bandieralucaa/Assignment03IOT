@@ -35,7 +35,7 @@ void ValveOpeningManagement::setValveOpBySerial(int newVal) {
 #define TOLL_VAL 10
 
 bool ValveOpeningManagement::isOutOfTollerance(int act) {
-    return abs(this->lastPotVal - act) < 5 ? false : true;
+    return abs(this->lastPotVal - act) < TOLL_VAL ? false : true;
 }
 
 void ValveOpeningManagement::tick() {

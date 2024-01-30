@@ -23,11 +23,16 @@ String trasdutter(char command, String value){
 
 
 void SerialManager::init(){
-    // String comm = "";
-    // // comm += trasdutter('h', (String)this->oraSample);
-    // comm += trasdutter('v', (String)this->parsedAperturaValvola);
-    // comm += trasdutter('c', "0");
-    // MsgService.sendMsg(comm);
+    String toSend = "";
+    int tmp = this->actValvOpening;//map(this->actValvOpening, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO, 0, 100);
+    toSend = trasdutter('v', ((String) tmp)); //this->actValvOpening
+    MsgService.sendMsg(toSend);
+    this->lastValveSend = this->actValvOpening;
+    delay(10);//TODO da controllare se ce n'è bisogno
+    String toSend2 = "";
+    toSend2 = trasdutter('s', byStatusToString());
+    MsgService.sendMsg(toSend2);
+    this->lastStateSend = this->obs->getActState();
 }
 
 String SerialManager::byStatusToString(){
@@ -56,20 +61,20 @@ void SerialManager::tick() {
         delete msg;
     }
 
-    // if (this->lastValveSend != this->actValvOpening) {
+    if (this->lastValveSend != this->actValvOpening) {
         String toSend = "";
         int tmp = this->actValvOpening;//map(this->actValvOpening, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO, 0, 100);
         toSend = trasdutter('v', ((String) tmp)); //this->actValvOpening
         MsgService.sendMsg(toSend);
-    //    this->lastValveSend = this->actValvOpening;
-    // }
-    // if (this->lastStateSend != this->obs->getActState()){
+        this->lastValveSend = this->actValvOpening;
+    }
+    if (this->lastStateSend != this->obs->getActState()){
         delay(10);//TODO da controllare se ce n'è bisogno
         String toSend2 = "";
         toSend2 = trasdutter('s', byStatusToString());
         MsgService.sendMsg(toSend2);
-    //    this->lastStateSend = this->obs->getActState();
-    // }
+        this->lastStateSend = this->obs->getActState();
+    }
 
 }
 
