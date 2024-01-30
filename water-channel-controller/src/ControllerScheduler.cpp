@@ -122,5 +122,7 @@ void ControllerScheduler::setNewState(StateName newState) {
             #endif
             lcd->updateState(MANUAL_STATE);
             break;
+        default:
+            break;
     }
 }

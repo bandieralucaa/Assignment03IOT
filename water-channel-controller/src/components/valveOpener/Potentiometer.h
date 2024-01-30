@@ -5,7 +5,7 @@
 
 class Potentiometer {
     public:
-        virtual int getAngleToSet() = 0;
+        virtual int getValue() = 0;
 };
 
 #endif

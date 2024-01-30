@@ -35,7 +35,8 @@ void MyLcdMonitor::updateState(StateName newState){
 }
 
 void MyLcdMonitor::updateActValv(int newValvOp){
-    this->actValvOp = newValvOp;
+    this->actValvOp = map(newValvOp, 0, MAX_POT_VALUE, 0, 100);
+    //this->printOnLcd(1);
     this->printOnLcd(1);
 }
 
@@ -53,6 +54,7 @@ void MyLcdMonitor::printOnLcd(int who) {
                     this->lcd.print(LCD_MANUAL_STRING);
                     break;
                 default:
+                    this->lcd.print("ERR"); //debug choise, ma dovrebbe essere impossibile
                     break;
             }    
             this->lcd.print("  ");

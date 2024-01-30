@@ -22,6 +22,7 @@ class ValveOpeningManagement : public Task, public OpeningDetection, public Exte
         void tick();
 
     private:
+        bool isOutOfTollerance(int value);
         Potentiometer* pot;
         int lastPotVal;
         int lastParsedValue;

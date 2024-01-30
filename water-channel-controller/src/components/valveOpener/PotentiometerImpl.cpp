@@ -7,8 +7,8 @@ PotentiometerImpl::PotentiometerImpl(int pin){
 }
 
 
-int PotentiometerImpl::getAngleToSet(){
+int PotentiometerImpl::getValue(){
     //int tmp = ((int)(((analogRead(this->myPin) * 1.0) / (MAX_VALUE * 1.0)) * ((MAX_ANGLE_SERVO)*(1.0))));
     //tmp = (tmp > 100) ? MAX_ANGLE_SERVO : tmp;
-    return map(analogRead(this->myPin), 0, MAX_VALUE, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO);
+    return analogRead(this->myPin);//map(analogRead(this->myPin), 0, MAX_VALUE, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO);
 }

@@ -58,23 +58,25 @@ void SerialManager::tick() {
 
     // if (this->lastValveSend != this->actValvOpening) {
         String toSend = "";
-        int tmp = map(this->actValvOpening,MIN_ANGLE_SERVO, MAX_ANGLE_SERVO, 0, 100);
+        int tmp = this->actValvOpening;//map(this->actValvOpening, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO, 0, 100);
         toSend = trasdutter('v', ((String) tmp)); //this->actValvOpening
         MsgService.sendMsg(toSend);
-        this->lastValveSend = this->actValvOpening;
+    //    this->lastValveSend = this->actValvOpening;
     // }
     // if (this->lastStateSend != this->obs->getActState()){
         delay(10);//TODO da controllare se ce n'è bisogno
         String toSend2 = "";
         toSend2 = trasdutter('s', byStatusToString());
         MsgService.sendMsg(toSend2);
-        this->lastStateSend = this->obs->getActState();
+    //    this->lastStateSend = this->obs->getActState();
     // }
 
 }
 
+//value è nella scala 1020
 void SerialManager::sendActValveOpen(int value){
-    this->actValvOpening = value;
+    //this->actValvOpening = value;
+    this->actValvOpening = map(value, 0, MAX_POT_VALUE, 0, 100);
 }
 
 int myPot(int b, int e){
@@ -89,31 +91,19 @@ int myStoi(String value) {
     int res = 0;
     int pos = value.length();
     for (int i = 0; i < pos; i++) {
-        // Serial.print("ITERATION -> ");
         int exponential = pos - i - 1;
-        
         int val = value.charAt(i) - 48;
-        // Serial.println((String)val + " * 10^" + (String)exponential + " = " + (String)(myPot(10, exponential)));
-        //Serial.println(val);
         res += ((int) ((val) * (myPot(10, exponential))));
     }
     return res;
 }
 
 void SerialManager::executeCommandByGui(char c, String value){
-    // Serial.println("-> " + ((String) c) + " / " + value);
-    // Serial.println("--> " + ((String) c) + " / " + (String(myStoi(value))));
-
     switch (c)
     {
         case 'v':
-            this->vom->setValveOpBySerial(myStoi(value));
-            //this->vom->setValveOpBySerial(0);
-            
-            // int val = 145; //TODO da String a Int // 145;// (value.substring(0, value.lastIndexOf(JOINER))).toInt();
-            // //int d = 999;//(value.substring(value.lastIndexOf(JOINER, value.length()))).toInt(); //TODO DA CONTROLLARE INDICI
-            // this->parsedAperturaValvola = val;
-            // //this->oraSample = d;
+            int tmp = myStoi(value); //ricevuto un valore percentuale
+            this->vom->setValveOpBySerial(map(tmp, 0, 100, 0, MAX_POT_VALUE)); //lo immetto nella scala 1020
             break;
     }
 }
