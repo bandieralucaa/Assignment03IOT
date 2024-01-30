@@ -9,8 +9,8 @@
 #include <Servo.h>
 #include "config.h"
 
-#define MAX_ANGLE 180
-#define MIN_ANGLE 0
+#define MAX_ANGLE MAX_ANGLE_SERVO
+#define MIN_ANGLE MIN_ANGLE_SERVO
 
 class Valve : public Servomotor, public Task{ 
 

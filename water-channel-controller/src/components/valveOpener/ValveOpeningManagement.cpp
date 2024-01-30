@@ -4,7 +4,9 @@ ValveOpeningManagement::ValveOpeningManagement(Potentiometer* p) {
     this->pot = p;
     this->lastParsedValue = 50;
     this->lastPotVal = -1;
+    this->isSerialLastInfo = false;
     this->period = VALVE_OPENER_PERIOD;
+    
 
 }
 
@@ -30,7 +32,7 @@ void ValveOpeningManagement::tick() {
     if (this->obs->getActState() == MANUAL_STATE) {
         int tmp = this->pot->getPercentageValue();
         if (tmp != this->lastPotVal) {
-            this->lastParsedValue = tmp;
+            this->lastPotVal = tmp;
             this->isSerialLastInfo = false;
         }
     }

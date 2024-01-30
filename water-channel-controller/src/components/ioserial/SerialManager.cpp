@@ -56,19 +56,19 @@ void SerialManager::tick() {
         delete msg;
     }
 
-//    if (this->lastValveSend != this->actValvOpening) {
+    // if (this->lastValveSend != this->actValvOpening) {
         String toSend = "";
         toSend = trasdutter('v', ((String) this->actValvOpening)); //this->actValvOpening
         MsgService.sendMsg(toSend);
-        delay(10);//TODO da controllare se ce n'è bisogno
         this->lastValveSend = this->actValvOpening;
-//    }
-//    if (this->lastStateSend != this->obs->getActState()){
+    // }
+    // if (this->lastStateSend != this->obs->getActState()){
+        delay(10);//TODO da controllare se ce n'è bisogno
         String toSend2 = "";
         toSend2 = trasdutter('s', byStatusToString());
         MsgService.sendMsg(toSend2);
         this->lastStateSend = this->obs->getActState();
-//    }
+    // }
 
 }
 

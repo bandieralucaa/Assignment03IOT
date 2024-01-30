@@ -136,6 +136,7 @@ function getValveTypeConfig(){
             let res = JSON.parse(xhr.responseText);
             // console.log(res);
             valveType.innerHTML = res.valveState;
+            sendNewValveOp.disabled = (res.valveState == "Automatic");
         }
     };
 

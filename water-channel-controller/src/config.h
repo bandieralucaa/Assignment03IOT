@@ -10,6 +10,9 @@ enum StateName {
 #define START_STATE AUTOMATIC_STATE
 #define START_VALVE_OP 50
 
+#define MAX_ANGLE_SERVO 180
+#define MIN_ANGLE_SERVO 0
+
 
 /* ### WIRING CONFIGS ### */
 
