@@ -7,10 +7,10 @@
 
 class ControllerObserver : public CV, public CM {
   public:
-    // void setMeasurement(double measure);
-    // void setConnection(NetworkState newState);
-    // void setFreq(double newFreq);
-    // virtual bool isBoardConnected() = 0;
+    void setMeasurement(double measure);
+    void setConnection(NetworkState newState);
+    void setFreq(double newFreq);
+    bool isBoardConnected();
 };
 
 #endif

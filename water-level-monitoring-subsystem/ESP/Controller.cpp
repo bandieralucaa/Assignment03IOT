@@ -46,6 +46,7 @@ void Controller::setFreq(double newFreq){
   Serial.print("Frequence received from MQTT: ");
   Serial.println(newFreq);
   #endif
+  
   ///MODIFICA EVENTUALMENTE LA FREQUENZA DEL TASK
   taskmes->setNewFreq((unsigned long) newFreq);
   taskmes->start();
@@ -72,12 +73,13 @@ void Controller::init(){
   xTaskCreate(&handlerT1, "Measure Task", tmpSize , ((void*)(this)), tskIDLE_PRIORITY + 1, &tmp);
   taskmes->saveTaskHandler(&tmp);
 
+
   xTaskHandle tmp1; //logica a puntatori evidentemente non funziona
 
   tasknet = new NetworkTask(this->okLed, this->errLed);
 
   xTaskCreate(&handlerT2, "Network Task", tmpSize , ((void*)(this)), tskIDLE_PRIORITY + 2, &tmp1);
-  taskmes->saveTaskHandler(&tmp);
+  tasknet->saveTaskHandler(&tmp1);
 
   // this->taskmes = new MeasurementTask(this->sonar);
   // xTaskHandle myHandle2;
@@ -102,7 +104,7 @@ void Controller::resumeConnection(){
 
 
 void Controller::tick(){
-  if(this->view->isConnected()){
+  if (this->view->isConnected()) {
     this->view->keepAliveFunctions();
 
     if( millis() > (((int) this->actFreq) + lastTime)){
@@ -111,13 +113,13 @@ void Controller::tick(){
     }
 
   } else {
-    if(startReconection){
+    if (startReconection) {
       taskmes->pause();
       this->resumeConnection();
       startReconection = false;
     }
 
-    if( millis() > ((TOLLERANCE_PAIR) + lastTime)) { //nel caso la rete si sia ripersa
+    if ( millis() > ((TOLLERANCE_PAIR) + lastTime)) { //nel caso la rete si sia ripersa
       this->resumeConnection();
       lastTime = millis();
     }

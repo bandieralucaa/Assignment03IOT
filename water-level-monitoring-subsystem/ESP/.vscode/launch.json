@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/jacop/Desktop/IotSucc/ESP",
-      "program": "c:/Users/jacop/Desktop/IotSucc/ESP/build/Debug/outDebug",
+      "cwd": "c:/xampp/htdocs/Assignment03IOT/water-level-monitoring-subsystem/ESP",
+      "program": "c:/xampp/htdocs/Assignment03IOT/water-level-monitoring-subsystem/ESP/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
