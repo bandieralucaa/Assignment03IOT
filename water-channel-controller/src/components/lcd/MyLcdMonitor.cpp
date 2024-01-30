@@ -63,7 +63,7 @@ void MyLcdMonitor::printOnLcd(int who) {
             this->lcd.print(this->actValvOp);
             this->lcd.print("%");
             for(int i = ((int)(floor(log10(this->actValvOp * 1.0)))); i < 2 ; i++) {
-                this->lcd.print("  ");
+                this->lcd.print(" ");
             }
             
     

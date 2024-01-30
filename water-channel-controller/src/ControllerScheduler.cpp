@@ -18,7 +18,7 @@ ControllerScheduler::ControllerScheduler() {
 
     lcd = new MyLcdMonitor();
 
-    StateButtonInterupt* button = new StateButtonInterupt(BUTT_PIN, this->myObs); 
+    new StateButtonInterupt(BUTT_PIN, this->myObs); 
     
     //Serial.begin(9600);
 
