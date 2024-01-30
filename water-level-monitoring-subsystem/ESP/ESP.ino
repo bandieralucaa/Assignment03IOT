@@ -8,7 +8,7 @@ Controller* c;
 void setup() {
   #ifdef MYDEGUB
   Serial.begin(115200);
-  Serial.println("CIAOOOOOOOOOOOOOO");
+  Serial.println("CIAO");
   #endif
   // put your setup code here, to run once:
   c = new Controller();

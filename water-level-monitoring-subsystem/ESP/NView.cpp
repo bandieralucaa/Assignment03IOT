@@ -55,7 +55,7 @@ void reconnectToMQTT() {
     #endif
 
     // Attempt to connect
-    if(client.connect(ID)) { // && isFirstTime
+    if(client.connect(ID)) {
       if(isFirstTime){
         client.subscribe(FREQ_TOPIC); //con questo ricevo i messaggi dalla console
         isFirstTime = false;
@@ -88,7 +88,8 @@ NView::NView() {
   if (!this->isConnected()) {
     this->reconnect();
   }
-   
+  
+  
 }
 
 bool NView::isConnected(){

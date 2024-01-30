@@ -15,7 +15,6 @@ void NetworkTask::work(void *pvParameters) {
   this->setController( ( (ControllerObserver*) (pvParameters) ) );
 
   bool isPrevConn = false;
-  turnOnOff(this->lErr, this->lOk); 
   
   while (true) {
 
