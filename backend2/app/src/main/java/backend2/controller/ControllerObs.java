@@ -14,8 +14,6 @@ public interface ControllerObs {
      * @param newPerc
      */
     void setNewValveOpMan(RemoteValveSetting newPerc);
-    //void setSpeedUploadingInfo(int newSpeed);
-
 
     /**
      * da Seriale a HTTP
