@@ -15,7 +15,6 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import netscape.javascript.JSObject;
 
 public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent  {
 
@@ -25,7 +24,6 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 	private static final int MAX_SIZE = 100;
 	private LinkedList<Sample> values;
     private final ControllerObs obs;
-    //private final Vertx vertx;
 
 
     private String stateStringToSend;
