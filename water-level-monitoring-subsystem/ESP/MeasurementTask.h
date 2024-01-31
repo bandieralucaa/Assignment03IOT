@@ -13,7 +13,7 @@ class MeasurementTask : public Task {
     void setNewFreq(unsigned long frequency);
   
   private:
-    Sonar* rM; //riverMeasure
+    Sonar* rM;;
     unsigned long frequency;
 
 };

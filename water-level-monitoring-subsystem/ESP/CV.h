@@ -2,11 +2,9 @@
 #define __CV__
 
 
-//ciao
-
-
 class CV {
 public:
+    //Help the "NetworkView" to set a new frequence for the periodic sample
     virtual void setFreq(double newFreq) = 0;
 };
 

@@ -1,23 +1,27 @@
 #include "Sonar.h"
 
-#define TIMEOUT_SONAR (100000)
-// #define TIMEOUT_VAL 999.9
+#define TIMEOUT_SONAR (50000)
 
 Sonar::Sonar(int trigPin, int echoPin){
     this->trigPin = trigPin ;
     this->echoPin = echoPin;
-    //this->period = SONAR_PERIOD;
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);  
 }
 
 
 double Sonar::getDistance(){
+    #ifdef DEBUG_NOPANIC
+    Serial.println("SONAR");
+    #endif
     return this->measure();
 }
 
 
 double Sonar::measure(){
+    #ifdef DEBUG_NOPANIC
+    Serial.println("SONAR");
+    #endif
     //codice ispirato da materiale di laboratorio
     float temperature = 20; 
 

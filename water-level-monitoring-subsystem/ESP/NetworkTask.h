@@ -10,12 +10,10 @@ class NetworkTask : public Task {
   public:
     NetworkTask(Light* l1, Light* l2);
     void work(void *pvParameters);
-    //void setNewFreq(unsigned long frequency);
   
   private:
     Light* lOk;
     Light* lErr;
-    // unsigned long frequency;
 
 };
 

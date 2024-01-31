@@ -4,6 +4,8 @@
 #include "Light.h"
 #include <Arduino.h>
 
+//imported class by lab resources
+
 class Led : public Light {
 public:
     Led(int pin);

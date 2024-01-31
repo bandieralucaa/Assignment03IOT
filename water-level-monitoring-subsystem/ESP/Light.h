@@ -1,6 +1,8 @@
 #ifndef __LIGHT_H__
 #define __LIGHT_H__
 
+//imported class by lab resources
+
 class Light
 {
 public:
