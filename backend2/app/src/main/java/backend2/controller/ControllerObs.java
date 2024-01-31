@@ -3,6 +3,10 @@ package backend2.controller;
 import backend2.HTTP.RemoteValveSetting;
 
 public interface ControllerObs {
+
+    /**
+     * set the new sample value
+     */
     void setSample(double newSample);
     
     /**
@@ -18,6 +22,10 @@ public interface ControllerObs {
      * @param newPerc
      */
     void setActValveOp(int actPerc);
+
+    /**
+     * set the new type of valve
+     */
     void setNewValveType(ValveType newType);
 
 }

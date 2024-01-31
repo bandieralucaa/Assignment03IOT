@@ -15,7 +15,10 @@ class MyLcdMonitor : public Lcd {
         void updateActValv(int newValvOp);
 
     private:
+        //initialize the lcd
         void initLCD();
+
+        //print the parameter on the lcd
         void printOnLcd(int who);
         rgb_lcd lcd;
         int actValvOp;

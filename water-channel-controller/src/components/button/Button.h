@@ -5,6 +5,7 @@
 
 class Button {
     public:
+        // Return the current state of the button
         virtual StateName buttonState() = 0;
 };
 

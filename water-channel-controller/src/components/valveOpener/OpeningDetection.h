@@ -3,6 +3,7 @@
 
 class OpeningDetection {
     public:
+        //get the value of the opening to set
         virtual int getOpeningToSet() = 0;
 };
 

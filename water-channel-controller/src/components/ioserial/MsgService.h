@@ -1,3 +1,9 @@
+/*
+*
+*  Class taken from the code provided by the teacher
+*
+*/
+
 #ifndef __MSGSERVICE__
 #define __MSGSERVICE__
 

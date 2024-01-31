@@ -7,7 +7,10 @@
 
 class Lcd {
     public:
+        //update the lcd with the new state
         virtual void updateState(StateName newState) = 0;
+
+        //update the lcd with the new value of the valve
         virtual void updateActValv(int newValvOp) = 0;
 };
 

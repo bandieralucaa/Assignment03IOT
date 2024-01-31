@@ -5,6 +5,7 @@
 
 class Potentiometer {
     public:
+        //get the value of the potentiometer
         virtual int getValue() = 0;
 };
 

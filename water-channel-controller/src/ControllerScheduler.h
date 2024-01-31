@@ -21,10 +21,17 @@
 class ControllerScheduler {
     public:
         ControllerScheduler();
+
+        //init the ControllerScheduler
         void init(unsigned long basePeriod);
+
+        //execute the ControllerScheduler
         void execute();
 
+        //get the current state
         StateName getActState();
+
+        //set the new state
         void setNewState(StateName newState);
         
     private:

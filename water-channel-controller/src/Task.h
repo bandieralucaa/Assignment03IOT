@@ -7,18 +7,25 @@
 
 class Task {
     public:
+
+        //init the task
         virtual void init();
+
+        //set the tick of the task
         virtual void tick();
 
+        //start the task
         void start(){
             this->isRunning = true;
         }
 
+        //stop the task
         void stop(){
             this->isRunning = false;
             this->millis = 0;
         }
 
+        //update the elapsed time from last execution and check if a new execution of this thread must occur
         bool updateAndCheckTime(int millis){
             bool res = false;
             // if (!this->isRunning){
@@ -32,6 +39,7 @@ class Task {
             return res;
         };
 
+        //set the Observer
         void setObs(ControllerSchedulerObserver* obs){
             this->obs = obs;
         }

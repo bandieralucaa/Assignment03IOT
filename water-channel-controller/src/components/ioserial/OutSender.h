@@ -6,6 +6,7 @@
 
 class OutSender {
     public:
+        //send the value of the valve to be set
         virtual void sendActValveOpen(int value) = 0;
 };
 

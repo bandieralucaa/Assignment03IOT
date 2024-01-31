@@ -10,6 +10,8 @@
 class StateButtonInterupt : public Button {
     public:
         StateButtonInterupt(int pin, ControllerSchedulerObserver* obs);
+
+        // Return the current state of the button
         StateName buttonState();
 
     private:
