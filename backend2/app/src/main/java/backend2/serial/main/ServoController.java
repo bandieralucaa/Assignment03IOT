@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class ServoController {
 
-    private final boolean SERIAL_D = false;
+    private final boolean SERIAL_D = true;
 
     private CommChannel commChannel;
     private final ControllerObs obs;

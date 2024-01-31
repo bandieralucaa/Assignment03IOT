@@ -23,7 +23,16 @@ const sendNewValveOp = document.getElementById("sendNewValveOp");
 
 const valueWillSet = document.getElementById("valueWillSet");
 
-let suggestedFreq = 1000;
+const sliderNewFreqReload = document.getElementById("sliderNewFreqReload");
+
+const freqReloadWillSet = document.getElementById("freqReloadWillSet");
+
+const suggestedFrequence = document.getElementById("suggestedFrequence");
+
+const autoChangeRefresh = document.getElementById("autoChangeRefresh");
+
+
+let actFreq = 1000;
 
 sendNewValveOp.addEventListener("click", () => {
     let array = {"percentage" : parseInt(sliderNewValveOp.value), "time" : (new Date()).getTime()};
@@ -70,17 +79,59 @@ sliderNewValveOp.addEventListener("change", () => {
 // })
 
 
+const warningMessage = document.getElementById("warningMessage");
+
+sliderNewFreqReload.addEventListener("input", () => {
+    actFreq = sliderNewFreqReload.value;
+    freqReloadWillSet.value = sliderNewFreqReload.value;
+    warningMessage.innerHTML = "Frequence " + actFreq + " setted";
+
+})
+
+freqReloadWillSet.addEventListener("change", () => {
+    let tmp = freqReloadWillSet.value;
+    if(Number.isInteger(parseInt(tmp))){
+        let parsed = parseInt(tmp);
+        warningMessage.innerHTML = "Frequence " + parsed + " setted";
+        if (parsed > 10000){
+            warningMessage.innerHTML = "Frequence is too slow, 10sec setted";
+            parsed = 10000;
+        } else if (parsed < 1000){
+            warningMessage.innerHTML = "Frequence is too high, 1sec setted";
+            parsed = 1000;
+        }
+        sliderNewFreqReload.value = parsed;
+        actFreq = parsed;
+
+    } else {
+        warningMessage.innerHTML = "Please insert an integer value between 1000 and 10000";
+    }
+})
 
 
 setInterval(() => {
-
     getState();
     getAmountValveOp();
     getValveTypeConfig();
+}, 500);
 
-    initPlot();
 
-}, suggestedFreq);
+function coreRecFunction(){
+    setTimeout(() => {
+
+        
+        initPlot();
+
+        coreRecFunction();
+    }, actFreq);
+}
+
+coreRecFunction();
+// setInterval(() => {
+
+    
+
+// }, );
 
 
 function getState(){
@@ -93,7 +144,15 @@ function getState(){
             let res = JSON.parse(xhr.responseText);
             // console.log(res);
             stateDamState.innerHTML = res.state;
-            suggestedFreq = res.freq;
+            suggestedFrequence.innerHTML = res.freq;
+
+            if (autoChangeRefresh.checked){
+                freqReloadWillSet.value = res.freq;
+                actFreq.value = res.freq;
+
+            }
+            // suggestedFreq = res.freq;
+            
         }
     };
 
@@ -181,6 +240,8 @@ function initPlot(){
 
 
 
+
+
 function plotSamples(doubleArr){
     if (false) { //!canPlot.checked){
         return;
@@ -191,12 +252,12 @@ function plotSamples(doubleArr){
 
 
     // let minVX = x1[0];
-    var dataPoints = [];
+    let dataPoints = [];
     // if (PLOT_D){
     //     console.log("DELTA: " + (x[x1.length] - minVX));
     // }
 
-    for (var i = 0; i < doubleArr.length; i++) {
+    for (let i = 0; i < doubleArr.length; i++) {
         dataPoints.push({
             x: new Date(doubleArr[i].x),//byIntTimeToDate(x1[i]),
             y: doubleArr[i].y
@@ -204,7 +265,7 @@ function plotSamples(doubleArr){
     }
     // console.log(dataPoints);
 
-    var chart = new CanvasJS.Chart("chartContainer", {
+    let chart = new CanvasJS.Chart("chartContainer", {
         title:{
             text: "Last samples"
         },
@@ -222,7 +283,55 @@ function plotSamples(doubleArr){
         axisY: {
             title: "Water level",
             minimum: 0,
-            maximum: 0.8,
+            maximum: 0.6,
+            interval: 0.15,
+            stripLines:[
+                {
+                    startValue:0.0,
+                    endValue:0.15,                
+                    color:"#6fced8",
+                    label : "L0",
+                    labelAlign: "near",
+                    labelFontColor: "#000000",
+                    opacity: .3,
+                },
+                {
+                    startValue:0.15,
+                    endValue:0.25,                
+                    color:"#00f800",
+                    label : "L1",
+                    labelAlign: "near",
+                    labelFontColor: "#000000",
+                    opacity: .3,
+                },
+                {
+                    startValue:0.25,
+                    endValue:0.35,                
+                    color:"#ff8f00",
+                    label : "L2",
+                    labelAlign: "near",
+                    labelFontColor: "#000000",
+                    opacity: .3,
+                },
+                {
+                    startValue:0.35,
+                    endValue:0.45,                
+                    color:"#ff0000",
+                    label : "L3",
+                    labelAlign: "near",
+                    labelFontColor: "#000000",
+                    opacity: .3,
+                },
+                {
+                    startValue:0.45,
+                    endValue:0.6,                
+                    color:"#ff0000",
+                    label : "L4",
+                    labelAlign: "near",
+                    labelFontColor: "#000000",
+                    opacity: .5,
+                }
+                ]
         },
     data: [{
         type: "line",

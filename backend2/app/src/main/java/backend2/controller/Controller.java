@@ -18,7 +18,7 @@ import io.vertx.mqtt.MqttServer;
 
 public class Controller implements ControllerObs {
 
-    private final static boolean CONTROLLER_D = false;
+    private final static boolean CONTROLLER_D = true;
 
     /**
      * Server constanst: system depend on them

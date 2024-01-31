@@ -24,9 +24,19 @@
     <!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
     <div id="chartContainer" style="height: 360px; width: 100%;"></div>
 
+    <label for="sliderNewFreqReload">Frequence reload (between 1 and 10 seconds):</label>
+        <input type="range" id="sliderNewFreqReload" name="sliderNewFreqReload" min="1000" max="10000" step="100">
+        <input type="text" id="freqReloadWillSet" name="sliderNewValveOp"></span> ms
+        <p id="warningMessage"></p>
+        <p>Suggested frequence: <span id="suggestedFrequence"> 1000 </span></p>
+        <label for="autoChangeRefresh">Set automatically to suggested freq</label>
+        <input type="checkbox" id="autoChangeRefresh" name="autoChangeRefresh">
+        <!-- <button type="button" id="sendNewValveOp"> Send </button> -->
+
 
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script src="animation2.js"></script>
+    
     
     
 </body>

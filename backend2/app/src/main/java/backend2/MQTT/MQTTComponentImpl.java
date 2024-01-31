@@ -35,16 +35,20 @@ public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent
 	public void start() {
 		this.myClient.connect(1883, BROKER_ADDRESS, c -> {
 
-			log("connected");
+			log("connecting...");
+			if (this.myClient.isConnected()){
+				log("connected");
 			
-			log("subscribing...");
-			this.myClient.publishHandler(s -> {
-				// System.out.println("There are new message in topic: " + s.topicName());
-				// System.out.println("Content(as string) of the message: " + s.payload().toString());
-				// System.out.println("QoS: " + s.qosLevel());
-				this.obs.setSample(Double.parseDouble(s.payload().toString()));
-			})
-			.subscribe(TOPIC_SUB, 2);	
+				log("subscribing...");
+				this.myClient.publishHandler(s -> {
+					// System.out.println("There are new message in topic: " + s.topicName());
+					// System.out.println("Content(as string) of the message: " + s.payload().toString());
+					// System.out.println("QoS: " + s.qosLevel());
+					this.obs.setSample(Double.parseDouble(s.payload().toString()));
+				})
+				.subscribe(TOPIC_SUB, 2);	
+			}
+			
 		});
 	}
 
