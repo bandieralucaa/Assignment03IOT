@@ -9,7 +9,8 @@ import java.util.Arrays;
 
 public class ServoController {
 
-    private final boolean SERIAL_D = true;
+    private final boolean SERIAL_D = false;
+    private final static boolean SHOW = false;
 
     private CommChannel commChannel;
     private final ControllerObs obs;
@@ -20,7 +21,6 @@ public class ServoController {
     }
 
     public void moveServo(int degrees) {
-        //System.out.println("OOOOOKKKKKKKK");
         String command = "_v:" + degrees;
         if (SERIAL_D) {
             log("MANDO nuova apertura valvola : " + degrees);
@@ -36,21 +36,26 @@ public class ServoController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            log("--> " + tmp + "<---");
+            if (SERIAL_D){
+                log("--> " + tmp + "<---");
+            }
+            
             Arrays.stream(tmp.split("_"))
                 .parallel()
-                .peek(s -> System.out.println("-> " + s))
+                .peek(s -> {
+                    if (SERIAL_D) {
+                        System.out.println("-> " + s);
+                    }
+                })
                 .filter(s -> !s.isEmpty())
                 .forEach(s -> {
                     String[] pairKV = s.split(":");
 
-                    // if(SERIAL_D){
-                    //     log("RICEVUTO Comando: " + pairKV[0].charAt(0) + " valore : " + pairKV[1]);
-                    // }
-                    execCommand(pairKV[0].charAt(0), pairKV[1]);
+                    if (pairKV.length == 2){
+                        execCommand(pairKV[0].charAt(0), pairKV[1]);
+                    }
+                    
                 });
-            //execCommand(tmp.charAt(1), tmp.split(":")[1]);
-           // System.out.println(tmp);
         }
     }
 

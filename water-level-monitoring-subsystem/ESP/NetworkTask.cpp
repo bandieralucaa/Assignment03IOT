@@ -30,7 +30,7 @@ void NetworkTask::work(void *pvParameters) {
     if (this->byTaskToController->isBoardConnected()) {
       if(!isPrevConn){
         #ifdef NETTASK_DEBUG
-        Serial.print("Connessione presente, accendo led verde!");
+        Serial.println("Connessione presente, accendo led verde!");
         #endif
         turnOnOff(this->lOk, this->lErr); 
         isPrevConn = !isPrevConn;

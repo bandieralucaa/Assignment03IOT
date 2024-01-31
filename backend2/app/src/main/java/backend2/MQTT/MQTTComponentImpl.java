@@ -12,6 +12,7 @@ import backend2.controller.ControllerObs;
 public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent   {
 
 	public final boolean MQTT_D = true;
+	private final static boolean SHOW = false;
 
     private ControllerObs obs;
     private MqttClient myClient;

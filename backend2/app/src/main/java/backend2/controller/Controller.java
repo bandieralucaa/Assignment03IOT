@@ -11,14 +11,12 @@ import backend2.MQTT.MQTTComponent;
 import backend2.MQTT.MQTTComponentImpl;
 import backend2.serial.main.ServoController;
 import io.vertx.core.Vertx;
-import io.vertx.mqtt.MqttServer;
-
-
 
 
 public class Controller implements ControllerObs {
 
-    private final static boolean CONTROLLER_D = true;
+    private final static boolean CONTROLLER_D = false;
+    private final static boolean SHOW = false;
 
     /**
      * Server constanst: system depend on them
@@ -36,8 +34,8 @@ public class Controller implements ControllerObs {
      * Little useful enum to storage Dam and Valve state
      */
     private DamState actDamState;
-    private ValveType valveConfig = ValveType.AUTOMATIC;
-    private int actLev = -1; //1 -> to
+    private ValveType valveConfig = ValveType.UNKNOW;
+    private int actLev = -1;
 
     /**
      * Obj rappresentation of other part of system
@@ -126,11 +124,14 @@ public class Controller implements ControllerObs {
     }
 
     private void applyPolicy() {
+        if (actLev < 0 || actLev > DD.size()){
+            return;
+        }
         int freqToSet = getActFreqToConsider(actLev);
         actDamState = DamState.values()[actLev];
         http.sendDamState(actDamState.byDSToString(), freqToSet);
 
-        if (CONTROLLER_D){
+        if (CONTROLLER_D) {
             log("POLICY REFRESH: act state -> " + actDamState.byDSToString());
             log("POLICY REFRESH: setted " + freqToSet + " now");
         }
@@ -145,15 +146,13 @@ public class Controller implements ControllerObs {
         
     }
 
-    //private int lastSendedValveOp = -1;
     @Override
     public void setNewValveOpMan(RemoteValveSetting newPerc) {
         int tmp = newPerc.getPercentage();
-    //    if (tmp != lastSendedValveOp){
-            System.out.println("Setto la valvola a: " + tmp);
-            this.servoController.moveServo(tmp);
-    //        lastSendedValveOp = tmp;
-    //    }
+        if (CONTROLLER_D) {
+            log("Set valve to: " + tmp + "%");
+        }
+        this.servoController.moveServo(tmp);
     }
 
 
@@ -168,12 +167,12 @@ public class Controller implements ControllerObs {
         this.valveConfig = newType;
         http.pushNewState(newType.getStringRapp());
         if (newType == ValveType.AUTOMATIC ) {
-            applyPolicy(); //se da manuale passa a automatico deve ripristinare il valore previsto da policy
+            applyPolicy();
         }
     }
 
     private void log(String toLog){
-        System.out.println(toLog);
+        System.out.println("[C] " + toLog);
     }
 
     

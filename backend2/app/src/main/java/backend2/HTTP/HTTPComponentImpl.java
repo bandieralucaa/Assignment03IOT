@@ -19,6 +19,7 @@ import io.vertx.ext.web.handler.CorsHandler;
 public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent  {
 
     private final static boolean HTTP_D = true;
+    private final static boolean SHOW = false;
 
 	private int port;
 	private static final int MAX_SIZE = 100;
@@ -77,47 +78,40 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 	
 	}
 
+    private void sendToClient(RoutingContext routingContext, String body){
+        routingContext.response()
+			.putHeader("content-type", "application/json")
+			.end(body);
+    }
+
     private void getSamples(RoutingContext routingContext) {
         final JsonArray arr = new JsonArray();
-        // values.stream().map(s -> {
-        //     JsonObject data = new JsonObject();
-		// 	data.put("x", s.getMyTime());
-		// 	data.put("y", s.getSample());
-        // }).forEach(j -> arr.add(data));
-		for (Sample p: values) {
-			JsonObject data = new JsonObject();
-			data.put("x", p.getMyTime());
-			data.put("y", p.getSample());
-			arr.add(data);
-		}
-		routingContext.response()
-			.putHeader("content-type", "application/json")
-			.end(arr.encodePrettily());
+        values.forEach(s -> {
+            JsonObject data = new JsonObject();
+			data.put("x", s.getMyTime());
+			data.put("y", s.getSample());
+            arr.add(data);
+        });
+		sendToClient(routingContext, arr.encodePrettily());
     }
 
     private void getDamState(RoutingContext routingContext) {
         JsonObject data = new JsonObject();
         data.put("state", stateStringToSend);
         data.put("freq", suggestedActFreq);
-        routingContext.response()
-			.putHeader("content-type", "application/json")
-			.end(data.encodePrettily());
+        sendToClient(routingContext, data.encodePrettily());
     }
 
     private void getActValveOp(RoutingContext routingContext) {
         JsonObject data = new JsonObject();
         data.put("percentage", this.actValveOp);
-        routingContext.response()
-			.putHeader("content-type", "application/json")
-			.end(data.encodePrettily());
+        sendToClient(routingContext, data.encodePrettily());
     }
 
     private void getValveTypeConfig(RoutingContext routingContext) {
         JsonObject data = new JsonObject();
         data.put("valveState", this.actValveTypeConfig);
-        routingContext.response()
-			.putHeader("content-type", "application/json")
-			.end(data.encodePrettily());
+        sendToClient(routingContext, data.encodePrettily());
     }
 
     
@@ -132,7 +126,6 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 
 		if (res == null) {
             response.setStatusCode(400).end();
-			//sendError(400, response);
 		} else {
 			int newValveOp = res.getInteger("percentage");
             long time = res.getLong("time");
@@ -148,17 +141,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 			response.setStatusCode(200).end();
 		}
 
-        
     }
-	
-
-
-
-
-
-
-
-
 
 
     @Override
@@ -168,6 +151,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
             values.removeLast();
         }
     }
+
 
     @Override
     public void sendDamState(String newDamState, int newSuggestFreq) {
@@ -187,11 +171,8 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 
 
     private void log(String msg) {
-		System.out.println("[HTTP SERVICE] "+msg);
+		System.out.println("[HTTP SERVICE] " + msg);
 	}
-
-
-
     
     
 }

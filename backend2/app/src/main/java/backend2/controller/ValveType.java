@@ -8,8 +8,8 @@ public enum ValveType {
 
     private String byVTtoString;
 
-    private ValveType(String a){
-        this.byVTtoString = a;
+    private ValveType(String stringVal){
+        this.byVTtoString = stringVal;
     }
 
     public String getStringRapp() {
