@@ -5,7 +5,7 @@ void callback(char* topic, byte* payload, unsigned int length); //definita in fo
 //https://github.com/arduino-libraries/WiFi/blob/master/src/WiFi.h
 
 const char* ssid = "qs2d4";   // name of your WiFi network
-const char* password = "12345678"; // password of the WiFi network
+const char* password = "12345678"; // password of the WiFi network aaaaaaaaaaa
 
 
 const char *ID = "RiverMonitor";  // Name of our device, must be unique
@@ -23,6 +23,9 @@ ControllerObserver* observer;
 
 // Connect to WiFi network
 void setup_wifi() {
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW A");
+    #endif
   #ifdef NET_DEB
   Serial.print("\nConnecting to ");
   Serial.println(ssid);
@@ -45,9 +48,11 @@ void setup_wifi() {
   #endif
 }
 
-bool isFirstTime = true;
 // Reconnect to client MQTT
 void reconnectToMQTT() {
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW B");
+    #endif
   while (!client.connected()) { // Loop until we're reconnected
     
     #ifdef NET_DEB
@@ -56,11 +61,7 @@ void reconnectToMQTT() {
 
     // Attempt to connect
     if(client.connect(ID)) {
-      if(isFirstTime){
-        client.subscribe(FREQ_TOPIC); //con questo ricevo i messaggi dalla console
-        isFirstTime = false;
-      }
-      
+      client.subscribe(FREQ_TOPIC); //con questo ricevo i messaggi dalla console
 
       #ifdef NET_DEB
       Serial.println("connected");
@@ -81,6 +82,9 @@ void reconnectToMQTT() {
 
 
 NView::NView() {
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW C");
+    #endif
   //setup_wifi(); // Connect to network
   client.setServer(broker, 1883); //8883 per una connessione sicura
   client.setCallback(callback);// Initialize the callback routine
@@ -93,10 +97,16 @@ NView::NView() {
 }
 
 bool NView::isConnected(){
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW D");
+    #endif
   return client.connected() && WiFi.status() == WL_CONNECTED;
 }
 
 void NView::reconnect(){
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW E");
+    #endif
   //riconnetti tutto
   setup_wifi();
   reconnectToMQTT();
@@ -104,12 +114,17 @@ void NView::reconnect(){
 
 
 void NView::sendSample(double sample) {
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW F");
+    #endif
   char c[64] = "";
-  //conversione da double a char*
-  sprintf(c, "%g",sample);
-  //manda risultato
-  // String tmp = (String)sample;
-  client.publish(SAMPLE_TOPIC,c);
+  if(this->isConnected()){
+      //conversione da double a char*
+    sprintf(c, "%g", sample);
+    //manda risultato
+    // String tmp = (String)sample;
+    client.publish(SAMPLE_TOPIC,c);
+  }
 }
 
 
@@ -121,15 +136,24 @@ void NView::sendSample(double sample) {
 
 
 void NView::keepAliveFunctions(){
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW G");
+    #endif
   client.loop();
 }
 
 
 void NView::setObserver(ControllerObserver* newObserver){
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW H");
+    #endif
   observer = newObserver;
 }
 
 void modifyFreq(String newVal){
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW I");
+    #endif
   double ok = newVal.toDouble();
   // stoi(newVal);
   observer->setFreq(ok);
@@ -138,6 +162,9 @@ void modifyFreq(String newVal){
 
 // Handle incomming messages from the broker
 void callback(char* topic, byte* payload, unsigned int length) {
+  #ifdef DEBUG_NOPANIC
+    Serial.println("VIEW J");
+    #endif
   String response;
 
   for (int i = 0; i < length; i++) {

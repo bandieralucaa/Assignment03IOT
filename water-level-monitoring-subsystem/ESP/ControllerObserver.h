@@ -5,12 +5,10 @@
 #include "CM.h"
 #include "config.h"
 
+//this class help to unify the two interfaces that Controller have to implement
+
 class ControllerObserver : public CV, public CM {
   public:
-    // void setMeasurement(double measure);
-    // void setConnection(NetworkState newState);
-    // void setFreq(double newFreq);
-    // virtual bool isBoardConnected() = 0;
 };
 
 #endif

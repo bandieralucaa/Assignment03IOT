@@ -3,7 +3,6 @@
 
 #include "config.h"
 #include <Arduino.h>
-//#include <FreeRTOS.h>
 
 #include "ControllerObserver.h"
 
@@ -13,24 +12,28 @@
 
 #include "MeasurementTask.h"
 #include "NetworkTask.h"
-//#include "NetworkTask.h"
+
 
 #include <Arduino.h>
 
 class Controller : public ControllerObserver {
   public:
     Controller();
+    /** see CM  */
     void setMeasurement(double measure);
     void setConnection(NetworkState newState);
-    void setFreq(double newFreq);
     bool isBoardConnected();
+    void reconnectBoard();
+    /** see CV */
+    void setFreq(double newFreq);
 
+    /** method that inherit "setup" and "loop" of .ino class */
     void init();
     void tick();
   
   private:
-
-    void resumeConnection();
+    // /* manage the request of reconnection started by a task */
+    // void resumeConnection();
 
     double actMeasure;
     NetworkState actNS;
@@ -43,8 +46,6 @@ class Controller : public ControllerObserver {
     Led* errLed;
     Sonar* sonar;
 
-    
-    //NetworkTask* tasknet;
 };
 
 static MeasurementTask* taskmes;

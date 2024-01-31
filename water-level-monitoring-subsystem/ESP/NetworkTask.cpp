@@ -2,20 +2,29 @@
 #include "NetworkTask.h"
 
 NetworkTask::NetworkTask(Light* l1, Light* l2) {
+  #ifdef DEBUG_NOPANIC
+    Serial.println("NETWORKTASK");
+    #endif
   this->lOk = l1;
   this->lErr = l2;
 }
 
 void turnOnOff(Light* l1, Light* l2){
+  #ifdef DEBUG_NOPANIC
+    Serial.println("NETWORKTASK");
+    #endif
   l1->switchOn();
   l2->switchOff();
 }
   
 void NetworkTask::work(void *pvParameters) {
+  #ifdef DEBUG_NOPANIC
+    Serial.println("NETWORKTASK");
+    #endif
   this->setController( ( (ControllerObserver*) (pvParameters) ) );
 
   bool isPrevConn = false;
-  
+  turnOnOff(this->lErr, this->lOk); 
   while (true) {
 
     if (this->byTaskToController->isBoardConnected()) {
@@ -31,11 +40,12 @@ void NetworkTask::work(void *pvParameters) {
     } else {
       if(isPrevConn){
         #ifdef NETTASK_DEBUG
-        Serial.print("Connessione assente, accendo led rosso!");
+        Serial.println("Connessione assente, accendo led rosso!");
         #endif
         turnOnOff(this->lErr, this->lOk); 
         isPrevConn = !isPrevConn;
         this->byTaskToController->setConnection(NOCONN);
+        this->byTaskToController->reconnectBoard();
       }
 
     }

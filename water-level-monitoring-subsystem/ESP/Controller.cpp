@@ -1,21 +1,15 @@
 #include "Controller.h"
 
-#define TOLLERANCE_PAIR 10000 //dopo 10 secondi riprovo la procedura da capo
-
-bool startReconection = true;
-
-
 Controller::Controller(){
+  #ifdef DEBUG_NOPANIC
+  Serial.println("CONTROLLER A");
+  #endif
   this->okLed = new Led(LED_O);
   this->errLed = new Led(LED_W);
   this->sonar = new Sonar(TRIG_P, ECHO_P);
 
   this->view = new NView();
   
-  #ifdef MYDEBUG
-  Serial.println("UFFA");
-  #endif
-  //void setObserver(CV* newObserver);
 }
 
 
@@ -23,109 +17,100 @@ Controller::Controller(){
 
 
 void Controller::setMeasurement(double measure){
+  #ifdef DEBUG_NOPANIC
+  Serial.println("CONTROLLER B");
+  #endif
   this->actMeasure = measure;
-  // this->view->setObserver(this);
 }
 
 void Controller::setConnection(NetworkState newState){
+  #ifdef DEBUG_NOPANIC
+  Serial.println("CONTROLLE R C");
+  #endif
+
   this->actNS = newState;
   if(newState == CONN) {
     taskmes->start();
-    startReconection = true;
+  } else {
+    taskmes->pause();
   }
 }
 
 bool Controller::isBoardConnected(){
+  #ifdef DEBUG_NOPANIC
+    Serial.println("CONTROLLER D");
+    #endif
   return this->view->isConnected();
 }
 
 void Controller::setFreq(double newFreq){
+  #ifdef DEBUG_NOPANIC
+  Serial.println("CONTROLLER E");
+  #endif
   this->actFreq = newFreq;
 
   #ifdef MYDEGUB
   Serial.print("Frequence received from MQTT: ");
   Serial.println(newFreq);
   #endif
-  ///MODIFICA EVENTUALMENTE LA FREQUENZA DEL TASK
   taskmes->setNewFreq((unsigned long) newFreq);
-  taskmes->start();
 }
 
 
 void handlerT1(void* vv){
+  #ifdef DEBUG_NOPANIC
+  Serial.println("CONTROLLER F");
+  #endif
   taskmes->work(vv);
 }
 
 void handlerT2(void* vv){
+  #ifdef DEBUG_NOPANIC
+  Serial.println("CONTROLLER G");
+  #endif
   tasknet->work(vv);
 }
 
+
 unsigned long lastTime;
 void Controller::init(){
+  #ifdef DEBUG_NOPANIC
+  Serial.println("CONTROLLER H");
+  #endif
   int tmpSize = 4096; //(configMINIMAL_STACK_SIZE * 3)
   this->view->setObserver(this);
 
   xTaskHandle tmp;
-
   taskmes = new MeasurementTask(this->sonar);
-  
   xTaskCreate(&handlerT1, "Measure Task", tmpSize , ((void*)(this)), tskIDLE_PRIORITY + 1, &tmp);
   taskmes->saveTaskHandler(&tmp);
 
-  xTaskHandle tmp1; //logica a puntatori evidentemente non funziona
-
-
-
+  xTaskHandle tmp1;
   tasknet = new NetworkTask(this->okLed, this->errLed);
-
   xTaskCreate(&handlerT2, "Network Task", tmpSize , ((void*)(this)), tskIDLE_PRIORITY + 2, &tmp1);
   taskmes->saveTaskHandler(&tmp);
 
-  // this->taskmes = new MeasurementTask(this->sonar);
-  // xTaskHandle myHandle2;
-  // xTaskCreate(&blinkTask, "Blink Task", configMINIMAL_STACK_SIZE, ((void*)(myPay)), tskIDLE_PRIORITY + 2, &handle);
-
-  //CREAZIONE e smazzamento DEI TASK
   lastTime = millis();
 }
 
 
-void handlerRecCon(void* vv) {
-  NView* n = ((NView*) vv);
-  n->reconnect();
-}
-
-void Controller::resumeConnection(){
-  int tmpSize = 4096; //(configMINIMAL_STACK_SIZE * 3)
-  xTaskCreate(&handlerRecCon, "Resume Connection", tmpSize, ((void*)(this->view)), tskIDLE_PRIORITY + 1, NULL);
-  vTaskDelete(NULL);
-}
-
-
-
 void Controller::tick(){
+  #ifdef DEBUG_NOPANIC
+  Serial.println("CONTROLLER K");
+  #endif
+  this->view->keepAliveFunctions();
+  
   if(this->view->isConnected()){
-    this->view->keepAliveFunctions();
-
-    if( millis() > (((int) this->actFreq) + lastTime)){
+    if( (millis() > (((int) this->actFreq) + lastTime))){
       this->view->sendSample(this->actMeasure);
       lastTime = millis();
     }
-
-  } else {
-    if(startReconection){
-      taskmes->pause();
-      this->resumeConnection();
-      startReconection = false;
-    }
-
-    if( millis() > ((TOLLERANCE_PAIR) + lastTime)) { //nel caso la rete si sia ripersa
-      this->resumeConnection();
-      lastTime = millis();
-    }
-    
   }
   
 }
 
+
+void Controller::reconnectBoard(){
+  this->view->reconnect();
+}
 
