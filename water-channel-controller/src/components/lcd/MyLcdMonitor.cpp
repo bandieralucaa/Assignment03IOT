@@ -11,8 +11,8 @@
 #define DEFAULT_VALV "VALVE OP.: "
 #define AMOUNT_INFO 2
 
-int indexMapper[AMOUNT_ROWS] = {0, (AMOUNT_ROWS/2)}; //la i-esima informazione alla i-esima riga dello schermo LCD
-int sizeMapper[AMOUNT_INFO] = {7, 11}; //inizio a stampare dalla j-esima colonna della i-esima riga della i-esima informazione
+int indexMapper[AMOUNT_ROWS] = {0, (AMOUNT_ROWS/2)}; //the i-th information at the i-th row of the LCD screen
+int sizeMapper[AMOUNT_INFO] = {7, 11}; //start printing from the j-th column of the i-th row of the i-th information
 
 MyLcdMonitor::MyLcdMonitor() {
     this->lcd.begin(AMOUNT_COLS, AMOUNT_ROWS);
@@ -58,7 +58,7 @@ void MyLcdMonitor::printOnLcd(int who) {
             break;
         
         case 1:
-            int ok = this->actValvOp; // map(tmp, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO, 0, 100);//((int) ( (((tmp)*(1.0))/((MAX_ANGLE_SERVO)*(1.0))) * (100.0) ));
+            int ok = this->actValvOp; 
             this->lcd.print(ok);
             this->lcd.print("%");
             for(int i = ((int)(floor(log10(this->actValvOp * 1.0)))); i < 2 ; i++) {

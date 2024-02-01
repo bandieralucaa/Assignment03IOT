@@ -22,11 +22,8 @@ void ValveOpeningManagement::init() {
     
 }
 
-//newVal è nell'intervallo 1020
+//newVal is in the interval 1020
 void ValveOpeningManagement::setValveOpBySerial(int newVal) {
-    // this->lastParsedValue = map(newVal, 0, 100, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO);
-    // //this->lastParsedValue = newVal;
-    // this->lastParsedValue = map(newVal, 0, 1024, 0, 180);
     this->lastParsedValue = newVal;
     this->isSerialLastInfo = true;
 }

@@ -49,9 +49,6 @@ void serialEvent() {
 
   /* reading the content */
   while (Serial.available()) {
-    // #ifdef DEBUG_IOMAN_WITHOUT_CONSOLE
-    // Serial.println("_t:" + (String)Serial.available());
-    // #endif
     char ch = (char) Serial.read();
     if (ch == '\n'){
       MsgService.currentMsg = new Msg(content);
