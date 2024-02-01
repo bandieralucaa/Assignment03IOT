@@ -91,7 +91,6 @@ StateName ControllerScheduler::getActState(){
 }
 
 
-
 void ControllerScheduler::setNewState(StateName newState) {
     if(lastState == newState) {
         return;

@@ -3,8 +3,7 @@
 StateName actState = AUTOMATIC_STATE;
 ControllerSchedulerObserver* myObs;
 
-unsigned long lastPressed = millis();
-unsigned long debouncingTime = 200;
+
 
 void pressedButton() {
     unsigned long tmp = millis();
