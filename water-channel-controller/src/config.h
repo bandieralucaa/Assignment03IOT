@@ -17,6 +17,8 @@ enum StateName {
 #define LCD_AUTO_STRING "AUTOMATIC"
 #define LCD_MANUAL_STRING "MANUAL"
 
+#define BTN_DEBOUNCING_TIME 200
+
 
 /* ### WIRING CONFIGS ### */
 
