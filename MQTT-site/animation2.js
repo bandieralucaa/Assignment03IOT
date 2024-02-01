@@ -1,3 +1,4 @@
+const DEBUG = false;
 const URLQ = "http://localhost:8080/";
 
 //////////////////////////////////////////////////////////////
@@ -23,13 +24,15 @@ const suggestedFrequence = document.getElementById("suggestedFrequence");
 
 const autoChangeRefresh = document.getElementById("autoChangeRefresh");
 
-
 let actFreq = 1000;
 
+//send new valve opening to server
 sendNewValveOp.addEventListener("click", () => {
     let array = {"percentage" : parseInt(sliderNewValveOp.value), "time" : (new Date()).getTime()};
-    console.log(array);
-    console.log(JSON.stringify(array));
+    if(DEBUG) {
+        console.log(array);
+        console.log(JSON.stringify(array));
+    }
     formData = JSON.stringify(array);
 
     let xhr = new XMLHttpRequest();
@@ -37,52 +40,36 @@ sendNewValveOp.addEventListener("click", () => {
     let ok = URLQ + "river/valveop";
     xhr.open('POST', ok);
 
-    // xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // linea aggiunta per settare l' "X-Requested-With header" che indica che questa è una richiesta AJAX.
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    //xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
     xhr.setRequestHeader('Access-Control-Allow-Origin', 'GET POST');
-    //console.log("A " + xhr.getAllResponseHeaders());
     xhr.send(formData);
 })
 
+//update the label of this input
 sliderNewValveOp.addEventListener("input", () => {
     valueWillSet.innerHTML = sliderNewValveOp.value;
 })
 
-sliderNewValveOp.addEventListener("change", () => {
-    valueWillSet.innerHTML = sliderNewValveOp.value;
-})
-
-// document.getElementById("but").addEventListener("click", () => {
-//     let t = freqInput.value;
-//     if (MQTT_D) {
-//         console.log(t);
-//     }
-//     let newF = parseInt(t);
-    
-//     if(Number.isInteger(newF)){
-//         if (MQTT_D) {
-//             console.log("SENDING " + newF);
-//         }
-//         client.publish(publish_topic, freqInput.value);
-//     }
-    
-//     // console.log("ciao");
+// //update the label of this input
+// sliderNewValveOp.addEventListener("change", () => {
+//     valueWillSet.innerHTML = sliderNewValveOp.value;
 // })
 
 
+//FEATURE: management of frequence of plot update 
 const warningMessage = document.getElementById("warningMessage");
+
 
 sliderNewFreqReload.addEventListener("input", () => {
     actFreq = sliderNewFreqReload.value;
     freqReloadWillSet.value = sliderNewFreqReload.value;
     warningMessage.innerHTML = "Frequence " + actFreq + " setted";
-
 })
+
 
 freqReloadWillSet.addEventListener("change", () => {
     let tmp = freqReloadWillSet.value;
-    if(Number.isInteger(parseInt(tmp))){
+    if(Number.isInteger(parseInt(tmp)) && !isNaN(tmp)){
         let parsed = parseInt(tmp);
         warningMessage.innerHTML = "Frequence " + parsed + " setted";
         if (parsed > 10000){
@@ -105,13 +92,11 @@ setInterval(() => {
     getState();
     getAmountValveOp();
     getValveTypeConfig();
-}, 500);
+}, 1000);
 
 
 function coreRecFunction(){
     setTimeout(() => {
-
-        
         initPlot();
 
         coreRecFunction();
@@ -119,13 +104,9 @@ function coreRecFunction(){
 }
 
 coreRecFunction();
-// setInterval(() => {
-
-    
-
-// }, );
 
 
+//AJAX request to get dam state and update it on HTML page
 function getState(){
     let xhr = new XMLHttpRequest();
     
@@ -134,17 +115,15 @@ function getState(){
         if (xhr.readyState === 4 && xhr.status === 200) {
 
             let res = JSON.parse(xhr.responseText);
-            // console.log(res);
+            
             stateDamState.innerHTML = res.state;
             suggestedFrequence.innerHTML = res.freq;
 
             if (autoChangeRefresh.checked){
                 freqReloadWillSet.value = res.freq;
-                actFreq.value = res.freq;
-
+                sliderNewFreqReload.value = res.freq;
+                actFreq = res.freq;
             }
-            // suggestedFreq = res.freq;
-            
         }
     };
 
@@ -155,16 +134,20 @@ function getState(){
     xhr.send();
 }
 
+//let user modify reload frequence if automatic change not flag
+autoChangeRefresh.addEventListener("change", () => {
+        freqReloadWillSet.disabled = autoChangeRefresh.checked;
+        sliderNewFreqReload.value = autoChangeRefresh.checked;
+})
 
+//AJAX request to get valve opening and update it on HTML page
 function getAmountValveOp(){
     let xhr = new XMLHttpRequest();
     
     let ok = URLQ + "river/valveop";
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
-
             let res = JSON.parse(xhr.responseText);
-            // console.log(res);
             actValveOp.innerHTML = res.percentage;
         }
     };
@@ -176,16 +159,14 @@ function getAmountValveOp(){
     xhr.send();
 }
 
-
+//AJAX request to get valve config type (aka "its state") and update it on HTML page
 function getValveTypeConfig(){
     let xhr = new XMLHttpRequest();
     
     let ok = URLQ + "river/valvetype";
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
-
             let res = JSON.parse(xhr.responseText);
-            // console.log(res);
             valveType.innerHTML = res.valveState;
             sendNewValveOp.disabled = (res.valveState == "Automatic");
         }
@@ -202,60 +183,33 @@ function getValveTypeConfig(){
 
 
 
-
+//AJAX request to refresh plotting
 function initPlot(){
     let xhr = new XMLHttpRequest();
     
     let ok = URLQ + "river/samples";
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
-
             let res = JSON.parse(xhr.responseText);
             plotSamples(res);
-            //console.log(res);
-            // // res.forEach(id => arrayMissMeds.push(id));
-            // arrayMissMeds = res;
-            // console.log("POST " + arrayMissMeds);
-            // this.manageResults();
         }
     };
 
     xhr.open('GET', ok, false);
-
-    // xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // linea aggiunta per settare l' "X-Requested-With header" che indica che questa è una richiesta AJAX.
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    //xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
     xhr.setRequestHeader('Access-Control-Allow-Origin', 'GET POST');
-    //console.log("A " + xhr.getAllResponseHeaders());
     xhr.send();
 }
 
-
-
-
-
 function plotSamples(doubleArr){
-    if (false) { //!canPlot.checked){
-        return;
-    }
-
-    //let x1 = obtainStoricPushX();
-    //let y1 = obtainStoricPushY();
-
-
-    // let minVX = x1[0];
     let dataPoints = [];
-    // if (PLOT_D){
-    //     console.log("DELTA: " + (x[x1.length] - minVX));
-    // }
-
+    
     for (let i = 0; i < doubleArr.length; i++) {
         dataPoints.push({
-            x: new Date(doubleArr[i].x),//byIntTimeToDate(x1[i]),
+            x: new Date(doubleArr[i].x),
             y: doubleArr[i].y
         });
     }
-    // console.log(dataPoints);
 
     let chart = new CanvasJS.Chart("chartContainer", {
         title:{
@@ -269,8 +223,7 @@ function plotSamples(doubleArr){
             week: '%H:%M:%S',
             month: '%H:%M:%S',
             year: '%H:%M:%S',
-            title: "timeline",
-            //gridThickness: 2
+            title: "Timeline",
         },
         axisY: {
             title: "Water level",
@@ -330,7 +283,6 @@ function plotSamples(doubleArr){
         dataPoints: dataPoints
     }]
     });
-
-    //chart.SetYAxisRange(0,1.5);
+    
     chart.render();
 }
