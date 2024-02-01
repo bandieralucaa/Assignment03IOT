@@ -104,9 +104,8 @@ void Controller::tick(){
   Serial.println("CONTROLLER K");
   #endif
   this->view->keepAliveFunctions();
-  
   if(this->view->isConnected()){
-    if( (millis() > (((int) this->actFreq) + this->lastTime))){
+    if( (millis() > ((this->actFreq) + this->lastTime))){
       this->view->sendSample(this->actMeasure);
       this->lastTime = millis();
     }

@@ -73,6 +73,7 @@ public class ServoControllerImpl implements ServoController{
                     int a = Integer.parseInt(value);
                     this.obs.setActValveOp(a);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 
                 break;

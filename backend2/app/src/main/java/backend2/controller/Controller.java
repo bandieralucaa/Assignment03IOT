@@ -1,5 +1,6 @@
 package backend2.controller;
 
+import java.io.Serial;
 import java.util.List;
 
 import backend2.HTTP.HTTPComponent;
@@ -44,6 +45,9 @@ public class Controller implements ControllerObs {
     private HTTPComponent http;
     private ServoController servoController;
 
+    private boolean waitACK = true;
+    private long lastACK = 0;
+
 
     public Controller() {
         http = new HTTPComponentImpl(8080, this, vertx);
@@ -70,6 +74,18 @@ public class Controller implements ControllerObs {
                 this.mqtt.reconnectIfNot();
             }
 
+            //////////////////////////////
+            // set a default freq to remote sensor if it not setter
+            if(waitACK) {
+                this.mqtt.sendNewFreq(FDanger);
+                System.out.println( "AWEEEE");
+            }
+
+            if (System.currentTimeMillis() > (lastACK + 2 * FNormal)){
+                waitACK = true;
+            }
+            //////////////////////////////
+
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -87,6 +103,9 @@ public class Controller implements ControllerObs {
         }
         http.pushNewSample(new Sample(newSample, System.currentTimeMillis()));
         startDamPolicy(newSample);
+        waitACK = false;
+        lastACK = System.currentTimeMillis();
+        
     }
 
     
