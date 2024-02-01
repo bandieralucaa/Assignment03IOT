@@ -4,7 +4,7 @@ const URLQ = "http://localhost:8080/";
 //////////////////////////////////////////////////////////////
 //// HTML blocks and interactions
 
-const stateDamState = document.getElementById("stateDamState");
+const riverState = document.getElementById("riverState");
 
 const actValveOp = document.getElementById("actValveOp");
 
@@ -63,7 +63,7 @@ const warningMessage = document.getElementById("warningMessage");
 sliderNewFreqReload.addEventListener("input", () => {
     actFreq = sliderNewFreqReload.value;
     freqReloadWillSet.value = sliderNewFreqReload.value;
-    warningMessage.innerHTML = "Frequence " + actFreq + " ms setted";
+    warningMessage.innerHTML = "Last frequence uploaded by user: " + sliderNewFreqReload.value + " ms";
 })
 
 
@@ -71,7 +71,7 @@ freqReloadWillSet.addEventListener("change", () => {
     let tmp = freqReloadWillSet.value;
     if(Number.isInteger(parseInt(tmp)) && !isNaN(tmp)){
         let parsed = parseInt(tmp);
-        warningMessage.innerHTML = "Frequence " + parsed + " ms setted";
+        warningMessage.innerHTML = "Last frequence uploaded by user: " + parsed + " ms";
         if (parsed > 10000){
             warningMessage.innerHTML = "Frequence is too slow, 10sec setted";
             parsed = 10000;
@@ -97,8 +97,11 @@ setInterval(() => {
 
 function coreRecFunction(){
     setTimeout(() => {
-        initPlot();
-
+        try {
+            initPlot();
+        } catch (error) {
+            
+        }
         coreRecFunction();
     }, actFreq);
 }
@@ -116,7 +119,7 @@ function getState(){
 
             let res = JSON.parse(xhr.responseText);
             
-            stateDamState.innerHTML = res.state;
+            riverState.innerHTML = res.state;
             suggestedFrequence.innerHTML = res.freq;
 
             if (autoChangeRefresh.checked){
@@ -178,9 +181,6 @@ function getValveTypeConfig(){
     xhr.setRequestHeader('Access-Control-Allow-Origin', 'GET POST');
     xhr.send();
 }
-
-
-
 
 
 //AJAX request to refresh plotting

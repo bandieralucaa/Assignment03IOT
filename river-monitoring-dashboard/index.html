@@ -4,19 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart River Monitoring</title>
-
-    <!-- <link rel="stylesheet" type="text/css" href="style.css"/> -->
-
     <link rel="icon" href="favicon.ico">
-
 </head>
 <body>
     <h1>Smart River Monitoring - Fiume Savio - Cesena</h1>
     <ul>
-        <li><p> ActState = <span id="stateDamState">Unknow</span></li>
-        <li><p> ActValveOp = <span id="actValveOp">Unknow</span>%</li>
-        <li><p> ValveTypeMode = <span id="valveType">Unknow</span> </li>
-        <li><label for="sliderNewValveOp">Valve Setter (between 0 and 100):</label>
+        <li><p> Current state of river = <span id="riverState">Unknow</span></li>
+        <li><p> Current valve opening = <span id="actValveOp">Unknow</span>%</li>
+        <li><p> Current type of valve management = <span id="valveType">Unknow</span> </li>
+        <li><label for="sliderNewValveOp">Valve opening setter (between 0 and 100 %):</label>
             <input type="range" id="sliderNewValveOp" name="sliderNewValveOp" min="0" max="100">
             <span id="valueWillSet"></span>
             <button type="button" id="sendNewValveOp"> Send </button></li>
@@ -25,11 +21,12 @@
     <!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
     <div id="chartContainer" style="height: 360px; width: 100%;"></div>
 
-    <label for="sliderNewFreqReload">Frequence reload (between 1 and 10 seconds):</label>
+    <label for="sliderNewFreqReload">Plotter reload every :</label>
+        <input type="text" id="freqReloadWillSet" name="sliderNewValveOp"> ms    
         <input type="range" id="sliderNewFreqReload" name="sliderNewFreqReload" min="1000" max="10000" step="100">
-        <input type="text" id="freqReloadWillSet" name="sliderNewValveOp"> ms
+        
         <p id="warningMessage"></p>
-        <p>Suggested frequence: <span id="suggestedFrequence"> 1000 </span></p>
+        <p>Suggested "frequence": <span id="suggestedFrequence"> 1000 </span> ms</p>
         <label for="autoChangeRefresh">Set automatically to suggested freq</label>
         <input type="checkbox" id="autoChangeRefresh" name="autoChangeRefresh">
         
