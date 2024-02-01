@@ -22,7 +22,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
     private final static boolean SHOW = false;
 
 	private int port;
-	private static final int MAX_SIZE = 100;
+	private static final int MAX_SIZE = 400;
 	private LinkedList<Sample> values;
     private final ControllerObs obs;
 
@@ -46,7 +46,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
     }
 
 	@Override
-	public void start() {		
+	public void start() {
 		Router router = Router.router(vertx);
 
         router.route().handler(CorsHandler.create("*")
@@ -61,11 +61,11 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 		
 		router.route().handler(BodyHandler.create());
 		
-		router.get("/api/data/samples").handler(this::getSamples);
-        router.get("/api/data/damstate").handler(this::getDamState);
-        router.get("/api/data/valvetype").handler(this::getValveTypeConfig);
-        router.get("/api/data/valveop").handler(this::getActValveOp);	
-		router.post("/api/data/valveop").handler(this::postValveOpening);	
+		router.get("/river/samples").handler(this::getSamples);
+        router.get("/river/damstate").handler(this::getDamState);
+        router.get("/river/valvetype").handler(this::getValveTypeConfig);
+        router.get("/river/valveop").handler(this::getActValveOp);	
+		router.post("/river/valveop").handler(this::postValveOpening);	
 
 		vertx
 			.createHttpServer()
@@ -114,7 +114,6 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
         sendToClient(routingContext, data.encodePrettily());
     }
 
-    
 
     private void postValveOpening(RoutingContext routingContext) {
         HttpServerResponse response = routingContext.response();
@@ -129,7 +128,6 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 		} else {
 			int newValveOp = res.getInteger("percentage");
             long time = res.getLong("time");
-			
 
 			if (HTTP_D) {
                 log("New value: " + newValveOp + " on " + new Date(time));
@@ -151,7 +149,6 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
             values.removeLast();
         }
     }
-
 
     @Override
     public void sendDamState(String newDamState, int newSuggestFreq) {

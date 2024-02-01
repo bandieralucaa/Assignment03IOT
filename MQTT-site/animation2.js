@@ -3,14 +3,6 @@ const URLQ = "http://localhost:8080/";
 //////////////////////////////////////////////////////////////
 //// HTML blocks and interactions
 
-// const displayActSamples = document.getElementById("displayActSamples");
-
-// // const freqInput = document.getElementById("freq");
-
-// const stateLabel = document.getElementById("stateDam");
-
-// const canPlot = document.getElementById("canPlot");
-
 const stateDamState = document.getElementById("stateDamState");
 
 const actValveOp = document.getElementById("actValveOp");
@@ -42,7 +34,7 @@ sendNewValveOp.addEventListener("click", () => {
 
     let xhr = new XMLHttpRequest();
     
-    let ok = URLQ + "api/data/valveop";
+    let ok = URLQ + "river/valveop";
     xhr.open('POST', ok);
 
     // xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // linea aggiunta per settare l' "X-Requested-With header" che indica che questa è una richiesta AJAX.
@@ -137,7 +129,7 @@ coreRecFunction();
 function getState(){
     let xhr = new XMLHttpRequest();
     
-    let ok = URLQ + "api/data/damstate";
+    let ok = URLQ + "river/damstate";
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
 
@@ -167,7 +159,7 @@ function getState(){
 function getAmountValveOp(){
     let xhr = new XMLHttpRequest();
     
-    let ok = URLQ + "api/data/valveop";
+    let ok = URLQ + "river/valveop";
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
 
@@ -188,7 +180,7 @@ function getAmountValveOp(){
 function getValveTypeConfig(){
     let xhr = new XMLHttpRequest();
     
-    let ok = URLQ + "api/data/valvetype";
+    let ok = URLQ + "river/valvetype";
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
 
@@ -214,7 +206,7 @@ function getValveTypeConfig(){
 function initPlot(){
     let xhr = new XMLHttpRequest();
     
-    let ok = URLQ + "api/data/samples";
+    let ok = URLQ + "river/samples";
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
 

@@ -13,8 +13,3 @@ void setup() {
 void loop() {
   c->execute();
 }
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}

@@ -27,7 +27,7 @@ public class Controller implements ControllerObs {
     private final static double D4 = 0.45;
     private final static List<Double> DD = List.of(D1, D2, D3, D4);
     private final static List<Integer> VALVES_OP_STATE = List.of(0, 25, 25, 50, 100);
-    private final static int FNormal = 3000;//5000;
+    private final static int FNormal = 2500;//5000;
     private final static int FDanger = 1000;//1000;
 
     /**
@@ -59,7 +59,7 @@ public class Controller implements ControllerObs {
         }
     }
 
-    public void go(){
+    public void go() {
         this.keepMeAlive();
     }
 
@@ -84,7 +84,7 @@ public class Controller implements ControllerObs {
     @Override
     public void setSample(double newSample) {
         if (CONTROLLER_D) {
-            System.out.println("Receiver new sample: " + newSample);
+            log("Receiver new sample: " + newSample);
         }
         http.pushNewSample(new Sample(newSample, System.currentTimeMillis()));
         startDamPolicy(newSample);
@@ -124,7 +124,7 @@ public class Controller implements ControllerObs {
     }
 
     private void applyPolicy() {
-        if (actLev < 0 || actLev > DD.size()){
+        if (actLev < 0 || actLev > DD.size()) {
             return;
         }
         int freqToSet = getActFreqToConsider(actLev);
@@ -141,7 +141,7 @@ public class Controller implements ControllerObs {
         log("actState = " + this.valveConfig.getStringRapp());
         if (this.valveConfig == ValveType.AUTOMATIC) {
             this.servoController.moveServo(VALVES_OP_STATE.get(actLev).intValue());
-            log("POLICY REFRESH: start moving valve to " + VALVES_OP_STATE.get(actLev).intValue() + " now");
+            log("POLICY REFRESH: start moving valve to " + VALVES_OP_STATE.get(actLev).intValue() + "% now");
         }
         
     }
