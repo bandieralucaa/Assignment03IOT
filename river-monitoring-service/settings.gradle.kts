@@ -12,5 +12,5 @@ plugins {
 }
 
 
-rootProject.name = "backend2"
+rootProject.name = "river-monitoring-service"
 include("app")
