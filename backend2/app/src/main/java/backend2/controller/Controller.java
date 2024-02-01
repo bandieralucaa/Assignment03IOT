@@ -10,6 +10,7 @@ import backend2.HTTP.Sample;
 import backend2.MQTT.MQTTComponent;
 import backend2.MQTT.MQTTComponentImpl;
 import backend2.serial.main.ServoController;
+import backend2.serial.main.ServoControllerImpl;
 import io.vertx.core.Vertx;
 
 
@@ -56,7 +57,7 @@ public class Controller implements ControllerObs {
         mqtt.startComponent();
 
         try {
-            this.servoController = new ServoController("COM4", 9600, this);
+            this.servoController = new ServoControllerImpl("COM4", 9600, this);
         } catch (Exception e) {
             e.printStackTrace();
         }
