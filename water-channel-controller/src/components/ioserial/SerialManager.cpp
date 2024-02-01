@@ -21,7 +21,7 @@ String trasdutter(char command, String value){
 
 
 
-void SerialManager::init(){
+void SerialManager::init() {
     String toSend = "";
     int tmp = this->actValvOpening;
     toSend = trasdutter('v', ((String) tmp)); 
@@ -106,14 +106,13 @@ void SerialManager::executeCommandByGui(char c, String value){
     {
         case 'v':
             int tmp = myStoi(value); //received a percentage value
-            this->vom->setValveOpBySerial(map(tmp, 0, 100, 0, MAX_POT_VALUE)); //in the 1020 scale
+            this->vom->setValveOpBySerial(map(tmp, 0, 100, 0, MAX_POT_VALUE)); //convert it into 1020 scale
             break;
     }
 }
 
 
-
-
+//serial should receive one command at a time for this method to work properly
 void SerialManager::executeCommands(String comm){
     char command = comm.charAt(1);
     String value = comm.substring(3, comm.length());

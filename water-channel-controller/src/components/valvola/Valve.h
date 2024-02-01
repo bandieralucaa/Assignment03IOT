@@ -27,6 +27,7 @@ private:
     OutSender* toSerial;
     Lcd* myLcd;
     Servo motor;
+    //this value is saved into 0-180 scale
     int currentPos;
     int settedPos;
 

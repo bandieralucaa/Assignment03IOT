@@ -32,6 +32,7 @@ void MyLcdMonitor::updateState(StateName newState){
     this->printOnLcd(0);
 }
 
+//newValOp is in 0-1023 scale
 void MyLcdMonitor::updateActValv(int newValvOp){
     this->actValvOp = map(newValvOp, 0, MAX_POT_VALUE, 0, 100);
     this->printOnLcd(1);

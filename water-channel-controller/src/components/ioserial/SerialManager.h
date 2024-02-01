@@ -27,6 +27,7 @@ public:
 
         ExternalSources* vom;
 
+        //this value is stored in 0-100 scale
         int actValvOpening;
         
         void executeCommands(String comm);
