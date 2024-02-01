@@ -29,6 +29,7 @@ private:
     Servo motor;
     //this value is saved into 0-180 scale
     int currentPos;
+    //this value is saved into 0-180 scale
     int settedPos;
 
 };
