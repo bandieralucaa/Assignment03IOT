@@ -25,7 +25,7 @@ class Controller : public ControllerObserver {
     bool isBoardConnected();
     void reconnectBoard();
     /** see CV */
-    void setFreq(double newFreq);
+    void setFreq(unsigned long newFreq);
 
     /** method that inherit "setup" and "loop" of .ino class */
     void init();
@@ -33,12 +33,10 @@ class Controller : public ControllerObserver {
   
   private:
     // /* manage the request of reconnection started by a task */
-    // void resumeConnection();
-
     double actMeasure;
     NetworkState actNS;
-    double actFreq;
-    
+    unsigned long actFreq;
+    unsigned long lastTime;
 
     NView* view;
 

@@ -16,6 +16,7 @@
 #define NETTASK_DEBUG
 //#define ALIVE_TASK_DEBUG
 //#define DEBUG_NOPANIC
+//#define CONTR_D
 
 #endif
 

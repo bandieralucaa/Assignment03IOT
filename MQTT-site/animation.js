@@ -63,7 +63,7 @@ const warningMessage = document.getElementById("warningMessage");
 sliderNewFreqReload.addEventListener("input", () => {
     actFreq = sliderNewFreqReload.value;
     freqReloadWillSet.value = sliderNewFreqReload.value;
-    warningMessage.innerHTML = "Frequence " + actFreq + " setted";
+    warningMessage.innerHTML = "Frequence " + actFreq + " ms setted";
 })
 
 
@@ -71,7 +71,7 @@ freqReloadWillSet.addEventListener("change", () => {
     let tmp = freqReloadWillSet.value;
     if(Number.isInteger(parseInt(tmp)) && !isNaN(tmp)){
         let parsed = parseInt(tmp);
-        warningMessage.innerHTML = "Frequence " + parsed + " setted";
+        warningMessage.innerHTML = "Frequence " + parsed + " ms setted";
         if (parsed > 10000){
             warningMessage.innerHTML = "Frequence is too slow, 10sec setted";
             parsed = 10000;

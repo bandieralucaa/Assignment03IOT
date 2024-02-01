@@ -11,7 +11,7 @@
 class NView {
     public:
       NView();
-      void setObserver(ControllerObserver* newObserver);
+      void setObserver(CV* newObserver);
 
       void keepAliveFunctions();
 

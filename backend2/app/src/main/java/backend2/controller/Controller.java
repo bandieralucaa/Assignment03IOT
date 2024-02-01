@@ -1,6 +1,5 @@
 package backend2.controller;
 
-
 import java.util.List;
 
 import backend2.HTTP.HTTPComponent;
@@ -15,7 +14,7 @@ import io.vertx.core.Vertx;
 
 public class Controller implements ControllerObs {
 
-    private final static boolean CONTROLLER_D = false;
+    private final static boolean CONTROLLER_D = true;
     private final static boolean SHOW = false;
 
     /**

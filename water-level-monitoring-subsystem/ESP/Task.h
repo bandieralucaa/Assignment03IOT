@@ -29,9 +29,9 @@ class Task {
   
   
   protected:
-    ControllerObserver* byTaskToController;
+    CM* byTaskToController;
 
-    void setController(ControllerObserver* newCon){
+    void setController(CM* newCon){
       this->byTaskToController = newCon;
     }
 

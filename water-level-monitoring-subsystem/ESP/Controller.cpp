@@ -13,9 +13,6 @@ Controller::Controller(){
 }
 
 
-
-
-
 void Controller::setMeasurement(double measure){
   #ifdef DEBUG_NOPANIC
   Serial.println("CONTROLLER B");
@@ -43,13 +40,13 @@ bool Controller::isBoardConnected(){
   return this->view->isConnected();
 }
 
-void Controller::setFreq(double newFreq){
+void Controller::setFreq(unsigned long newFreq){
   #ifdef DEBUG_NOPANIC
   Serial.println("CONTROLLER E");
   #endif
   this->actFreq = newFreq;
 
-  #ifdef MYDEGUB
+  #ifdef CONTR_D
   Serial.print("Frequence received from MQTT: ");
   Serial.println(newFreq);
   #endif
@@ -57,14 +54,23 @@ void Controller::setFreq(double newFreq){
 }
 
 
-void handlerT1(void* vv){
+
+void Controller::reconnectBoard(){
+  this->view->reconnect();
+}
+
+
+
+
+
+void handlerT1(void* vv) {
   #ifdef DEBUG_NOPANIC
   Serial.println("CONTROLLER F");
   #endif
   taskmes->work(vv);
 }
 
-void handlerT2(void* vv){
+void handlerT2(void* vv) {
   #ifdef DEBUG_NOPANIC
   Serial.println("CONTROLLER G");
   #endif
@@ -72,7 +78,6 @@ void handlerT2(void* vv){
 }
 
 
-unsigned long lastTime;
 void Controller::init(){
   #ifdef DEBUG_NOPANIC
   Serial.println("CONTROLLER H");
@@ -90,7 +95,7 @@ void Controller::init(){
   xTaskCreate(&handlerT2, "Network Task", tmpSize , ((void*)(this)), tskIDLE_PRIORITY + 2, &tmp1);
   taskmes->saveTaskHandler(&tmp);
 
-  lastTime = millis();
+  this->lastTime = millis();
 }
 
 
@@ -101,16 +106,13 @@ void Controller::tick(){
   this->view->keepAliveFunctions();
   
   if(this->view->isConnected()){
-    if( (millis() > (((int) this->actFreq) + lastTime))){
+    if( (millis() > (((int) this->actFreq) + this->lastTime))){
       this->view->sendSample(this->actMeasure);
-      lastTime = millis();
+      this->lastTime = millis();
     }
   }
   
 }
 
 
-void Controller::reconnectBoard(){
-  this->view->reconnect();
-}
 

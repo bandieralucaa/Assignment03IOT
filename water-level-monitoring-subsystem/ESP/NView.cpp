@@ -19,7 +19,7 @@ WiFiClient wclient;
 
 PubSubClient client(wclient); // Setup MQTT client
 
-ControllerObserver* observer;
+CV* observer;
 
 // Connect to WiFi network
 void setup_wifi() {
@@ -143,19 +143,18 @@ void NView::keepAliveFunctions(){
 }
 
 
-void NView::setObserver(ControllerObserver* newObserver){
+void NView::setObserver(CV* newObserver){
   #ifdef DEBUG_NOPANIC
-    Serial.println("VIEW H");
-    #endif
+  Serial.println("VIEW H");
+  #endif
   observer = newObserver;
 }
 
 void modifyFreq(String newVal){
   #ifdef DEBUG_NOPANIC
-    Serial.println("VIEW I");
-    #endif
-  double ok = newVal.toDouble();
-  // stoi(newVal);
+  Serial.println("VIEW I");
+  #endif
+  unsigned long ok = newVal.toInt();
   observer->setFreq(ok);
 }
 
@@ -174,21 +173,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
   if (strcmp(topic, FREQ_TOPIC) == 0) { //topic.compare(FREQ_TOPIC) == 0){
     modifyFreq(response);
   }
-  
-  // Serial.print("Message arrived [");
-  // Serial.print(topic);
-  // Serial.print("] ");
-  // Serial.println(response);
-  // if(response == "on")  // Turn the light on
-  // {
-  //   digitalWrite(LIGHT_PIN, HIGH);
-  //   client.publish(STATE_TOPIC,"on");
-  // }
-  // else if(response == "off")  // Turn the light off
-  // {
-  //   digitalWrite(LIGHT_PIN, LOW);
-  //   client.publish(STATE_TOPIC,"off");
-  // }
 }
 
 
