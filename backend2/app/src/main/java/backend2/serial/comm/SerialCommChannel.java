@@ -1,6 +1,5 @@
 package backend2.serial.comm;
 
-import java.util.Arrays;
 import java.util.concurrent.*;
 import jssc.*;
 
