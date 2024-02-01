@@ -1,6 +1,5 @@
 package backend2.controller;
 
-import java.io.Serial;
 import java.util.List;
 
 import backend2.HTTP.HTTPComponent;
@@ -16,8 +15,8 @@ import io.vertx.core.Vertx;
 
 public class Controller implements ControllerObs {
 
-    private final static boolean CONTROLLER_D = true;
-    private final static boolean SHOW = false;
+    private final static boolean CONTROLLER_D = false;
+    private final static boolean SHOW = true;
 
     /**
      * Server constanst: system depend on them
@@ -76,14 +75,13 @@ public class Controller implements ControllerObs {
             }
 
             //////////////////////////////
-            // set a default freq to remote sensor if it not setter
-            if(waitACK) {
+            // set a default freq to remote sensor if it not setted
+            if (waitACK) {
                 this.mqtt.sendNewFreq(FDanger);
-                System.out.println( "AWEEEE");
             }
 
             if (System.currentTimeMillis() > (lastACK + 2 * FNormal)){
-                waitACK = true;
+                this.waitACK = true;
             }
             //////////////////////////////
 
@@ -102,10 +100,10 @@ public class Controller implements ControllerObs {
         if (CONTROLLER_D) {
             log("Receiver new sample: " + newSample);
         }
-        http.pushNewSample(new Sample(newSample, System.currentTimeMillis()));
-        startDamPolicy(newSample);
-        waitACK = false;
-        lastACK = System.currentTimeMillis();
+        this.http.pushNewSample(new Sample(newSample, System.currentTimeMillis()));
+        this.startDamPolicy(newSample);
+        this.waitACK = false;
+        this.lastACK = System.currentTimeMillis();
         
     }
 
@@ -124,8 +122,8 @@ public class Controller implements ControllerObs {
             }
         }
 
-        if (CONTROLLER_D){
-            log("LEVEL: " + actLev);
+        if (CONTROLLER_D) {
+            log("NEW LEVEL STATUS: " + actLev);
         }
 
         if (actLev != newLev) {
@@ -148,19 +146,22 @@ public class Controller implements ControllerObs {
         }
         int freqToSet = getActFreqToConsider(actLev);
         actDamState = DamState.values()[actLev];
-        http.sendDamState(actDamState.byDSToString(), freqToSet);
+        this.http.sendDamState(actDamState.byDSToString(), freqToSet);
 
-        if (CONTROLLER_D) {
-            log("POLICY REFRESH: act state -> " + actDamState.byDSToString());
-            log("POLICY REFRESH: setted " + freqToSet + " now");
+        if (CONTROLLER_D || SHOW) {
+            log("");
+            log("POLICY REFRESH: act state -> " + this.actDamState.byDSToString());
+            log("POLICY REFRESH: setted " + freqToSet + " as new frequence now");
+            log("actState = " + this.valveConfig.getStringRapp());
         }
         
-        mqtt.sendNewFreq(freqToSet);
+        this.mqtt.sendNewFreq(freqToSet);
         
-        log("actState = " + this.valveConfig.getStringRapp());
         if (this.valveConfig == ValveType.AUTOMATIC) {
             this.servoController.moveServo(VALVES_OP_STATE.get(actLev).intValue());
-            log("POLICY REFRESH: start moving valve to " + VALVES_OP_STATE.get(actLev).intValue() + "% now");
+            if (CONTROLLER_D || SHOW) {
+                log("POLICY REFRESH: start moving valve to " + VALVES_OP_STATE.get(actLev).intValue() + "% now");
+            }
         }
         
     }
@@ -168,23 +169,23 @@ public class Controller implements ControllerObs {
     @Override
     public void setNewValveOpMan(RemoteValveSetting newPerc) {
         int tmp = newPerc.getPercentage();
-        if (CONTROLLER_D) {
-            log("Set valve to: " + tmp + "%");
-        }
         this.servoController.moveServo(tmp);
     }
 
 
     @Override
     public void setActValveOp(int actPerc) {
-        http.pushActValveOp(actPerc);
+        this.http.pushActValveOp(actPerc);
+        if (CONTROLLER_D){
+            log("Valve is open to " + actPerc + "% now");
+        }
     }
 
 
     @Override
     public void setNewValveType(ValveType newType) {
         this.valveConfig = newType;
-        http.pushNewState(newType.getStringRapp());
+        this.http.pushNewState(newType.getStringRapp());
         if (newType == ValveType.AUTOMATIC ) {
             applyPolicy();
         }

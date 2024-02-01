@@ -18,8 +18,8 @@ import io.vertx.ext.web.handler.CorsHandler;
 
 public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent  {
 
-    private final static boolean HTTP_D = true;
-    private final static boolean SHOW = false;
+    private final static boolean HTTP_D = false;
+    private final static boolean SHOW = true;
 
 	private int port;
 	private static final int MAX_SIZE = 400;
@@ -72,7 +72,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 			.requestHandler(router)
 			.listen(port);
         
-        if (HTTP_D){
+        if (HTTP_D || SHOW){
             log("Service ready on port: " + port);
         }
 	
@@ -129,8 +129,8 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 			int newValveOp = res.getInteger("percentage");
             long time = res.getLong("time");
 
-			if (HTTP_D) {
-                log("New value: " + newValveOp + " on " + new Date(time));
+			if (HTTP_D || SHOW) {
+                log("User set by site that valve must be open to: " + newValveOp + "% on " + new Date(time));
             }
 
 			tmp = new RemoteValveSetting(newValveOp, time);

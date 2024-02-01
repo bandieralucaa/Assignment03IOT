@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class ServoControllerImpl implements ServoController{
 
     private final boolean SERIAL_D = false;
-    private final static boolean SHOW = false;
+    private final static boolean SHOW = true;
 
     private CommChannel commChannel;
     private final ControllerObs obs;
@@ -21,17 +21,17 @@ public class ServoControllerImpl implements ServoController{
     }
 
     @Override
-    public void moveServo(int degrees) {
-        String command = "_v:" + degrees;
+    public void moveServo(int degree) {
+        String command = "_v:" + degree;
         if (SERIAL_D) {
-            log("MANDO nuova apertura valvola : " + degrees);
+            log("MANDO nuova apertura valvola : " + degree);
         }
         commChannel.sendMsg(command);
     }
    
     @Override
     public void exec() {
-        if (commChannel.isMsgAvailable()){
+        if (commChannel.isMsgAvailable()) {
             String tmp = "";
             try {
                 tmp = commChannel.receiveMsg();
@@ -63,7 +63,7 @@ public class ServoControllerImpl implements ServoController{
 
     private void execCommand(char command, String value) {
 
-        if(SERIAL_D){
+        if (SERIAL_D) {
             log("RICEVUTO Comando: " + command + " valore : " + value);
         }
 
@@ -93,6 +93,9 @@ public class ServoControllerImpl implements ServoController{
                         break;
                 }
                 this.obs.setNewValveType(tmp);
+                if (SERIAL_D || SHOW){
+                    log("User change valve manage type to: " + tmp.getStringRapp());
+                }
                 break;
         
             default:

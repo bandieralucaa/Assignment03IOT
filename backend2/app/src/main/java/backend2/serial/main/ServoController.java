@@ -4,9 +4,9 @@ public interface ServoController {
 
     /**
      * move the servo to the specified degrees
-     * @param degrees
+     * @param degree
      */
-    void moveServo(int degrees);
+    void moveServo(int degree);
 
     /**
      * execute the command or the commands received from the serial

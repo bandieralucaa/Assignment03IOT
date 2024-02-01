@@ -7,16 +7,18 @@ import io.vertx.core.buffer.Buffer;
 
 import io.vertx.mqtt.MqttClient;
 
+import java.util.Date;
+
 import backend2.controller.ControllerObs;
 
 public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent   {
 
-	public final boolean MQTT_D = true;
-	private final static boolean SHOW = false;
+	public final boolean MQTT_D = false;
+	private final static boolean SHOW = true;
 
     private ControllerObs obs;
     private MqttClient myClient;
-    private static final String BROKER_ADDRESS = "localhost"; // 192.168.43.132
+    private static final String BROKER_ADDRESS = "localhost";
 	private static final String TOPIC_SUB = "river/sample";
     private static final String TOPIC_PUB = "river/freq";
 
@@ -36,20 +38,31 @@ public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent
 	public void start() {
 		this.myClient.connect(1883, BROKER_ADDRESS, c -> {
 
-			log("connecting...");
-			if (this.myClient.isConnected()){
-				log("connected");
+			if (MQTT_D || SHOW) {
+				log("connecting...");
+			}
 			
-				log("subscribing...");
+			if (this.myClient.isConnected()) {
+				if (MQTT_D || SHOW) {
+					log("connected");
+				}
+				if (MQTT_D) {
+					log("subscribing...");
+				}
+				
 				this.myClient.publishHandler(s -> {
-					// System.out.println("There are new message in topic: " + s.topicName());
-					// System.out.println("Content(as string) of the message: " + s.payload().toString());
-					// System.out.println("QoS: " + s.qosLevel());
-					this.obs.setSample(Double.parseDouble(s.payload().toString()));
+					if (this.myClient.isConnected()){
+						String tmp = s.payload().toString();
+						if (MQTT_D) {
+							log("Remote sensor send new sample (" + tmp + ") on " + (new Date(System.currentTimeMillis()).toString()));
+						}
+						this.obs.setSample(Double.parseDouble(tmp));
+					}
 				})
 				.subscribe(TOPIC_SUB, 2);	
 			}
-			
+		}).closeHandler(c -> {
+			myClient.disconnect();
 		});
 	}
 
@@ -61,7 +74,7 @@ public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent
 				this.log("publishing a msg");
 			}
         	this.myClient.publish(TOPIC_PUB,
-				  Buffer.buffer(Integer.toString(newFreqMillis)), //manda il messaggio hello
+				  Buffer.buffer(Integer.toString(newFreqMillis)),
 				  MqttQoS.AT_LEAST_ONCE,
 				  false,
 				  false);
@@ -71,7 +84,9 @@ public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent
 	@Override
 	public void reconnectIfNot() {
 		if (!this.myClient.isConnected()) {
-			log("Retry connection");
+			if (MQTT_D){
+				log("Retry connection");
+			}
 			this.start();
 		}
 	}
