@@ -4,7 +4,7 @@
 
 Valve::Valve(int pin, bool isActOpen, OutSender* toSerial, Lcd* myLcd, OpeningDetection* od) {
     this->motor.attach(pin);
-    if(isActOpen){
+    if (isActOpen) {
         this->currentPos = MAX_ANGLE;
         this->settedPos = MAX_ANGLE;
     } else {
@@ -17,11 +17,6 @@ Valve::Valve(int pin, bool isActOpen, OutSender* toSerial, Lcd* myLcd, OpeningDe
     this->period = SERVO_MOTOR_PERIOD;
 }
 
-void Valve::setPos(int newPos) {
-    //this->settedPos = newPos;
-    //this->settedPos = map(newPos, 0, MAX_POT_VALUE, MIN_ANGLE, MAX_ANGLE);
-}
-
 int Valve::getActPos() {
     return this->currentPos;
 }
@@ -32,7 +27,7 @@ void Valve::init() {
 
 void Valve::tick() {
     int toSetPos = od->getOpeningToSet();
-    this->settedPos = map(toSetPos, 0, MAX_POT_VALUE, MIN_ANGLE, MAX_ANGLE);//MIN_ANGLE + ((int)(((toSetPos) / 100.0) * ((MAX_ANGLE - MIN_ANGLE)*1.0)));
+    this->settedPos = map(toSetPos, 0, MAX_POT_VALUE, MIN_ANGLE, MAX_ANGLE);
     int tmpDir = this->currentPos - this->settedPos;
 
     #ifdef SERVO_MOTOR_DEBUG
@@ -41,21 +36,21 @@ void Valve::tick() {
     Serial.print("ELAPSED "  + ((String)tmpDir) + "\n");
     #endif
 
-    if ((tmpDir < (-1 * (AMOUNT_MOVE))) || (tmpDir > (1 * (AMOUNT_MOVE)))){
+    if ((tmpDir < (-1 * (AMOUNT_MOVE))) || (tmpDir > (1 * (AMOUNT_MOVE)))) { //servo couldn't reach final position: move it of AMOUNT_MOVE degrees
     
-        if(tmpDir < 0){
+        if(tmpDir < 0) {
             this->currentPos += 1 * AMOUNT_MOVE;
         } else {
             this->currentPos += -1 * AMOUNT_MOVE;
         }
     
     } else {
-        this->currentPos = this->settedPos; //puoi raggiungere la posizione finale
+        this->currentPos = this->settedPos; //servo can reach final position
     }
     
-    this->motor.write(this->currentPos); //applica modifica al servo
+    this->motor.write(this->currentPos); //apply new computed angle
 
-    int advise = map(this->currentPos, MIN_ANGLE, MAX_ANGLE, 0, MAX_POT_VALUE);//((int) ( ( ((this->currentPos - MIN_ANGLE)*1.0) / ((MAX_ANGLE - MIN_ANGLE)*1.0) ) * 100 ));
+    int advise = map(this->currentPos, MIN_ANGLE, MAX_ANGLE, 0, MAX_POT_VALUE);
 
     #ifdef SERVO_MOTOR_DEBUG
     Serial.print("AFTER " + ((String)this->currentPos) + "\n");

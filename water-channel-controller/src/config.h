@@ -12,7 +12,7 @@ enum StateName {
 
 #define MAX_ANGLE_SERVO 180
 #define MIN_ANGLE_SERVO 0
-#define MAX_POT_VALUE 1020 //sarebbe 1023 ma non lo facciamo arrivare fino a fine corsa
+#define MAX_POT_VALUE 1020 //tecnically it should be 1020 but we stop max value before reach max teorical value
 
 #define LCD_AUTO_STRING "AUTOMATIC"
 #define LCD_MANUAL_STRING "MANUAL"

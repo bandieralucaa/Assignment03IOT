@@ -51,14 +51,14 @@ void MyLcdMonitor::printOnLcd(int who) {
                     this->lcd.print(LCD_MANUAL_STRING);
                     break;
                 default:
-                    this->lcd.print("ERR"); //debug choise, ma dovrebbe essere impossibile
+                    this->lcd.print("ERR"); //debug choise, but tecnically it should be an impossible scenario for this version of project
                     break;
             }    
             this->lcd.print("   ");
             break;
         
         case 1:
-            int ok = this->actValvOp; // map(tmp, MIN_ANGLE_SERVO, MAX_ANGLE_SERVO, 0, 100);//((int) ( (((tmp)*(1.0))/((MAX_ANGLE_SERVO)*(1.0))) * (100.0) ));
+            int ok = this->actValvOp;
             this->lcd.print(ok);
             this->lcd.print("%");
             for(int i = ((int)(floor(log10(this->actValvOp * 1.0)))); i < 2 ; i++) {

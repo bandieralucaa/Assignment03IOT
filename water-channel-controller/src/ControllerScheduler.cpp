@@ -19,8 +19,6 @@ ControllerScheduler::ControllerScheduler() {
     lcd = new MyLcdMonitor();
 
     new StateButtonInterupt(BUTT_PIN, this->myObs); 
-    
-    //Serial.begin(9600);
 
     ValveOpeningManagement* VOM = new ValveOpeningManagement(p);
 
@@ -31,19 +29,12 @@ ControllerScheduler::ControllerScheduler() {
     
 
     int amountTask = 3;
-    tasks = new Task*[amountTask]{ VOM,  valv, IOMan
-            //
-        };
+    tasks = new Task*[amountTask]{ VOM,  valv, IOMan};
     actAmountTask = amountTask;
 
     for(int i=0; i < actAmountTask; i++) {
         tasks[i]->setObs(this->myObs);
     }
-
-    // State* s1 = new AutomaticState(button, lcd);
-    // State* s2 = new ManualState(button, lcd);
-    
-    // states = new State*[2]{s1, s2};
     
     lcd->updateState(lastState);
     lcd->updateActValv(START_VALVE_OP);

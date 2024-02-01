@@ -9,6 +9,7 @@
 
 #include "./ControllerSchedulerObserver.h"
 
+#define TOLL_VAL 10
 
 class ValveOpeningManagement : public Task, public OpeningDetection, public ExternalSources {
     public:
@@ -16,6 +17,7 @@ class ValveOpeningManagement : public Task, public OpeningDetection, public Exte
 
         int getOpeningToSet();
         
+        //int is in 0-1023 scale
         void setValveOpBySerial(int newVal);
 
         void init();

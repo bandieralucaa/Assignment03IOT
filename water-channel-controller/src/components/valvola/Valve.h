@@ -16,9 +16,9 @@ class Valve : public Servomotor, public Task{
 
 public:
     Valve(int pin, bool isActOpen, OutSender* toSerial, Lcd* myLcd, OpeningDetection* od);
-    void setPos(int newPos);
+    
     int getActPos();
-
+    
     void init();
     void tick();
 
