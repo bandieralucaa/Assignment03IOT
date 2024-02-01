@@ -89,7 +89,6 @@ int myPot(int b, int e){
     }
     return res;
 }
-
 int myStoi(String value) {
     int res = 0;
     int pos = value.length();

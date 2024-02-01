@@ -1,6 +1,10 @@
 #ifndef __COOLDOWN__
 #define __COOLDOWN__
 
+/*
+* class recycled from old project
+*/
+
 #include "Timer.h"
 
 class Cooldown {

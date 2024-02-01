@@ -16,6 +16,8 @@ class StateButtonInterupt : public Button {
 
     private:
         int pin;
+        unsigned long lastPressed = millis();
+        unsigned long debouncingTime = 200;
 };
 
 #endif

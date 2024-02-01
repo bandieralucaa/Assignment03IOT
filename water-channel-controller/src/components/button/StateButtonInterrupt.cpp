@@ -2,6 +2,7 @@
 
 StateName actState = AUTOMATIC_STATE;
 ControllerSchedulerObserver* myObs;
+
 unsigned long lastPressed = millis();
 unsigned long debouncingTime = 200;
 
@@ -10,9 +11,9 @@ void pressedButton() {
     
     #ifdef BUTTON_DEBUG
     delay(100);
-    Serial.println(tmp);
+    Serial.print("BUTTON");
     delay(100);
-    Serial.print("CIAO");
+    Serial.println(tmp);
     delay(100);
     #endif
     
