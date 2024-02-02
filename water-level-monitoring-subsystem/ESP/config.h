@@ -12,8 +12,8 @@
 #ifdef MYDEGUB
 
 #define NET_DEB
-//#define SONAR_DEBUG
 #define NETTASK_DEBUG
+//#define SONAR_DEBUG
 //#define ALIVE_TASK_DEBUG
 //#define DEBUG_NOPANIC
 //#define CONTR_D

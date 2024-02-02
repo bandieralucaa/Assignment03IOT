@@ -5,7 +5,7 @@ MeasurementTask::MeasurementTask(Sonar* rM) {
   #ifdef DEBUG_NOPANIC
     Serial.println("MEASUREMENTTASK");
     #endif
-  this->rM = rM;
+  this->rM = rM;  
   this->frequency = 1000;
 }
 

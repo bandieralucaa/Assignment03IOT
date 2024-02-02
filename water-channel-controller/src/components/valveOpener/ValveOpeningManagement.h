@@ -27,9 +27,9 @@ class ValveOpeningManagement : public Task, public OpeningDetection, public Exte
         //check if the value is out of the tollerance
         bool isOutOfTollerance(int value);
         Potentiometer* pot;
+        
         int lastPotVal;
         int lastParsedValue;
-
         bool isSerialLastInfo;
 };
 

@@ -1,5 +1,5 @@
 const DEBUG = false;
-const URLQ = "http://localhost:8080/";
+const URLQ = "http://192.168.43.182:8080/";
 
 //////////////////////////////////////////////////////////////
 //// HTML blocks and interactions

@@ -5,14 +5,15 @@ void callback(char* topic, byte* payload, unsigned int length); //definita in fo
 //https://github.com/arduino-libraries/WiFi/blob/master/src/WiFi.h
 
 const char* ssid = "qs2d4";   // name of your WiFi network
-const char* password = "12345678"; // password of the WiFi network aaaaaaaaaaa
-
+const char* password = "12345678"; // password of the WiFi network
 
 const char *ID = "RiverMonitor";  // Name of our device, must be unique
 
 const char *FREQ_TOPIC = "river/freq";  // Topic to subcribe to
 
 const char *SAMPLE_TOPIC = "river/sample";  // Topic to publish the light state to
+
+IPAddress broker(loc)
 
 IPAddress broker(192,168,43,132); // IP address of your MQTT broker eg. 192.168.1.50 //192.168.43.132
 WiFiClient wclient;
@@ -61,8 +62,7 @@ void reconnectToMQTT() {
 
     // Attempt to connect
     if(client.connect(ID)) {
-      client.subscribe(FREQ_TOPIC); //con questo ricevo i messaggi dalla console
-
+      client.subscribe(FREQ_TOPIC);
       #ifdef NET_DEB
       Serial.println("connected");
       Serial.print("Subcribed to: ");
@@ -74,7 +74,6 @@ void reconnectToMQTT() {
       #ifdef NET_DEB
       Serial.println(" try again");
       #endif
-      // Wait 5 seconds before retrying
       delay(100);
     }
   }
@@ -85,14 +84,12 @@ NView::NView() {
   #ifdef DEBUG_NOPANIC
     Serial.println("VIEW C");
     #endif
-  //setup_wifi(); // Connect to network
-  client.setServer(broker, 1883); //8883 per una connessione sicura
+  client.setServer(broker, 1883); 
   client.setCallback(callback);// Initialize the callback routine
 
   if (!this->isConnected()) {
     this->reconnect();
   }
-  
   
 }
 
@@ -119,10 +116,9 @@ void NView::sendSample(double sample) {
     #endif
   char c[64] = "";
   if(this->isConnected()){
-      //conversione da double a char*
+    //by double to char[]
     sprintf(c, "%g", sample);
-    //manda risultato
-    // String tmp = (String)sample;
+    //send message
     client.publish(SAMPLE_TOPIC,c);
   }
 }
@@ -139,7 +135,7 @@ void NView::keepAliveFunctions(){
   #ifdef DEBUG_NOPANIC
     Serial.println("VIEW G");
     #endif
-  client.loop();
+  client.loop(); //library need this function to be looped
 }
 
 
@@ -170,7 +166,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     response += (char)payload[i];
   }
 
-  if (strcmp(topic, FREQ_TOPIC) == 0) { //topic.compare(FREQ_TOPIC) == 0){
+  if (strcmp(topic, FREQ_TOPIC) == 0) {
     modifyFreq(response);
   }
 }

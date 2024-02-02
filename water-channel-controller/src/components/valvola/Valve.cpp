@@ -29,6 +29,11 @@ void Valve::tick() {
     int toSetPos = od->getOpeningToSet();
     this->settedPos = map(toSetPos, 0, MAX_POT_VALUE, MIN_ANGLE, MAX_ANGLE);
     int tmpDir = this->currentPos - this->settedPos;
+    
+    if (tmpDir == 0){
+        return; //servo is in "STOP" state
+    }
+    //else it have to move
 
     #ifdef SERVO_MOTOR_DEBUG
     Serial.print("READ " + ((String)this->settedPos) + "\n");

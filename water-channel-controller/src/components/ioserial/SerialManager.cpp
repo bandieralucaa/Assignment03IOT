@@ -5,8 +5,7 @@
 #define COMMAND_CHAR '_'
 #define ARGUMENT_CHAR ':'
 
-SerialManager::SerialManager(ExternalSources* vom){
-    this->parsedAperturaValvola = START_VALVE_OP;
+SerialManager::SerialManager(ExternalSources* vom) {
     this->period = IOMAN_PERIOD;
     this->vom = vom;
     MsgService.init();

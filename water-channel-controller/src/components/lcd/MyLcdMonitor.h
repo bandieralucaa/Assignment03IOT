@@ -20,7 +20,9 @@ class MyLcdMonitor : public Lcd {
 
         //print the parameter on the lcd
         void printOnLcd(int who);
+        
         rgb_lcd lcd;
+
         //it is saved into 0-100 scale
         int actValvOp;
         StateName actState;

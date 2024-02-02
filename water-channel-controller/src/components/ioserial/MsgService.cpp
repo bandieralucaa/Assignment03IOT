@@ -35,17 +35,10 @@ void MsgServiceClass::sendMsg(const String& msg) {
   Serial.println(msg);
 }
 
-#ifdef DEBUG_IOMAN_WITHOUT_CONSOLE
-bool isT = false; //debugging test without console
-#endif
 
 
 void serialEvent() {
 
-  #ifdef DEBUG_IOMAN_WITHOUT_CONSOLE
-  digitalWrite(11, isT ? HIGH : LOW); //debugging test without console
-  isT = !isT; //debugging test without console
-  #endif
 
   /* reading the content */
   while (Serial.available()) {

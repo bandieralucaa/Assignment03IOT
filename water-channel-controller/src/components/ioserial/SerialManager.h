@@ -23,15 +23,13 @@ public:
 
     private:
         String byStatusToString();
-        int parsedAperturaValvola;
+        void executeCommands(String comm);
+        void executeCommandByGui(char c, String value);
 
         ExternalSources* vom;
 
         //this value is stored in 0-100 scale
         int actValvOpening;
-        
-        void executeCommands(String comm);
-        void executeCommandByGui(char c, String value);
 
         StateName lastStateSend = NONE;
         int lastValveSend = -1;

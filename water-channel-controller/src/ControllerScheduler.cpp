@@ -5,9 +5,7 @@ Task** tasks;
 Cooldown* scheduleCooldown;
 int actAmountTask;
 
-unsigned long bPeriod;
-
-
+unsigned long bPeriod; 
 
 ControllerScheduler::ControllerScheduler() {
 

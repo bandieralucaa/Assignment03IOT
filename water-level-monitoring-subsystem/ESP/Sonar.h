@@ -13,7 +13,7 @@ public:
     double getDistance();
 
 private:
-    //implement the measurement code
+    //implement the code for distance measurement 
     double measure();
     int trigPin;
     int echoPin;

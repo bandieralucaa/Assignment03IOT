@@ -51,7 +51,7 @@ void NetworkTask::work(void *pvParameters) {
     }
     // this->byTaskToController->setMeasurement(sampled);
     #ifdef ALIVE_TASK_DEBUG
-    Serial.print("§§§§§§§§§§§§§§§§§ Network vivo, valGuardia: ");
+    Serial.print("§§ §§ Network vivo, valGuardia: ");
     Serial.println(isPrevConn);
     #endif
     vTaskDelay(pdMS_TO_TICKS(500));
