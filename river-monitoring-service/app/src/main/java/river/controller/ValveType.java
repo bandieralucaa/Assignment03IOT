@@ -1,4 +1,4 @@
-package backend2.controller;
+package river.controller;
 
 public enum ValveType {
     

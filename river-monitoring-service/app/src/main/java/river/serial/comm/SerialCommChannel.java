@@ -1,4 +1,4 @@
-package backend2.serial.comm;
+package river.serial.comm;
 
 import java.util.concurrent.*;
 import jssc.*;

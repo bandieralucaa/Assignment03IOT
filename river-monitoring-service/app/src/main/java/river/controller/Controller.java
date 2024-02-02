@@ -1,16 +1,16 @@
-package backend2.controller;
+package river.controller;
 
 import java.util.List;
 
-import backend2.HTTP.HTTPComponent;
-import backend2.HTTP.HTTPComponentImpl;
-import backend2.HTTP.RemoteValveSetting;
-import backend2.HTTP.Sample;
-import backend2.MQTT.MQTTComponent;
-import backend2.MQTT.MQTTComponentImpl;
-import backend2.serial.main.ServoController;
-import backend2.serial.main.ServoControllerImpl;
 import io.vertx.core.Vertx;
+import river.HTTP.HTTPComponent;
+import river.HTTP.HTTPComponentImpl;
+import river.HTTP.RemoteValveSetting;
+import river.HTTP.Sample;
+import river.MQTT.MQTTComponent;
+import river.MQTT.MQTTComponentImpl;
+import river.serial.main.ServoController;
+import river.serial.main.ServoControllerImpl;
 
 
 public class Controller implements ControllerObs {
@@ -31,9 +31,9 @@ public class Controller implements ControllerObs {
     private final static int FDanger = 1000;//1000;
 
     /**
-     * Little useful enum to storage Dam and Valve state
+     * Little useful enum to storage River and Valve state
      */
-    private DamState actDamState;
+    private RiverState actRiverState;
     private ValveType valveConfig = ValveType.UNKNOW;
     private int actLev = -1;
 
@@ -101,14 +101,14 @@ public class Controller implements ControllerObs {
             log("Receiver new sample: " + newSample);
         }
         this.http.pushNewSample(new Sample(newSample, System.currentTimeMillis()));
-        this.startDamPolicy(newSample);
+        this.startRiverPolicy(newSample);
         this.waitACK = false;
         this.lastACK = System.currentTimeMillis();
         
     }
 
     
-    private void startDamPolicy(double sampledMeasure) {
+    private void startRiverPolicy(double sampledMeasure) {
         int newLev = 0;
         boolean mustExit = false;
         while(newLev < DD.size() && !(mustExit)) {
@@ -145,12 +145,12 @@ public class Controller implements ControllerObs {
             return;
         }
         int freqToSet = getActFreqToConsider(actLev);
-        actDamState = DamState.values()[actLev];
-        this.http.sendDamState(actDamState.byDSToString(), freqToSet);
+        actRiverState = RiverState.values()[actLev];
+        this.http.sendRiverState(actRiverState.byDSToString(), freqToSet);
 
         if (CONTROLLER_D || SHOW) {
             log("");
-            log("POLICY REFRESH: act state -> " + this.actDamState.byDSToString());
+            log("POLICY REFRESH: act state -> " + this.actRiverState.byDSToString());
             log("POLICY REFRESH: setted " + freqToSet + " as new frequence now");
             log("actState = " + this.valveConfig.getStringRapp());
         }

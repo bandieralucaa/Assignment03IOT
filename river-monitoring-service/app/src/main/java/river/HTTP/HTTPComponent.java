@@ -1,14 +1,14 @@
-package backend2.HTTP;
+package river.HTTP;
 
 public interface HTTPComponent {
     
 
     /**
-     * send the new dam state
-     * @param newDamState
+     * send the new river state
+     * @param newRiverState
      * @param newSuggestFreq
      */
-    void sendDamState(String newDamState, int newSuggestFreq);
+    void sendRiverState(String newRiverState, int newSuggestFreq);
 
     /**
      * start the component

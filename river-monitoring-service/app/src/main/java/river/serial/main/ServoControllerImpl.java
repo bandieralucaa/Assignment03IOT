@@ -1,10 +1,11 @@
-package backend2.serial.main;
+package river.serial.main;
 
-import backend2.controller.ControllerObs;
-import backend2.controller.ValveType;
-import backend2.serial.comm.CommChannel;
-import backend2.serial.comm.SerialCommChannel;
 import java.util.Arrays;
+
+import river.controller.ControllerObs;
+import river.controller.ValveType;
+import river.serial.comm.CommChannel;
+import river.serial.comm.SerialCommChannel;
 
 
 public class ServoControllerImpl implements ServoController{

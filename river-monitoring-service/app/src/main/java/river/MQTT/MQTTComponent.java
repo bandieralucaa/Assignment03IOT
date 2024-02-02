@@ -1,4 +1,4 @@
-package backend2.MQTT;
+package river.MQTT;
 
 public interface MQTTComponent  {
     
