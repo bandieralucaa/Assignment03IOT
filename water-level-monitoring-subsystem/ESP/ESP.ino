@@ -1,3 +1,13 @@
+/****************************
+ * 
+ * 
+ * Progetto a cura di:
+ *    Bandiera Luca
+ *    Pesaresi Jacopo
+ * 
+ * 
+******************************/
+
 
 #include "Controller.h"
 #include "config.h"

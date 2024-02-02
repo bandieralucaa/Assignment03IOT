@@ -21,13 +21,13 @@ public class Controller implements ControllerObs {
     /**
      * Server constanst: system depend on them
      */
-    private final static double D1 = 0.15;
-    private final static double D2 = 0.25;
-    private final static double D3 = 0.35;
-    private final static double D4 = 0.45;
-    private final static List<Double> DD = List.of(D1, D2, D3, D4);
+    private final static double W1 = 0.15;
+    private final static double W2 = 0.25;
+    private final static double W3 = 0.35;
+    private final static double W4 = 0.45;
+    private final static List<Double> WW = List.of(W1, W2, W3, W4);
     private final static List<Integer> VALVES_OP_STATE = List.of(0, 25, 25, 50, 100);
-    private final static int FNormal = 2500;//5000;
+    private final static int FNormal = 5000;//2500;
     private final static int FDanger = 1000;//1000;
 
     /**
@@ -111,11 +111,11 @@ public class Controller implements ControllerObs {
     private void startRiverPolicy(double sampledMeasure) {
         int newLev = 0;
         boolean mustExit = false;
-        while(newLev < DD.size() && !(mustExit)) {
+        while(newLev < WW.size() && !(mustExit)) {
             if (newLev != 0) { //solo per rispettare strettamente le richieste
-                mustExit = (sampledMeasure <= DD.get(newLev));
+                mustExit = (sampledMeasure <= WW.get(newLev));
             } else {
-                mustExit = (sampledMeasure < DD.get(newLev));
+                mustExit = (sampledMeasure < WW.get(newLev));
             }
             if (!mustExit){
                 newLev = newLev + 1;
@@ -141,7 +141,7 @@ public class Controller implements ControllerObs {
     }
 
     private void applyPolicy() {
-        if (actLev < 0 || actLev > DD.size()) {
+        if (actLev < 0 || actLev > WW.size()) {
             return;
         }
         int freqToSet = getActFreqToConsider(actLev);

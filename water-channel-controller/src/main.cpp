@@ -1,3 +1,14 @@
+/****************************
+ * 
+ * 
+ * Progetto a cura di:
+ *    Bandiera Luca
+ *    Pesaresi Jacopo
+ * 
+ * 
+******************************/
+
+
 #include <Arduino.h>
 
 #include "ControllerScheduler.h"
