@@ -50,12 +50,7 @@ sliderNewValveOp.addEventListener("input", () => {
     valueWillSet.innerHTML = sliderNewValveOp.value;
 })
 
-// //update the label of this input
-// sliderNewValveOp.addEventListener("change", () => {
-//     valueWillSet.innerHTML = sliderNewValveOp.value;
-// })
-
-
+//////////////////////////////////
 //FEATURE: management of frequence of plot update 
 const warningMessage = document.getElementById("warningMessage");
 
@@ -86,7 +81,7 @@ freqReloadWillSet.addEventListener("change", () => {
         warningMessage.innerHTML = "Please insert an integer value between 1000 and 10000";
     }
 })
-
+/////////////////////////////
 
 setInterval(() => {
     getState();
