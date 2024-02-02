@@ -1,4 +1,4 @@
-package backend2.serial.comm;
+package river.serial.comm;
 
 /**
  * Questa interfaccia è stata presa dal codice visto a lezione e fornita dal prof. Ricci.

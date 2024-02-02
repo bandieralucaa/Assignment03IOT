@@ -1,4 +1,4 @@
-package backend2.serial.main;
+package river.serial.main;
 
 public interface ServoController {
 

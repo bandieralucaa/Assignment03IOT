@@ -1,6 +1,6 @@
-package backend2.controller;
+package river.controller;
 
-public enum DamState {
+public enum RiverState {
     
     ALARM_TOO_LOW("ALARM-TOO-LOW"),
     NORMAL_STATE("NORMAL"), 
@@ -10,7 +10,7 @@ public enum DamState {
     
     private String toMyStringValue;
 
-    private DamState(String toMyStringValue) {
+    private RiverState(String toMyStringValue) {
         this.toMyStringValue = toMyStringValue;
     }
 

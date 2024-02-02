@@ -1,6 +1,6 @@
-package backend2.controller;
+package river.controller;
 
-import backend2.HTTP.RemoteValveSetting;
+import river.HTTP.RemoteValveSetting;
 
 public interface ControllerObs {
 

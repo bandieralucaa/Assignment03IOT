@@ -1,10 +1,9 @@
-package backend2.HTTP;
+package river.HTTP;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 
-import backend2.controller.ControllerObs;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;
@@ -15,6 +14,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
+import river.controller.ControllerObs;
 
 public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent  {
 
@@ -62,7 +62,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 		router.route().handler(BodyHandler.create());
 		
 		router.get("/river/samples").handler(this::getSamples);
-        router.get("/river/damstate").handler(this::getDamState);
+        router.get("/river/riverstate").handler(this::getRiverState);
         router.get("/river/valvetype").handler(this::getValveTypeConfig);
         router.get("/river/valveop").handler(this::getActValveOp);	
 		router.post("/river/valveop").handler(this::postValveOpening);	
@@ -95,7 +95,7 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
 		sendToClient(routingContext, arr.encodePrettily());
     }
 
-    private void getDamState(RoutingContext routingContext) {
+    private void getRiverState(RoutingContext routingContext) {
         JsonObject data = new JsonObject();
         data.put("state", stateStringToSend);
         data.put("freq", suggestedActFreq);
@@ -151,8 +151,8 @@ public class HTTPComponentImpl extends AbstractVerticle implements HTTPComponent
     }
 
     @Override
-    public void sendDamState(String newDamState, int newSuggestFreq) {
-        this.stateStringToSend = newDamState;
+    public void sendRiverState(String newRiverState, int newSuggestFreq) {
+        this.stateStringToSend = newRiverState;
         this.suggestedActFreq = newSuggestFreq;
     }
 

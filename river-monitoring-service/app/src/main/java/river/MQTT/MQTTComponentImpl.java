@@ -1,4 +1,4 @@
-package backend2.MQTT;
+package river.MQTT;
 
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.AbstractVerticle;
@@ -6,10 +6,9 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 
 import io.vertx.mqtt.MqttClient;
+import river.controller.ControllerObs;
 
 import java.util.Date;
-
-import backend2.controller.ControllerObs;
 
 public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent   {
 

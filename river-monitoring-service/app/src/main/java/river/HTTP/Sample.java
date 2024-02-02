@@ -1,4 +1,4 @@
-package backend2.HTTP;
+package river.HTTP;
 
 public class Sample {
 

@@ -41,5 +41,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("backend2.App")
+    mainClass.set("river.App")
 }
