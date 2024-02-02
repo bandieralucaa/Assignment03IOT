@@ -28,9 +28,11 @@ class ControllerScheduler {
         //execute the ControllerScheduler
         void execute();
 
+        //during coding, we notice that pass directly the pointer of this obj to other obj 
+        //was source of error. So we reify the interface of this obj (ControllerSchedulerObserver) into a class
+        //We maintains its method also in this class 
         //get the current state
         StateName getActState();
-
         //set the new state
         void setNewState(StateName newState);
         

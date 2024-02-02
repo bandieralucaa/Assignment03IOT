@@ -3,8 +3,7 @@
 StateName actState = AUTOMATIC_STATE;
 ControllerSchedulerObserver* myObs;
 
-    unsigned long lastPressed = millis();
-    unsigned long debouncingTime = BTN_DEBOUNCING_TIME;
+unsigned long lastPressed = millis();
 
 void pressedButton() {
     unsigned long tmp = millis();
@@ -17,7 +16,7 @@ void pressedButton() {
     delay(100);
     #endif
     
-    if ((tmp - lastPressed) > debouncingTime ) {
+    if ((tmp - lastPressed) > BTN_DEBOUNCING_TIME) {
         StateName newState = (actState == AUTOMATIC_STATE) ? MANUAL_STATE : AUTOMATIC_STATE;
         actState = newState;
         lastPressed = tmp;
