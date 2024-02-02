@@ -56,7 +56,7 @@ public class Controller implements ControllerObs {
         mqtt.startComponent();
 
         try {
-            this.servoController = new ServoControllerImpl("COM4", 9600, this);
+            this.servoController = new ServoControllerImpl("COM3", 9600, this);
         } catch (Exception e) {
             e.printStackTrace();
         }

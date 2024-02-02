@@ -18,7 +18,7 @@ public class MQTTComponentImpl extends AbstractVerticle implements MQTTComponent
 
     private ControllerObs obs;
     private MqttClient myClient;
-    private static final String BROKER_ADDRESS = "localhost";
+    private static final String BROKER_ADDRESS = "192.168.43.132";//"localhost";
 	private static final String TOPIC_SUB = "river/sample";
     private static final String TOPIC_PUB = "river/freq";
 
