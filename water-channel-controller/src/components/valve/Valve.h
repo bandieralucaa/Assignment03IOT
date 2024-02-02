@@ -2,7 +2,7 @@
 #define __VALVE__
 
 #include "./Task.h"
-#include "./components/valvola/Servomotor.h"
+#include "./components/valve/Servomotor.h"
 #include "./components/ioserial/OutSender.h"
 #include "./components/lcd/Lcd.h"
 #include "./components/valveOpener/OpeningDetection.h"

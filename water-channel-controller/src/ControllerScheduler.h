@@ -15,7 +15,7 @@
 #include "./components/ioserial/SerialManager.h"
 #include "./components/valveOpener/ValveOpeningManagement.h"
 #include "./components/valveOpener/PotentiometerImpl.h"
-#include "./components/valvola/Valve.h"
+#include "./components/valve/Valve.h"
 
 
 class ControllerScheduler {
