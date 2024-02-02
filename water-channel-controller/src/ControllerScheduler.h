@@ -35,8 +35,9 @@ class ControllerScheduler {
         void setNewState(StateName newState);
         
     private:
-        StateName actName;
+        StateName lastState = START_STATE;
         ControllerSchedulerObserver* myObs;
+        MyLcdMonitor* lcd;
 
 };
 

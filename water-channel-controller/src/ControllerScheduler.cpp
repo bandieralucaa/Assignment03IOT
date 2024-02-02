@@ -6,8 +6,8 @@ Cooldown* scheduleCooldown;
 int actAmountTask;
 
 unsigned long bPeriod;
-MyLcdMonitor* lcd;
-StateName lastState = START_STATE;
+
+
 
 ControllerScheduler::ControllerScheduler() {
 
